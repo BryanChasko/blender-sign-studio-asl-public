@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0-draft",
+  "notes": "Worked gloss examples. Every sign token exists in data/lexicon/lexicon.v1.json. Unknown words are fingerspell tokens only. Timings are monotonic and fit inside duration_ms. Produced as the gloss-model reference output (default provider Muse Spark, swappable).",
+  "lines": [
+    {
+      "line_id": "host-welcome-01",
+      "host": "host-a",
+      "text": "Hello. Welcome. Thank you.",
+      "duration_ms": 2200,
+      "tokens": [
+        { "gloss": "HELLO", "type": "sign", "start_ms": 0, "hold_ms": 500 },
+        { "gloss": "WELCOME", "type": "sign", "start_ms": 650, "hold_ms": 500 },
+        {
+          "gloss": "THANK-YOU",
+          "type": "sign",
+          "start_ms": 1300,
+          "hold_ms": 600
+        }
+      ]
+    },
+    {
+      "line_id": "host-question-01",
+      "host": "host-a",
+      "text": "Question. Your answer again?",
+      "duration_ms": 2600,
+      "tokens": [
+        { "gloss": "QUESTION", "type": "sign", "start_ms": 0, "hold_ms": 600 },
+        { "gloss": "ANSWER", "type": "sign", "start_ms": 750, "hold_ms": 500 },
+        { "gloss": "REPEAT", "type": "sign", "start_ms": 1400, "hold_ms": 600 }
+      ]
+    },
+    {
+      "line_id": "host-help-01",
+      "host": "host-a",
+      "text": "Welcome Alex. Your turn. Help, repeat.",
+      "duration_ms": 3400,
+      "tokens": [
+        { "gloss": "WELCOME", "type": "sign", "start_ms": 0, "hold_ms": 500 },
+        {
+          "gloss": "A-L-E-X",
+          "type": "fingerspell",
+          "start_ms": 650,
+          "hold_ms": 800
+        },
+        {
+          "gloss": "YOUR-TURN",
+          "type": "sign",
+          "start_ms": 1600,
+          "hold_ms": 500
+        },
+        { "gloss": "HELP", "type": "sign", "start_ms": 2200, "hold_ms": 400 },
+        { "gloss": "REPEAT", "type": "sign", "start_ms": 2700, "hold_ms": 500 }
+      ]
+    },
+    {
+      "line_id": "host-truth-01",
+      "host": "host-a",
+      "text": "Yes. True. No. False. Finish.",
+      "duration_ms": 3000,
+      "tokens": [
+        { "gloss": "YES", "type": "sign", "start_ms": 0, "hold_ms": 400 },
+        { "gloss": "TRUE", "type": "sign", "start_ms": 550, "hold_ms": 400 },
+        { "gloss": "NO", "type": "sign", "start_ms": 1100, "hold_ms": 400 },
+        { "gloss": "FALSE", "type": "sign", "start_ms": 1650, "hold_ms": 400 },
+        { "gloss": "FINISH", "type": "sign", "start_ms": 2200, "hold_ms": 500 }
+      ]
+    },
+    {
+      "line_id": "host-count-01",
+      "host": "host-a",
+      "text": "One, two, three. My turn.",
+      "duration_ms": 2600,
+      "tokens": [
+        { "gloss": "ONE", "type": "number", "start_ms": 0, "hold_ms": 350 },
+        { "gloss": "TWO", "type": "number", "start_ms": 500, "hold_ms": 350 },
+        {
+          "gloss": "THREE",
+          "type": "number",
+          "start_ms": 1000,
+          "hold_ms": 350
+        },
+        { "gloss": "MY-TURN", "type": "sign", "start_ms": 1500, "hold_ms": 600 }
+      ]
+    }
+  ]
+}
