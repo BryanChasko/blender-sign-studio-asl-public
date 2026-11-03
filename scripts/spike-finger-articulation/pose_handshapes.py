@@ -24,10 +24,13 @@ import argparse
 import os
 import sys
 
+RIG_BASE = os.environ.get(
+    "RIG_DIR",
+    os.path.expanduser("~/code/chasko-labs/sumerian-hosts/fixtures/hosts"),
+)
+
 P = {
-    "cristine_glb": os.path.expanduser(
-        "~/code/chasko-labs/sumerian-hosts/fixtures/hosts/cristine/cristine.glb"
-    ),
+    "cristine_glb": os.path.join(RIG_BASE, "cristine", "cristine.glb"),
     "resolution": (640, 360),
     # Telephoto close-ups (110mm at 1.4m): a level addressee view
     # keeps the face angularly adjacent at 70mm/0.9m (verified
@@ -89,6 +92,67 @@ SHAPES = {
     "n5": {"fngThumb": (0.05, 0.05, 0.05), "fngIndex": (0.05, 0.05, 0.05),
            "fngMid": (0.05, 0.05, 0.05), "fngRing": (0.05, 0.05, 0.05),
            "fngPinky": (0.05, 0.05, 0.05)},
+    # S: fist, thumb pressed across the front of the curled fingers
+    # (YES citation, SignBank big-S). First-pass draft for tuning.
+    "s": {"fngThumb": ((-0.7, 0.0, -0.3), 0.5, 0.3),
+          "fngIndex": (1.0, 1.0, 0.8),
+          "fngMid": (1.0, 1.0, 0.8), "fngRing": (1.0, 1.0, 0.8),
+          "fngPinky": (1.0, 1.0, 0.8)},
+    # ten: thumb-up fist (HELP dominant, SignBank big-10). Draft.
+    "ten": {"fngThumb": (0.1, 0.05, 0.05), "fngIndex": (1.0, 1.0, 0.8),
+            "fngMid": (1.0, 1.0, 0.8), "fngRing": (1.0, 1.0, 0.8),
+            "fngPinky": (1.0, 1.0, 0.8)},
+    # bl: flat hand, thumb out to the side (HELP non-dominant,
+    # SignBank big-B-L). Draft: B with the thumb extended clear.
+    "bl": {"fngThumb": ((0.9, 0.0, -0.1), 0.1, 0.05),
+           "fngIndex": (0.05, 0.05, 0.05),
+           "fngMid": (0.05, 0.05, 0.05), "fngRing": (0.05, 0.05, 0.05),
+           "fngPinky": (0.05, 0.05, 0.05)},
+    # cb: curved B, fingers gently bent as a group (WELCOME
+    # dominant, SignBank big-crvd-B). Draft.
+    "cb": {"fngThumb": ((0.3, 0.0, -0.3), 0.2, 0.1),
+           "fngIndex": (0.35, 0.25, 0.15),
+           "fngMid": (0.35, 0.25, 0.15), "fngRing": (0.35, 0.25, 0.15),
+           "fngPinky": (0.35, 0.25, 0.15)},
+    # bent: bent-hand, flexion at the large knuckles only (AGAIN
+    # dominant per Lifeprint). Draft.
+    "bent": {"fngThumb": (0.3, 0.2, 0.1), "fngIndex": (0.65, 0.1, 0.1),
+             "fngMid": (0.65, 0.1, 0.1), "fngRing": (0.65, 0.1, 0.1),
+             "fngPinky": (0.65, 0.1, 0.1)},
+    # L: index up, thumb out (YOUR/MY-TURN + fingerspelling).
+    # Draft.
+    "L": {"fngThumb": (0.05, 0.05, 0.05),
+          "fngIndex": (0.05, 0.05, 0.05),
+          "fngMid": (1.0, 1.0, 0.8), "fngRing": (1.0, 1.0, 0.8),
+          "fngPinky": (1.0, 1.0, 0.8)},
+    # E: fingers curled over a tucked thumb (fingerspelling). Draft.
+    "E": {"fngThumb": ((-0.9, 0.0, -0.4), 0.6, 0.4),
+          "fngIndex": (0.6, 0.55, 0.45),
+          "fngMid": (0.6, 0.55, 0.45), "fngRing": (0.6, 0.55, 0.45),
+          "fngPinky": (0.6, 0.55, 0.45)},
+    # X: hooked index, rest tucked (fingerspelling). Draft.
+    "X": {"fngThumb": (0.35, 0.2, 0.15),
+          "fngIndex": (0.75, 0.6, 0.4),
+          "fngMid": (1.0, 1.0, 0.8), "fngRing": (1.0, 1.0, 0.8),
+          "fngPinky": (1.0, 1.0, 0.8)},
+    # N: index+middle folded down over the thumb (fingerspelling).
+    # Draft.
+    "N": {"fngThumb": (0.7, 0.5, 0.3), "fngIndex": (0.95, 0.85, 0.6),
+          "fngMid": (0.95, 0.85, 0.6), "fngRing": (1.0, 1.0, 0.8),
+          "fngPinky": (1.0, 1.0, 0.8)},
+    # h: index + middle extended together, ring + pinky tucked,
+    # thumb forward (NO dominant, jaws about to snap shut). Draft:
+    # the clip carries the snap in the wrist (SIGNS_END flexes
+    # down); the handshape stays open through the short clip.
+    "h": {"fngThumb": (0.3, 0.2, 0.1),
+          "fngIndex": (0.05, 0.05, 0.05),
+          "fngMid": (0.05, 0.05, 0.05), "fngRing": (1.0, 1.0, 0.8),
+          "fngPinky": (1.0, 1.0, 0.8)},
+    # O: fingers curved to meet the thumb (fingerspelling). Draft:
+    # scalar curls only, opposition tuned on pixels.
+    "O": {"fngThumb": (0.3, 0.2, 0.1), "fngIndex": (0.55, 0.45, 0.35),
+          "fngMid": (0.55, 0.45, 0.35), "fngRing": (0.55, 0.45, 0.35),
+          "fngPinky": (0.55, 0.45, 0.35)},
 }
 
 

@@ -36,22 +36,63 @@ import sys
 
 
 def _load_handshapes():
-    """Pose dicts for a/b/f/n1/n5 live in pose_handshapes.py (single
-    source of truth, shared with check 2). Import by path so this
-    script stays runnable standalone."""
+    """Pose dicts for a/b/f/n1/n5/h live in pose_handshapes.py (single
+    source of truth, shared with check 2); n2/n3/n4 live in NUMBERS
+    below. Merged here so clips and torso shots resolve every
+    handshape key. Import by path so this script stays runnable
+    standalone."""
     here = os.path.dirname(os.path.abspath(__file__))
     src = os.path.join(here, "..", "spike-finger-articulation",
                        "pose_handshapes.py")
     spec = importlib.util.spec_from_file_location("pose_handshapes", src)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.SHAPES
+    shapes = dict(mod.SHAPES)
+    shapes.update(NUMBERS)
+    return shapes
+
+
+HOST_NAME = os.environ.get("HOST_NAME", "cristine")
+
+# Fixture root for host rigs. RIG_DIR overrides the default sibling
+# sumerian-hosts checkout so the pipeline runs on any workstation
+# (gh issue 70); every script in this repo resolves rigs through
+# rig_glb() below instead of hardcoding a home directory.
+RIG_BASE = os.environ.get(
+    "RIG_DIR",
+    os.path.expanduser("~/code/chasko-labs/sumerian-hosts/fixtures/hosts"),
+)
+
+
+def rig_glb(host):
+    """Fixture path for a host rig (cristine, fiona)."""
+    return os.path.join(RIG_BASE, host, host + ".glb")
+
+
+def _all_fcurves(action):
+    """All fcurves on an action, Blender 4.x and 5.x compatible.
+
+    Blender 5.x uses layered actions where fcurves live under
+    layers[*].strips[*].channelbags[*] instead of action.fcurves.
+    """
+    try:
+        return list(action.fcurves)
+    except AttributeError:
+        pass
+    out = []
+    for layer in getattr(action, "layers", []):
+        for strip in getattr(layer, "strips", []):
+            for channelbag in getattr(strip, "channelbags", []):
+                out.extend(channelbag.fcurves)
+    return out
 
 
 P = {
-    "cristine_glb": os.path.expanduser(
-        "~/code/chasko-labs/sumerian-hosts/fixtures/hosts/cristine/cristine.glb"
-    ),
+    "cristine_glb": rig_glb("cristine"),
+    # Second-host trial (THANK-YOU chin-contact fix): HOST_NAME=fiona
+    # swaps every shot to the Fiona fixture. Bone names are the shared
+    # char:def_* set; proportions differ, so citation arms re-derive.
+    "host_glb": rig_glb(HOST_NAME),
     "hand_res": (640, 360),
     "body_res": (960, 540),
     # Telephoto close-ups (110mm at 1.4m): excludes the face from
@@ -95,10 +136,18 @@ CHEREMES = {
                         "roll": 0.0, "flex": 0.0, "dev": 0.0},
 }
 
+# Point hand (Batch-5): n1 fingers with the thumb tucked tighter
+# against the palm -- in forward-point arms the n1 thumb reads as
+# a dangling second digit (side-view verified). Numbers keep n1.
+# Tuck values eye-verified on the YOU side view (Batch-5).
+POINT_HAND = {"fngThumb": (1.1, 1.0, 0.8),
+              "fngIndex": (0.05, 0.05, 0.05),
+              "fngMid": (1.0, 1.0, 0.8), "fngRing": (1.0, 1.0, 0.8),
+              "fngPinky": (1.0, 1.0, 0.8)}
 # v0 number drafts: flexion per finger (A, B, C). Unreviewed.
 # A joint may be an explicit Euler triple (thumb base needs an
 # off-axis term to project laterally — see cookbook).
-NUMBERS = {
+NUMBERS = {"p1": dict(POINT_HAND),
     "n2": {"fngThumb": (0.9, 0.7, 0.5), "fngIndex": (0.05, 0.05, 0.05),
            "fngMid": (0.05, 0.05, 0.05), "fngRing": (1.0, 1.0, 0.8),
            "fngPinky": (1.0, 1.0, 0.8)},
@@ -108,6 +157,34 @@ NUMBERS = {
            "fngPinky": (1.0, 1.0, 0.8)},
     "n4": {"fngThumb": (0.9, 0.7, 0.5), "fngIndex": (0.05, 0.05, 0.05),
            "fngMid": (0.05, 0.05, 0.05), "fngRing": (0.05, 0.05, 0.05),
+           "fngPinky": (0.05, 0.05, 0.05)},
+    # v0 number drafts, palm-forward family: 6-9 touch one digit to
+    # the thumb, palm out (Lifeprint numbers1-10; wikihow/quizlet
+    # cross-check). Unreviewed.
+    # 6: index+middle+ring up, pinky folded to the thumb.
+    "n6": {"fngThumb": ((0.3, 0.0, -0.2), 0.5, 0.4),
+           "fngIndex": (0.05, 0.05, 0.05),
+           "fngMid": (0.05, 0.05, 0.05),
+           "fngRing": (0.05, 0.05, 0.05),
+           "fngPinky": (0.7, 0.6, 0.5)},
+    # 7: pinky+middle+index up, ring folded to the thumb.
+    "n7": {"fngThumb": ((0.3, 0.0, -0.2), 0.5, 0.4),
+           "fngIndex": (0.05, 0.05, 0.05),
+           "fngMid": (0.05, 0.05, 0.05),
+           "fngRing": (0.8, 0.7, 0.6),
+           "fngPinky": (0.05, 0.05, 0.05)},
+    # 8: index+ring+pinky up, middle folded to the thumb.
+    "n8": {"fngThumb": ((0.3, 0.0, -0.2), 0.5, 0.4),
+           "fngIndex": (0.05, 0.05, 0.05),
+           "fngMid": (0.8, 0.7, 0.6),
+           "fngRing": (0.05, 0.05, 0.05),
+           "fngPinky": (0.05, 0.05, 0.05)},
+    # 9: thumb-index circle (ASLLVD labels this token F) plus
+    # middle+ring+pinky up.
+    "n9": {"fngThumb": ((-0.7, 0.0, -0.4), 0.5, 0.3),
+           "fngIndex": ((0.0, -0.1, -0.8), 0.5, 0.3),
+           "fngMid": (0.05, 0.05, 0.05),
+           "fngRing": (0.05, 0.05, 0.05),
            "fngPinky": (0.05, 0.05, 0.05)},
 }
 
@@ -224,29 +301,15 @@ WEIGHT_SHIFT_LEGS = [("char:def_l_thigh", (0.0, -0.157, 0.0)),
 # face. Revisit only with a head-set/camera change in scope.
 
 
-def _all_fcurves(action):
-    """All fcurves on an action, Blender 4.x and 5.x compatible.
-
-    Blender 5.x uses layered actions where fcurves live under
-    layers[*].strips[*].channelbags[*] instead of action.fcurves.
-    """
-    try:
-        return list(action.fcurves)
-    except AttributeError:
-        pass
-    out = []
-    for layer in getattr(action, "layers", []):
-        for strip in getattr(layer, "strips", []):
-            for channelbag in getattr(strip, "channelbags", []):
-                out.extend(channelbag.fcurves)
-    return out
-
-
 # Selectable host rig. Paths mirror the sibling sumerian-hosts
 # fixtures layout: fixtures/hosts/<rig>/<rig>.glb.
+# --rig overrides the HOST_NAME env (both default cristine).
 RIGS = ("cristine", "fiona")
 
-_HOST_RIG = "cristine"
+_HOST_RIG = os.environ.get("HOST_NAME", "cristine")
+if _HOST_RIG not in RIGS:
+    raise SystemExit("unknown HOST_NAME %s (choices: %s)"
+                     % (_HOST_RIG, ", ".join(RIGS)))
 
 
 def rig_glb(name):
@@ -478,24 +541,34 @@ SIGNING_TORSO_POSE = [(0.0, -0.6, -0.18), (0, -1.45, 0)]
 TORSO_WRIST_ROLL = 1.5
 
 
-def shot_signing_torso(out, hand_angles=None, arm=None):
+def shot_signing_torso(out, hand_angles=None, arm=None, left=None):
     """Torso framing with the right arm raised. hand_angles selects
     the handshape (default FLAT_HAND demo): per-shape in-situ
     renders carry the location/tab witness that close-ups lack.
     arm=(shoulder, elbow, wrist) overrides the demo arm -- sign
-    poses (SIGNS) pass their citation location arm."""
+    poses (SIGNS) pass their citation location arm. left=(angles,
+    arm) stages the non-dominant side for two-handed signs
+    (default: relaxed hand, tucked elbow)."""
     rig = load_host(host_glb())
     hand = hand_angles if hand_angles is not None else FLAT_HAND
-    specs = hand_specs("l", RELAXED_HAND_L) + hand_specs("r", hand)
+    if left is None:
+        specs = hand_specs("l", RELAXED_HAND_L) + hand_specs("r", hand)
+    else:
+        specs = hand_specs("l", left[0]) + hand_specs("r", hand)
     if arm is None:
         sh, el = SIGNING_TORSO_POSE
         arm = (sh, el, (TORSO_WRIST_ROLL, 0, 0))
     specs += [("char:def_r_shoulder", arm[0]),
               ("char:def_r_elbow", arm[1]),
-              ("char:def_r_wrist", arm[2]),
-              ("char:def_l_shoulder", NONDOM_SHOULDER),
-              ("char:def_l_elbow", NONDOM_ELBOW),
-              HEAD_NECK]
+              ("char:def_r_wrist", arm[2])]
+    if left is None:
+        specs += [("char:def_l_shoulder", NONDOM_SHOULDER),
+                  ("char:def_l_elbow", NONDOM_ELBOW)]
+    else:
+        specs += [("char:def_l_shoulder", left[1][0]),
+                  ("char:def_l_elbow", left[1][1]),
+                  ("char:def_l_wrist", left[1][2])]
+    specs += [HEAD_NECK]
     posed_count = pose_bones(rig, specs)
     neck = world_of(rig, "char:def_c_neckB")
     wrist = world_of(rig, "char:def_r_wrist")
@@ -836,20 +909,117 @@ SIGNS = {
     # shared between the elbow roll, shoulder twist (which also
     # swings the hand to the midline), and -0.45 wrist flexion),
     # then moves forward/down. Checked against Vicars
-    # thank-you-01 (fingertips touching the lips): wrist
-    # (-0.018, -0.087, 1.414), tips (-0.006, -0.059, 1.581)
-    # vs lips (0, -0.056, 1.555). 1.0-rad shoulder twist
-    # checked for mesh pinching on the zoomed render.
-    "thank-you": {"hand": "b", "sh": (1.0, -0.3, -1.0),
-                  "el": (-2.0, -1.5, 0.0), "wr": (0.0, 0.0, -0.45)},
+    # thank-you-01 (fingertips touching the lips): chin-contact
+    # fix 2026-11-03, coordinate descent on fiona to gap_lips 13.7mm
+    # (was 62.0mm: the hand sat ~55mm lateral of the midline).
+    # probe: tip (-0.0128, -0.0508, 1.5505)
+    # vs lips (0, -0.056, 1.555). contact verified on the zoomed
+    # render, no mesh penetration.
+    "thank-you": {"hand": "b", "sh": (1.1, -0.3, -1.0),
+                  "el": (-1.9, -1.4, -0.1), "wr": (-0.2, 0.0, -0.45)},
+    # Numbers ONE-FIVE share the cardinal-numeral arm (palm-in,
+    # dorsal to the addressee, hand in the chest signing box;
+    # verified against the Vicars number03 ground truth): the
+    # handshape alone distinguishes them. YES/NO/QUESTION stage
+    # in the same box; their movement lives in SIGNS_END.
+    "one": {"hand": "n1", "sh": (0.0, -0.6, -0.9),
+            "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.4)},
+    "two": {"hand": "n2", "sh": (0.0, -0.6, -0.9),
+            "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.4)},
+    "three": {"hand": "n3", "sh": (0.0, -0.6, -0.9),
+              "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.4)},
+    "four": {"hand": "n4", "sh": (0.0, -0.6, -0.9),
+             "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.4)},
+    "five": {"hand": "n5", "sh": (0.0, -0.6, -0.9),
+             "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.4)},
+    # YES: S fist staged in the box, tipped up; the nod flexes
+    # the wrist down in SIGNS_END (Lifeprint yes: knock the fist
+    # up and down at the wrist).
+    "yes": {"hand": "s", "sh": (0.0, -0.6, -0.9),
+            "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # NO: H hand staged in the box, fingers level; the snap
+    # flexes the wrist down in SIGNS_END (Lifeprint no: snap the
+    # index/middle down toward the thumb).
+    "no": {"hand": "h", "sh": (0.0, -0.6, -0.9),
+           "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.2)},
+    # QUESTION: index up staged in the box; the draw curves the
+    # wrist sideways in SIGNS_END (Lifeprint question: trace a
+    # question mark in the air).
+    "question": {"hand": "n1", "sh": (0.0, -0.6, -0.9),
+                 "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.4)},
+    # Numbers SIX-NINE cite palm-forward (Lifeprint numbers1-10;
+    # the flexion arm stages them high, palm out, fingers up --
+    # sweep mode palmar). FIRST/SECOND share the arm: index/V up,
+    # palm forward, twist in SIGNS_END (Lifeprint first/second).
+    "six": {"hand": "n6", "sh": (0.0, -0.9, 0.0),
+            "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    "seven": {"hand": "n7", "sh": (0.0, -0.9, 0.0),
+              "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    "eight": {"hand": "n8", "sh": (0.0, -0.9, 0.0),
+              "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    "nine": {"hand": "n9", "sh": (0.0, -0.9, 0.0),
+             "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    "first": {"hand": "n1", "sh": (0.0, -0.9, 0.0),
+              "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    "second": {"hand": "n2", "sh": (0.0, -0.9, 0.0),
+               "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    # HOW-MANY: two-handed (ASLLVD: dominant+non-dominant start S,
+    # end 5). Both open hands face up, staged front-low (sweep mode
+    # palms-up). Left side mirrors the right (same Z abducts both).
+    "how-many": {"hand": "s", "sh": (0.0, -0.3, -0.9),
+                 "el": (-1.0, -0.5, 0.0), "wr": (-0.5, 0.1, -0.4),
+                 "lhand": "s", "lsh": (0.0, -0.3, -0.9),
+                 "lel": (-1.0, -0.5, 0.0), "lwr": (-0.5, 0.1, -0.4)},
+    # Batch-5 point family (ME/YOU/THIS/WHERE/WHO/TRUE): dominant
+    # index (n1) staged by the point sweep (align + proximity).
+    # YOU/WHERE share the forward-point arm.
+    "you": {"hand": "p1", "sh": (0.3, -0.6, -0.9),
+            "el": (0.0, -0.5, 0.0), "wr": (0.0, 0.1, 0.4)},
+    "where": {"hand": "p1", "sh": (0.3, -0.6, -0.9),
+              "el": (-0.3, -0.5, 0.0), "wr": (0.0, 0.1, 0.4)},
+    "this": {"hand": "p1", "sh": (0.3, -0.3, -0.9),
+             "el": (0.0, -0.5, 0.0), "wr": (0.5, 0.1, 0.4)},
+    # WHO: compromise staging (elbow-Y flexion brings the hand to
+    # face height but biases the finger left; ely -0.7 keeps the
+    # index near-level 30cm out, tip at mouth height; the circle
+    # lives in the END offset, movement uncertified).
+    "who": {"hand": "p1", "sh": (0.3, -1.2, 0.0),
+            "el": (0.0, -0.7, 0.0), "wr": (0.0, 0.1, 0.2)},
+    "true": {"hand": "p1", "sh": (0.3, -1.2, 0.0),
+             "el": (0.0, -0.5, 0.0), "wr": (0.5, 0.1, 0.4)},
+    # ME: lowered thank-you arm (palm-to-signer roll) with deep
+    # wrist pitch: fingertip lands on the upper chest, finger
+    # pointing back at the body (coordinate descent on stills:
+    # sh x 1.1->0.7, wrist x ->1.7, elbow y -1.4->-1.0 to drop the
+    # hand off the chin; eye-verified contact, no mesh pinch).
+    "me": {"hand": "p1", "sh": (0.7, -0.3, -1.0),
+           "el": (-1.9, -1.0, -0.1), "wr": (1.7, 0.0, -0.45)},
 }
+
+
+def _arm_override(prefix, fallback):
+    """Joint-sweep trials: SIGN_SH/SIGN_EL/SIGN_WR envs as x,y,z
+    override one arm joint for this run (see cookbook joint-sweep
+    method). Unset envs keep the SIGNS values."""
+    raw = os.environ.get(prefix)
+    if raw is None:
+        return fallback
+    return tuple(float(v) for v in raw.split(","))
 
 
 def shot_sign(name, out):
     sign = SIGNS[name]
     hand = _load_handshapes()[sign["hand"]]
-    return shot_signing_torso(
-        out, hand, arm=(sign["sh"], sign["el"], sign["wr"]))
+    arm = (_arm_override("SIGN_SH", sign["sh"]),
+           _arm_override("SIGN_EL", sign["el"]),
+           _arm_override("SIGN_WR", sign["wr"]))
+    left = None
+    if "lhand" in sign:
+        left = (_load_handshapes()[sign["lhand"]],
+                (_arm_override("SIGN_LSH", sign["lsh"]),
+                 _arm_override("SIGN_LEL", sign["lel"]),
+                 _arm_override("SIGN_LWR", sign["lwr"])))
+    return shot_signing_torso(out, hand, arm=arm, left=left)
 
 
 # Movement end-holds for sign animations: the terminal arm of
@@ -862,14 +1032,78 @@ def shot_sign(name, out):
 SIGNS_END = {
     "thank-you": {"sh": (0.4, -0.3, -0.55), "el": (0.0, -0.85, 0.0),
                   "wr": (0.9, 0.0, 0.0)},
+    # HELLO end: the wave finishes a hand-width outward of the
+    # forehead, still high, palm out (same wrist as the citation;
+    # the travel is shoulder abduction, not a drop).
+    "hello": {"sh": (-0.4, -0.95, -0.45), "el": (0.0, -1.5, 0.0),
+              "wr": (1.2, 0.0, 0.0)},
+    # Numbers: static holds, a small settle separates end from
+    # start so the clip reads held, not frozen.
+    "one": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+            "wr": (0.0, 0.1, -0.35)},
+    "two": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+            "wr": (0.0, 0.1, -0.35)},
+    "three": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+              "wr": (0.0, 0.1, -0.35)},
+    "four": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+             "wr": (0.0, 0.1, -0.35)},
+    "five": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+             "wr": (0.0, 0.1, -0.35)},
+    # YES end: fist nodded down at the wrist.
+    "yes": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+            "wr": (0.0, 0.1, -0.6)},
+    # NO end: wrist snapped down, fingers toward the thumb.
+    "no": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+           "wr": (0.0, 0.1, -0.7)},
+    # QUESTION end: wrist curved sideways, mid-draw.
+    "question": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.4, 0.0),
+                 "wr": (0.0, 0.5, -0.4)},
+    # Numbers: static holds, a small settle separates end from start.
+    "six": {"sh": (0.0, -0.9, 0.0), "el": (0.5, -1.5, 0.0),
+            "wr": (0.5, 0.1, 0.15)},
+    "seven": {"sh": (0.0, -0.9, 0.0), "el": (0.5, -1.5, 0.0),
+              "wr": (0.5, 0.1, 0.15)},
+    "eight": {"sh": (0.0, -0.9, 0.0), "el": (0.5, -1.5, 0.0),
+              "wr": (0.5, 0.1, 0.15)},
+    "nine": {"sh": (0.0, -0.9, 0.0), "el": (0.5, -1.5, 0.0),
+             "wr": (0.5, 0.1, 0.15)},
+    # FIRST/SECOND end: wrist twisted from the citation.
+    "first": {"sh": (0.0, -0.9, 0.0), "el": (0.5, -1.5, 0.0),
+              "wr": (0.9, 0.1, 0.2)},
+    "second": {"sh": (0.0, -0.9, 0.0), "el": (0.5, -1.5, 0.0),
+               "wr": (0.9, 0.1, 0.2)},
+    # HOW-MANY end: both fists open to 5s, palms up, slight widening.
+    "how-many": {"hand": "n5", "sh": (0.0, -0.3, -0.9),
+                 "el": (-1.0, -0.5, 0.0), "wr": (-0.5, 0.3, -0.4),
+                 "lhand": "n5", "lsh": (0.0, -0.3, -0.9),
+                 "lel": (-1.0, -0.5, 0.0), "lwr": (-0.5, 0.3, -0.4)},
+    # Batch-5 ends: small settles; YOU pushes forward, WHERE offsets
+    # laterally (mid-shake), WHO shifts (mid-circle), TRUE pushes out
+    # from the mouth, ME presses to the chest. Movement uncertified.
+    "you": {"sh": (0.3, -0.6, -0.9), "el": (0.1, -0.5, 0.0),
+            "wr": (0.0, 0.1, 0.4)},
+    "where": {"sh": (0.3, -0.6, -0.9), "el": (-0.3, -0.5, 0.0),
+              "wr": (0.0, 0.1, 0.7)},
+    "this": {"sh": (0.3, -0.3, -0.9), "el": (0.0, -0.5, 0.0),
+             "wr": (0.5, 0.1, 0.35)},
+    "who": {"sh": (0.3, -1.2, -0.15), "el": (0.0, -0.7, 0.0),
+            "wr": (0.0, 0.1, 0.2)},
+    "true": {"sh": (0.3, -1.2, 0.0), "el": (0.1, -0.5, 0.0),
+             "wr": (0.5, 0.1, 0.4)},
+    "me": {"sh": (0.7, -0.3, -1.0), "el": (-1.9, -0.95, -0.1),
+           "wr": (1.65, 0.0, -0.45)},
 }
 
 
 def shot_sign_end(name, out):
     sign = SIGNS_END[name]
-    hand = _load_handshapes()[SIGNS[name]["hand"]]
+    hand = _load_handshapes()[sign.get("hand", SIGNS[name]["hand"])]
+    left = None
+    if "lhand" in sign:
+        left = (_load_handshapes()[sign["lhand"]],
+                (sign["lsh"], sign["lel"], sign["lwr"]))
     return shot_signing_torso(
-        out, hand, arm=(sign["sh"], sign["el"], sign["wr"]))
+        out, hand, arm=(sign["sh"], sign["el"], sign["wr"]), left=left)
 
 
 def shot_sign_move(name, out):
@@ -964,6 +1198,73 @@ SHOTS = {
                            lambda out: shot_sign_end("thank-you", out)),
     "sign-thank-you-move": ("sign-thank-you-move",
                             lambda out: shot_sign_move("thank-you", out)),
+    "sign-hello-end": ("spike-sign-hello-end.png",
+                       lambda out: shot_sign_end("hello", out)),
+    "sign-yes": ("spike-sign-yes.png",
+                 lambda out: shot_sign("yes", out)),
+    "sign-yes-end": ("spike-sign-yes-end.png",
+                     lambda out: shot_sign_end("yes", out)),
+    "sign-no": ("spike-sign-no.png",
+                lambda out: shot_sign("no", out)),
+    "sign-no-end": ("spike-sign-no-end.png",
+                    lambda out: shot_sign_end("no", out)),
+    "sign-question": ("spike-sign-question.png",
+                      lambda out: shot_sign("question", out)),
+    "sign-question-end": ("spike-sign-question-end.png",
+                          lambda out: shot_sign_end("question", out)),
+    "sign-one": ("spike-sign-one.png",
+                 lambda out: shot_sign("one", out)),
+    "sign-two": ("spike-sign-two.png",
+                 lambda out: shot_sign("two", out)),
+    "sign-three": ("spike-sign-three.png",
+                   lambda out: shot_sign("three", out)),
+    "sign-four": ("spike-sign-four.png",
+                  lambda out: shot_sign("four", out)),
+    "sign-five": ("spike-sign-five.png",
+                  lambda out: shot_sign("five", out)),
+    "sign-six": ("spike-sign-six.png",
+                 lambda out: shot_sign("six", out)),
+    "sign-seven": ("spike-sign-seven.png",
+                   lambda out: shot_sign("seven", out)),
+    "sign-eight": ("spike-sign-eight.png",
+                   lambda out: shot_sign("eight", out)),
+    "sign-nine": ("spike-sign-nine.png",
+                  lambda out: shot_sign("nine", out)),
+    "sign-first": ("spike-sign-first.png",
+                   lambda out: shot_sign("first", out)),
+    "sign-first-end": ("spike-sign-first-end.png",
+                       lambda out: shot_sign_end("first", out)),
+    "sign-second": ("spike-sign-second.png",
+                    lambda out: shot_sign("second", out)),
+    "sign-second-end": ("spike-sign-second-end.png",
+                        lambda out: shot_sign_end("second", out)),
+    "sign-how-many": ("spike-sign-how-many.png",
+                      lambda out: shot_sign("how-many", out)),
+    "sign-how-many-end": ("spike-sign-how-many-end.png",
+                          lambda out: shot_sign_end("how-many", out)),
+    "sign-me": ("spike-sign-me.png", lambda out: shot_sign("me", out)),
+    "sign-me-end": ("spike-sign-me-end.png",
+                    lambda out: shot_sign_end("me", out)),
+    "sign-you": ("spike-sign-you.png",
+                 lambda out: shot_sign("you", out)),
+    "sign-you-end": ("spike-sign-you-end.png",
+                     lambda out: shot_sign_end("you", out)),
+    "sign-this": ("spike-sign-this.png",
+                  lambda out: shot_sign("this", out)),
+    "sign-this-end": ("spike-sign-this-end.png",
+                      lambda out: shot_sign_end("this", out)),
+    "sign-where": ("spike-sign-where.png",
+                   lambda out: shot_sign("where", out)),
+    "sign-where-end": ("spike-sign-where-end.png",
+                       lambda out: shot_sign_end("where", out)),
+    "sign-who": ("spike-sign-who.png",
+                 lambda out: shot_sign("who", out)),
+    "sign-who-end": ("spike-sign-who-end.png",
+                     lambda out: shot_sign_end("who", out)),
+    "sign-true": ("spike-sign-true.png",
+                  lambda out: shot_sign("true", out)),
+    "sign-true-end": ("spike-sign-true-end.png",
+                      lambda out: shot_sign_end("true", out)),
     "face-neutral": ("spike-host-face-neutral.png",
                      lambda out: shot_face_neutral(out)),
     "posture-transition": ("posture-transition",
@@ -971,6 +1272,10 @@ SHOTS = {
     "number-2": ("spike-hand-number-2.png", lambda out: shot_number("n2", out)),
     "number-3": ("spike-hand-number-3.png", lambda out: shot_number("n3", out)),
     "number-4": ("spike-hand-number-4.png", lambda out: shot_number("n4", out)),
+    "number-6": ("spike-hand-number-6.png", lambda out: shot_number("n6", out)),
+    "number-7": ("spike-hand-number-7.png", lambda out: shot_number("n7", out)),
+    "number-8": ("spike-hand-number-8.png", lambda out: shot_number("n8", out)),
+    "number-9": ("spike-hand-number-9.png", lambda out: shot_number("n9", out)),
     "number-2-prof": ("spike-hand-number-2-prof.png",
                       lambda out: shot_number("n2", out, profile=True)),
     "number-3-prof": ("spike-hand-number-3-prof.png",

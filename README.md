@@ -142,4 +142,6 @@ prebuilt clips, so there is nothing to bill at request time.
 | [Meta Model API](https://dev.meta.ai/products/meta-model-api) | staged path for hosted calls (event credits): [Image](https://dev.meta.ai/models/muse-image) for neutral stage backgrounds, [Voice Transcribe](https://dev.meta.ai/models/muse-voice-transcribe) for speech/clock drift measurement, [SAM 3.1](https://dev.meta.ai/models/sam-3-1) for hand-visibility QA |
 | [Muse Spark Open](https://dev.meta.ai/models/muse-spark-open) | self-hosted gloss-sequencing fallback next to the local-model rows in the architecture doc                                                                                                                                                                                                                |
 
+Full model map (active, parked, blocked): [`docs/meta-models.md`](docs/meta-models.md).
+
 Live demo: <https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing>

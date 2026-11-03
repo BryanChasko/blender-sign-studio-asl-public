@@ -469,6 +469,113 @@ unextended, no advisory).
 Reference: [SignBank FOUR](https://dai.cs.rutgers.edu/dai/s/translation?id=1301)
 (variant 1301). Citation: palm back, dorsal to the addressee.
 
+## 6
+
+Index, middle, and ring up; pinky folded to the thumb, palm out.
+
+Reference: https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm
+
+```python
+"n6": {"fngThumb": ((0.3, 0.0, -0.2), 0.5, 0.4),
+       "fngIndex": (0.05, 0.05, 0.05),
+       "fngMid": (0.05, 0.05, 0.05),
+       "fngRing": (0.05, 0.05, 0.05),
+       "fngPinky": (0.7, 0.6, 0.5)},
+```
+
+Wrist: flexion arm, palm-forward, near-straight wrist; the 6-9
+family stages high (face height) with the palm to the addressee.
+Camera: 110mm telephoto close-up plus torso witness.
+
+## 7
+
+Pinky, middle, and index up; ring folded to the thumb, palm out.
+
+Reference: https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm
+
+Reference: https://dai.cs.rutgers.edu/dai/s/occurrence?id_SignBankVariant=2504
+
+```python
+"n7": {"fngThumb": ((0.3, 0.0, -0.2), 0.5, 0.4),
+       "fngIndex": (0.05, 0.05, 0.05),
+       "fngMid": (0.05, 0.05, 0.05),
+       "fngRing": (0.8, 0.7, 0.6),
+       "fngPinky": (0.05, 0.05, 0.05)},
+```
+
+Wrist: flexion arm, palm-forward, near-straight wrist; staged high
+with the palm to the addressee. Camera: 110mm telephoto close-up
+plus torso witness.
+
+## 8
+
+Index, ring, and pinky up; middle folded to the thumb, palm out.
+
+Reference: https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm
+
+Reference: https://dai.cs.rutgers.edu/dai/s/occurrence?id_SignBankVariant=1077
+
+```python
+"n8": {"fngThumb": ((0.3, 0.0, -0.2), 0.5, 0.4),
+       "fngIndex": (0.05, 0.05, 0.05),
+       "fngMid": (0.8, 0.7, 0.6),
+       "fngRing": (0.05, 0.05, 0.05),
+       "fngPinky": (0.05, 0.05, 0.05)},
+```
+
+Wrist: flexion arm, palm-forward, near-straight wrist; staged high
+with the palm to the addressee. Camera: 110mm telephoto close-up
+plus torso witness.
+
+## 9
+
+Thumb-index circle with middle, ring, and pinky up, palm out
+(ASLLVD labels this token F; the circle matches while the three
+fingers stay extended, unlike the fingerspelled F).
+
+Reference: https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm
+
+Reference: https://dai.cs.rutgers.edu/dai/s/occurrence?id_SignBankVariant=1915
+
+```python
+"n9": {"fngThumb": ((-0.7, 0.0, -0.4), 0.5, 0.3),
+       "fngIndex": ((0.0, -0.1, -0.8), 0.5, 0.3),
+       "fngMid": (0.05, 0.05, 0.05),
+       "fngRing": (0.05, 0.05, 0.05),
+       "fngPinky": (0.05, 0.05, 0.05)},
+```
+
+Wrist: flexion arm, palm-forward, near-straight wrist; staged high
+with the palm to the addressee. Camera: 110mm telephoto close-up
+plus torso witness.
+
+## P1
+
+Point hand (Batch-5 pronoun/wh-signs ME/YOU/THIS/WHERE/WHO/TRUE):
+n1 index with the thumb tucked tighter against the palm. In
+forward-point arms the n1 thumb reads as a dangling second digit
+(side-view verified); numbers keep n1.
+
+Reference: https://www.lifeprint.com/asl101/pages-signs/m/me.htm
+Reference: https://www.lifeprint.com/asl101/pages-signs/y/you.htm
+Reference: https://www.lifeprint.com/asl101/pages-signs/t/this.htm
+Reference: https://www.lifeprint.com/asl101/pages-signs/w/where.htm
+Reference: https://www.lifeprint.com/asl101/pages-signs/w/who.htm
+Reference: https://www.lifeprint.com/asl101/pages-signs/t/true.htm
+
+```python
+"p1": {"fngThumb": (1.1, 1.0, 0.8),
+       "fngIndex": (0.05, 0.05, 0.05),
+       "fngMid": (1.0, 1.0, 0.8),
+       "fngRing": (1.0, 1.0, 0.8),
+       "fngPinky": (1.0, 1.0, 0.8)},
+```
+
+Wrist: per-sign point arm (sweep mode point: align + proximity);
+YOU/WHERE forward at chest height, THIS down-forward, WHO/TRUE at
+mouth height, ME deep wrist pitch to the chest. Camera: torso witness
+plus side-view probe (inspect_pose) for depth.
+
 ## HELLO — flat hand beside the forehead
 
 ![Sign HELLO](assets/spike-sign-hello.png)
@@ -580,8 +687,8 @@ blender -b --factory-startup --python-exit-code 1 \
 
 Clip layout: f1 rest (additive reference), f12–20 chin hold,
 f20–44 forward arc, f44–52 end hold, f52–72 return to rest.
-Hosts-repo gesture config: `in {12→44}`, `hold {44→52}`,
-`out {52→72}`. The `thank-you` gesture button appears in the
+Hosts-repo gesture config on the babylon clock:
+`in {1→30}`, `hold {30→50}`, `out {50→180}`. The `thank-you` gesture button appears in the
 playground automatically; the showcase rig records the demo
 video from there.
 
