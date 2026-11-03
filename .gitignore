@@ -1,0 +1,34 @@
+# Dataset and reference media — never commit (see docs/asset-licensing.md)
+data/asllvd/
+data/reference-video/
+reference-images/
+*.mp4
+*.mov
+*.webm
+
+# Authored 3D/render assets ship via the CloudFront asset pipeline
+*.glb
+*.gltf
+*.blend
+*.blend1
+renders/
+
+# Build and tooling
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+
+# Local env and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
