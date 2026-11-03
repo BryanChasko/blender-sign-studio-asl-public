@@ -1,8 +1,8 @@
 # AI sign review
 
-This doc defines what an AI reviewer with tooling can and cannot
-certify, with exact commands and pass/fail bars. It grants
-`ai-reviewed`, never `reviewed`.
+AI review with tooling grants `ai-reviewed`, never
+`reviewed`. Commands and pass/fail bars below define what an AI
+reviewer can and cannot certify.
 
 ## Marks and ship rule
 
@@ -17,7 +17,7 @@ Python 3, 5–6 need Blender. The GitHub PR is the review surface.
 
 ### 1. Live reference
 
-Every pose section in [docs/cookbook.md](docs/cookbook.md) links its SignBank page.
+Every pose section in [docs/cookbook.md](cookbook.md) links its SignBank page.
 
 ```sh
 curl -s -o /dev/null -w "%{http_code}\n" \
@@ -40,10 +40,10 @@ LD_LIBRARY_PATH=~/.cache/gles/usr/lib/x86_64-linux-gnu \
   --pairs docs/assets/ref-a.png docs/assets/ref-a.png [... all 8]
 ```
 
-Pass: extended-set per still — A none (fist), B
-index+middle+ring+pinky, F middle+ring+pinky with thumb-index
-gap ≤ 0.2 (circle), 1 index, 2 index+middle, 3 index+middle+thumb,
-4 index+middle+ring+pinky, 5 all five. Since the neutral-baseline
+Pass: extended-set per still equals the signature table in
+the cookbook ("Reference landmark signatures"), with the F
+thumb-index gap at most 0.2 (circle). Since the
+neutral-baseline
 re-render, our stills detect too (true palm, flat light): B, F,
 2, 3, 4 MATCH exactly; A, 1, 5 read marginally over/under the
 photo-calibrated 1.4 threshold on tucked-edge digits (2D

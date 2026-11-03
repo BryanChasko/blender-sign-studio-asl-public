@@ -2,13 +2,13 @@
 
 This project signs with a small, closed lexicon, and nothing ships
 as American Sign Language (ASL) without passing review. Shipping
-review is automated review ([docs/ai-review.md](docs/ai-review.md), grants
+review is automated review ([docs/ai-review.md](ai-review.md), grants
 `ai-reviewed`). This guide defines the signer path below in case
 one joins; until then the teammate shapes the lexicon.
 
 ## Your role
 
-- Co-own the seed lexicon list ([docs/lexicon.md](docs/lexicon.md)): add, cut, or replace
+- Co-own the seed lexicon list ([docs/lexicon.md](lexicon.md)): add, cut, or replace
   any proposed sign. Host dialogue serves the signing, not the reverse.
 - Review authored clips (Blender renders / in-scene captures) for
   handshape, location, movement, orientation, and face grammar.
@@ -16,7 +16,7 @@ one joins; until then the teammate shapes the lexicon.
   `reviewer` field via PR approval, recording a `reviewed` mark
   for the future. Nothing waits on it.
 - Credit is shared as agreed by teammates (to be recorded in
-  [docs/team.md](docs/team.md) once the team is confirmed, per [docs/roadmap.md](docs/roadmap.md)).
+  `docs/team.md` once the team is confirmed, per [docs/roadmap.md](roadmap.md)).
   This is a teammate role, not a review-for-hire role.
 
 ## What to review against

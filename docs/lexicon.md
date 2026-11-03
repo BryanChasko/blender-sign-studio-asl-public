@@ -24,8 +24,7 @@ Schema and entry fields: [ASL Gloss schema](gloss-schema.md).
 | Subjects           | `subjects`       | TIME, DAY, PEOPLE, WORK                                                                    | 4     |
 | Cloud / AI         | `cloud-ai`       | COMPUTER, LEARN, INTERNET, VIDEO (signs); CLOUD, AWS, DATA, AI, APP, ROBOT (fingerspelled) | 10    |
 
-Final list is set by the owner; this table is the starting
-proposal, not a commitment to any specific sign. Open
+Final list is the owner's call; this table is a draft. Open
 calls: SORRY placement, REPEAT-vs-AGAIN citation form,
 YOUR-TURN/MY-TURN construction, FALSE vs F-A-L-S-E, FUN vs FUNNY,
 THAT form, HERE vs THIS.

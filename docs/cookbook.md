@@ -1,8 +1,7 @@
 # Signing cookbook: poses for Sumerian hosts
 
-Every host still in this repo, with the exact joint values behind it,
-a code sample, and a reference link. Copy a pose by copying its
-numbers. All angles are drafts until they pass [docs/ai-review.md](docs/ai-review.md).
+Each still lists joint values, code, and reference link. All
+angles are drafts until they pass [ai-review.md](ai-review.md).
 
 Reference images from American Sign Language Lexicon Video Dataset
 (ASLLVD) are linked from each pose section. Poses without a fetched
@@ -28,7 +27,14 @@ specs += [("char:def_r_fngThumbA", (0.35, 0, -0.05))]
 Close-ups render under one of two chereme presets (`CHEREMES`
 in both posing scripts, identical dicts; `--chereme` /
 `CHEREME` selects, numbers default `cardinal_numeral`, letters
-default `letter_or_digit`). Letters cite palm-out on the
+default `letter_or_digit`).
+
+| Preset             | Palm side        | Shoulders       | Elbows            | Wrist                                 | Camera                                   |
+| ------------------ | ---------------- | --------------- | ----------------- | ------------------------------------- | ---------------------------------------- |
+| `letter_or_digit`  | palm-out         | (0, -0.8, 0.15) | (0, -0.7, 0.0)    | roll 0.0, flexion 0.0                 | palm-frame, lens 110 front / 150 profile |
+| `cardinal_numeral` | palm-in (dorsal) | (0, -0.4, -0.2) | (-2.5, -0.5, 0.0) | roll 0.0, flexion -1.0, deviation 0.1 | palm-frame, lens 110 front / 150 profile |
+
+Letters cite palm-out on the
 presentation-arms baseline (shoulders `(0, -0.8, 0.15)`, elbows
 `(0, -0.7, 0.0)`: the hand floats ~29cm forward of the chest so
 sightlines clear the body; rest arms park the hand where the
@@ -127,7 +133,7 @@ drifts forward of the face, letters ~8deg look-down).
       "fngPinky": (1.0, 1.0, 0.8)}
 ```
 
-Wrist and camera: `letter_or_digit` chereme preset (shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0): hand ~29cm forward of the chest; wrist neutral: roll 0.0 about X (true twist axis), flexion 0.0 (straight wrists) — the addressee sees the palm side), right side only with the left arm parked behind the back. Bone-derived palm-frame camera with soft neutral light, lens 110 front / 150 profile (`scripts/spike-finger-articulation/pose_handshapes.py`; profiles render alongside fronts). In-situ tab witness below.
+Wrist/camera: `letter_or_digit` preset — shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0), wrist neutral (roll 0.0, flexion 0.0, palm-side), right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
 Reference: citation TBD — no SignBank page fetched yet for A.
 Formation (ADR 0003 draft): fist, thumb alongside.
@@ -170,7 +176,7 @@ extended). Open: citation TBD, thumb-lay nuance.
       "fngPinky": (0.05, 0.05, 0.05)}
 ```
 
-Wrist and camera: `letter_or_digit` chereme preset (shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0): hand ~29cm forward of the chest; wrist neutral: roll 0.0 about X (true twist axis), flexion 0.0 (straight wrists) — the addressee sees the palm side), right side only with the left arm parked behind the back. Bone-derived palm-frame camera with soft neutral light, lens 110 front / 150 profile (`scripts/spike-finger-articulation/pose_handshapes.py`; profiles render alongside fronts). In-situ tab witness below.
+Wrist/camera: `letter_or_digit` preset — shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0), wrist neutral (roll 0.0, flexion 0.0, palm-side), right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
 Reference: citation TBD — no SignBank page fetched yet for B.
 Formation (ADR 0003 draft): flat hand.
@@ -207,7 +213,7 @@ extended).
       "fngPinky": (0.05, 0.05, 0.05)}
 ```
 
-Wrist and camera: `letter_or_digit` chereme preset (shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0): hand ~29cm forward of the chest; wrist neutral: roll 0.0 about X (true twist axis), flexion 0.0 (straight wrists) — the addressee sees the palm side), right side only with the left arm parked behind the back. Bone-derived palm-frame camera with soft neutral light, lens 110 front / 150 profile (`scripts/spike-finger-articulation/pose_handshapes.py`; profiles render alongside fronts). In-situ tab witness below.
+Wrist/camera: `letter_or_digit` preset — shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0), wrist neutral (roll 0.0, flexion 0.0, palm-side), right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
 Reference: citation TBD — no SignBank page fetched yet for F.
 Formation (ADR 0003 draft): thumb-index circle, others extended.
@@ -247,7 +253,7 @@ the neutral baseline; detector MATCH on our render (ring gap
        "fngPinky": (1.0, 1.0, 0.8)}
 ```
 
-Wrist and camera: `cardinal_numeral` chereme preset (shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0); wrist roll 0.0 (zero twist), flexion -1.0, deviation 0.1 (bend only — pronation is rigid roll at the elbow) — the addressee sees the dorsal side per the isolated-1-5 palm-back citation), right side only with the left arm parked behind the back. Bone-derived palm-frame camera with soft neutral light, lens 110 front / 150 profile (`scripts/spike-finger-articulation/pose_handshapes.py`; profiles render alongside fronts). In-situ tab witness below.
+Wrist/camera: `cardinal_numeral` preset — shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0), wrist roll 0.0, flexion -1.0, deviation 0.1, dorsal-side, right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
 Reference: [SignBank ONE](https://dai.cs.rutgers.edu/dai/s/translation?id=2105)
 (variant 2105). Citation formation: "Index finger extends upward
@@ -290,7 +296,7 @@ asserted). Eye-verified index-only correct.
        "fngPinky": (0.05, 0.05, 0.05)}
 ```
 
-Wrist and camera: `cardinal_numeral` chereme preset (shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0); wrist roll 0.0 (zero twist), flexion -1.0, deviation 0.1 (bend only — pronation is rigid roll at the elbow) — the addressee sees the dorsal side per the isolated-1-5 palm-back citation), right side only with the left arm parked behind the back. Bone-derived palm-frame camera with soft neutral light, lens 110 front / 150 profile (`scripts/spike-finger-articulation/pose_handshapes.py`; profiles render alongside fronts). In-situ tab witness below.
+Wrist/camera: `cardinal_numeral` preset — shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0), wrist roll 0.0, flexion -1.0, deviation 0.1, dorsal-side, right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
 Reference: [SignBank FIVE](https://dai.cs.rutgers.edu/dai/s/translation?id=1243)
 (variant 1243). Citation formation: "All five digits spread wide
@@ -330,7 +336,7 @@ eye-verified).
        "fngPinky": (1.0, 1.0, 0.8)}
 ```
 
-Wrist and camera: `cardinal_numeral` chereme preset (shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0); wrist roll 0.0 (zero twist), flexion -1.0, deviation 0.1 (bend only — pronation is rigid roll at the elbow) — the addressee sees the dorsal side per the isolated-1-5 palm-back citation), right side only with the left arm parked behind the back. Bone-derived palm-frame camera (number-shot standard in `scripts/blender/render_host_shots.py`): palm normal 1.4 m out (`PALM_DIST`), finger direction to frame-up, soft neutral light, lens 110 front / 150 profile. In-situ tab witness below.
+Wrist/camera: `cardinal_numeral` preset — shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0), wrist roll 0.0, flexion -1.0, deviation 0.1, dorsal-side, right side only. Number-shot camera (palm normal 1.4 m out, finger direction to frame-up), lens 110 front / 150 profile; in-situ witness below.
 
 Proof (2026-10-24, one pose before any batch): index-only and
 middle-only isolation renders show the correct digits extend while
@@ -386,7 +392,7 @@ the check carries blind-tolerant handling for that case.)
        "fngPinky": (1.0, 1.0, 0.8)}
 ```
 
-Wrist and camera: `cardinal_numeral` chereme preset (shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0); wrist roll 0.0 (zero twist), flexion -1.0, deviation 0.1 (bend only — pronation is rigid roll at the elbow) — the addressee sees the dorsal side per the isolated-1-5 palm-back citation), right side only with the left arm parked behind the back. Bone-derived palm-frame camera (number-shot standard in `scripts/blender/render_host_shots.py`): palm normal 1.4 m out (`PALM_DIST`), finger direction to frame-up, soft neutral light, lens 110 front / 150 profile. In-situ tab witness below.
+Wrist/camera: `cardinal_numeral` preset — shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0), wrist roll 0.0, flexion -1.0, deviation 0.1, dorsal-side, right side only. Number-shot camera (palm normal 1.4 m out, finger direction to frame-up), lens 110 front / 150 profile; in-situ witness below.
 
 Thumb verdict (2026-10-29): the 2026-10-24 Y+0.5 fix never
 showed in pixels — the still read two digits (scorecard FLAG).
@@ -436,7 +442,7 @@ SignBank is the lexical reference).
        "fngPinky": (0.05, 0.05, 0.05)}
 ```
 
-Wrist and camera: `cardinal_numeral` chereme preset (shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0); wrist roll 0.0 (zero twist), flexion -1.0, deviation 0.1 (bend only — pronation is rigid roll at the elbow) — the addressee sees the dorsal side per the isolated-1-5 palm-back citation), right side only with the left arm parked behind the back. Bone-derived palm-frame camera (number-shot standard in `scripts/blender/render_host_shots.py`): palm normal 1.4 m out (`PALM_DIST`), finger direction to frame-up, soft neutral light, lens 110 front / 150 profile. In-situ tab witness below.
+Wrist/camera: `cardinal_numeral` preset — shoulders (0, -0.4, -0.2), elbows (-2.5, -0.5, 0.0), wrist roll 0.0, flexion -1.0, deviation 0.1, dorsal-side, right side only. Number-shot camera (palm normal 1.4 m out, finger direction to frame-up), lens 110 front / 150 profile; in-situ witness below.
 
 Proof (2026-10-24): four extended digits countable with
 anatomical length grading (index, middle, ring, pinky), thumb
@@ -525,11 +531,14 @@ wrist, offset `(0.35, -2.0, 0.45)`, lens 50.
 
 ## THANK-YOU movement — chin to forward-down (demo video)
 
-`spike-sign-thank-you-end.png` holds the terminal arm; the
-moving clip is `--shot sign-thank-you-move` → 48 frames at
+![THANK-YOU start](assets/sign-thank-you-move/frame_0001.png)
+![THANK-YOU mid-arc](assets/sign-thank-you-move/frame_0024.png)
+![THANK-YOU end hold](assets/spike-sign-thank-you-end.png)
+
+The moving clip is `--shot sign-thank-you-move` → 48 frames at
 24fps (`docs/assets/sign-thank-you-move/` keeps start/mid/end;
-the full sequence re-renders from the shot), encoded to
-`docs/assets/spike-sign-thank-you.mp4` (2.0s):
+the full sequence re-renders from the shot). Encode video
+locally when needed (no mp4 is committed):
 
 ```sh
 blender -b --factory-startup --python-exit-code 1 \
@@ -537,7 +546,7 @@ blender -b --factory-startup --python-exit-code 1 \
   --out-dir docs/assets --shot sign-thank-you-move
 ffmpeg -y -framerate 24 -pattern_type glob \
   -i 'docs/assets/sign-thank-you-move/frame_*.png' \
-  -c:v libx264 -pix_fmt yuv420p docs/assets/spike-sign-thank-you.mp4
+  -c:v libx264 -pix_fmt yuv420p /tmp/sign-thank-you.mp4
 ```
 
 The clip keys the citation start arm (f1–12), arcs forward-down
@@ -548,16 +557,17 @@ throughout (the Vicars end frame keeps the flat hand).
 ## Runtime playback — THANK-YOU in the Sumerian Hosts engine
 
 `scripts/blender/export_sign_clip.py` builds the same keyed
-movement as a 72-frame armature-only GLB
-(`assets/clips/sign-thank-you.glb`, 134 cristine-named bones,
-one `thank-you` action) for the sibling `sumerian-hosts`
-repo, whose gesture queue retargets clip GLBs onto the host
-by bone name (`mergeAnimationsTo`) and bakes them additive:
+movement as a 72-frame armature-only GLB (`.glb` files ship
+through the [v0.1-mvp release](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/tag/v0.1-mvp),
+not git; one `thank-you` action carrying the rig's bone names)
+for the sibling `sumerian-hosts` repo, whose gesture queue
+retargets clip GLBs onto the host by bone name
+(`mergeAnimationsTo`) and bakes them additive:
 
 ```sh
 blender -b --factory-startup --python-exit-code 1 \
   -P scripts/blender/export_sign_clip.py -- \
-  --sign thank-you --out assets/clips/sign-thank-you.glb
+  --sign thank-you --rig fiona --out out/sign-thank-you-fiona.glb
 ```
 
 Clip layout: f1 rest (additive reference), f12–20 chin hold,
@@ -602,7 +612,7 @@ Arm staging is scored, not eyeballed:
 `scripts/qa/posture_compare.py` measures 280 ASLLRP SignBank
 reference frames (real signers) with MediaPipe Pose and scores
 these renders against the reference distribution — see
-[posture-comparison.md](posture-comparison.md). The 2026-10-30
+the posture-comparison table in the upstream build repo. The 2026-10-30
 fixes (tucked dominant elbow, bent non-dominant elbow, slight
 head set, finger cascade in the relaxed hand, asymmetric
 ready elbows) all came out of that table.
@@ -694,8 +704,8 @@ also applies to full-body rest and the transition: the bind
 ankles sit ~0.49m apart (A-frame power stance); thigh Y −0.14
 brings them to ±0.128m, under the shoulders. MediaPipe Pose
 cannot detect the clasped render at all (hands merged at the
-waist) — the joint survey is the authority here, see
-[posture-comparison.md](posture-comparison.md).
+waist) — the joint survey is the authority here (comparison
+table lives in the upstream build repo).
 
 Camera target `(0, 0, 1.05)`, offset `(0, -5.2, 0.6)`, lens 35.
 
@@ -706,11 +716,19 @@ frames at 24fps (holds: rest f1–20, ready f38, active f60,
 ready f78, rest f96), bezier interpolation throughout. Fingers
 are keyed with the arms: relaxed at rest/ready, FLAT on the
 active right hand so the active hold matches the signing-torso
-still. The neck set drifts a few degrees between holds. Kept
-witnesses in `docs/assets/posture-transition/`: front holds
-f1/29/38/60/78/95 plus side rest/ready/active (full frame
-sequence is reproducible from the shot; the mp4 encode is
-`ffmpeg -framerate 12 -pattern_type glob -i 'frame_*.png'`).
+still. The neck set drifts a few degrees between holds.
+
+![Transition front holds](assets/posture-transition/frame_0001.png)
+![Transition front, neutral](assets/posture-transition/frame_0038.png)
+![Transition front, active](assets/posture-transition/frame_0060.png)
+![Transition front, return](assets/posture-transition/frame_0095.png)
+![Transition side, rest](assets/posture-transition/side-rest.png)
+![Transition side, neutral](assets/posture-transition/side-ready.png)
+![Transition side, active](assets/posture-transition/side-active.png)
+
+Kept witnesses in `docs/assets/posture-transition/`: front
+holds plus side rest/ready/active (full frame sequence is
+reproducible from the shot).
 
 Face verdict (2026-10-30): the rig has NO shape keys; the face
 is DEF-bone driven. A symmetric bone-location "neutral face"
@@ -727,13 +745,17 @@ with zoomed close-ups is done. Do not re-apply a symmetric set.
   is blind (clasped neutral). Note: ankle heads measure
   ±0.119m; the ±0.128m figure is the foot ball.
 - **Weight shift** on rest + neutral (keyed in the transition,
-  centred at the active hold): pelvis shifted 16mm
-  (`WEIGHT_SHIFT_HIP`), spine counter-tilt Z 0.032/0.009/0.003
-  with neck counter −0.044 total, thighs swung back
-  (−0.157/−0.123) so the ankles stay planted. Survey proof:
-  hip_center_shift 13.7mm, shoulder height delta 12.7mm —
-  inside the 10–25mm / 5–15mm relaxed bands, renders read
-  balanced, not leaning.
+  centred at the active hold) so the ankles stay planted:
+
+| Measure               | Value             | Relaxed band | Verdict  |
+| --------------------- | ----------------- | ------------ | -------- |
+| Pelvis shift          | 16mm              | 10–25mm      | balanced |
+| `hip_center_shift`    | 13.7mm            | 10–25mm      | balanced |
+| Shoulder height delta | 12.7mm            | 5–15mm       | balanced |
+| Spine counter-tilt Z  | 0.032/0.009/0.003 | —            | —        |
+| Neck counter total    | −0.044            | —            | —        |
+| Thigh swing back      | −0.157/−0.123     | —            | planted  |
+
 - **Hands**: `CLASP_HAND_L/R` alternate A-joint flexion
   (0.35/0.12 vs 0.12/0.35) so fingertips interleave at the
   seam, left thumb more opposed; `RELAXED_HAND_L/R` are
@@ -748,6 +770,8 @@ with zoomed close-ups is done. Do not re-apply a symmetric set.
   HEAD_NECK tilt + camera geometry, not brow skin — the
   constant was measured, then REVERTED. Bind face ships;
   do not chase the torso brow gap with brow bones.
+
+![Face-neutral calibration framing](assets/spike-host-face-neutral.png)
 
 ## Reproducing any pose
 

@@ -1,14 +1,11 @@
 # Fiona ASL signs for Sumerian-style hosts
 
-Open American Sign Language sign clips and Blender authoring scripts for
-the Fiona female host rig. This is the reproducible signing slice of
-the [signing-hosts demo](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
-everything needed to pose, render, and export the THANK-YOU sign on
-Fiona in Blender, plus the seed lexicon it belongs to.
+Blender scripts and open ASL clips reproducing the
+[signing-hosts demo](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing)'s
+Fiona THANK-YOU sign, plus its seed lexicon.
 
-Upstream build work continues in the private
-`sumerian-signing-hosts` repo; this fork holds the files a stranger
-needs to redo the signing half, nothing else.
+Build continues in private `sumerian-signing-hosts`; this fork
+keeps signing-half files only.
 
 ## The rig (not vendored here)
 
@@ -52,12 +49,14 @@ blender -b --factory-startup --python-exit-code 1 \
   --sign thank-you --rig fiona --out out/sign-thank-you-fiona.glb
 ```
 
-Verified outputs: `RENDER_OK ... posed=36` on the still (right flat
-hand at the chin, fingertips at the lips), `CLIP_OK` on the export
-(72 frames at 24 fps: rest, chin hold 12-20, forward-down arc,
-palm-down end hold 44-52, return). A ready-made export ships as a
-release asset (see Releases) since `.glb` files travel through the
-asset pipeline, not git.
+Verified outputs: `RENDER_OK ... posed=36` on the still,
+`CLIP_OK` on the export (frame table in
+`docs/cookbook.md` "Runtime playback"). A ready-made export ships
+as a release asset (see Releases) since `.glb` files travel
+through the asset pipeline, not git.
+
+![THANK-YOU citation start](docs/assets/spike-sign-thank-you.png)
+![THANK-YOU end hold](docs/assets/spike-sign-thank-you-end.png)
 
 Every still in `docs/cookbook.md` reproduces the same way —
 "Reproducing any pose" has the one-liners. Joint values are baked
@@ -77,11 +76,9 @@ docs/              poses, schema, review gate, architecture, licensing, credits
 
 ## Accuracy bar
 
-Nothing here ships as ASL without passing `docs/ai-review.md`,
-and sign correctness is human review (see `docs/reviewer-guide.md`) —
-scripts guard the contracts, never substitute for it. Poses cite
-Bill Vicars' lessons; a pose that does not match the citation does
-not ship. The voice half (banked speech audio, engine sync) lives
-with the demo sources, not here.
+Ship rule and review gate: [`docs/ai-review.md`](docs/ai-review.md).
+Poses cite Bill Vicars' lessons; a pose that does not match the
+citation does not ship. The voice half (banked speech audio,
+engine sync) lives with the demo sources, not here.
 
 Live demo: <https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing>

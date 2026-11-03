@@ -2,8 +2,9 @@
 
 ## Pipeline
 
-The signing pipeline mirrors the speech pipeline, so a host line is one
-act performed three ways at once: spoken, captioned, and signed.
+Signing mirrors speech: one host line, spoken, captioned, and signed.
+
+![Signing pipeline: one host line performed three ways at once — spoken, captioned, and signed — on the same clock](assets/pipeline.svg)
 
 ```
 line (text, host, voice)
@@ -51,9 +52,9 @@ captions, and signs.
   Humanoid hosts have a full hand rig (ten fingers) and sign; any
   non-humanoid host without a hand rig does not sign. Proven on
   rocmaibox: 134-bone rig, 34 hand bones, 30 finger joints posed and
-  sticking; see `docs/decisions/0003-finger-articulation-spike.md`.
-  This repo includes the host assets it needs and does not depend on
-  an external checkout to build or run.
+  sticking; see `decisions/0003-finger-articulation-spike.md`.
+  Host meshes are not vendored here — fetch the rig per the README
+  ("The rig"), then this repo builds and runs standalone.
 - Animation sets per rig bucket (male / female / alien where present):
   lipsync (17 visemes), stand_idle, blink variants, emote, gesture
   (14 clips with `in/hold/out` phasing and `gesture.json` queue
@@ -120,8 +121,7 @@ lexicon entry.
 Rocmaibox budget (probed 2026-10-22; this is the working budget, no
 gating): 1x AMD RX 6700 XT 12GB (~6.7GB free), ROCm 7.2.0, 24-thread
 central processing unit (CPU), 62GB RAM, 153GB disk free. Check
-`ollama ps` before graphics processing unit (GPU) runs (5.3GB video
-RAM (VRAM) was in use at idle). Runnable now: ollama 0.18.0 with ROCm
+`ollama ps` before GPU runs (5.3GB VRAM was in use at idle). Runnable now: ollama 0.18.0 with ROCm
 libraries (`qwen3:8b`, `llama3.2` cached), MediaPipe tasks on CPU,
 hand-authored ASL Gloss, CPU EEVEE renders, SAM 3 via the `rocm/pytorch`
 container (1 GPU visible). SDXL / ControlNet via the live ComfyUI
