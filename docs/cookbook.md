@@ -4,8 +4,8 @@ Each still lists joint values, code, and reference link. All
 angles are drafts until they pass [ai-review.md](ai-review.md).
 
 Reference images from American Sign Language Lexicon Video Dataset
-(ASLLVD) are linked from each pose section. Poses without a fetched
-citation say so plainly.
+(ASLLVD) are linked from each pose section. Every section links
+its fetched citation (Lifeprint lesson or SignBank variant).
 
 ## How to read a pose
 
@@ -135,7 +135,10 @@ drifts forward of the face, letters ~8deg look-down).
 
 Wrist/camera: `letter_or_digit` preset — shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0), wrist neutral (roll 0.0, flexion 0.0, palm-side), right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
-Reference: citation TBD — no SignBank page fetched yet for A.
+Reference: [Lifeprint A](https://www.lifeprint.com/asl101/pages-signs/a/a.htm)
+(alphabet chart: [A handshape](https://www.lifeprint.com/asl101/fingerspelling/abc.htm)).
+Citation formation: closed fist, thumb alongside — matches
+ref-a.png below.
 Formation (ADR 0003 draft): fist, thumb alongside.
 
 Compare: front still shows a fully closed fist, no extended
@@ -147,13 +150,13 @@ into S territory). Framing is palm-side under the neutral
 baseline. Detector MATCH on our render (fist, none extended);
 chirality MATCH vs reference.
 
-AI-review: `ai-reviewed` 2026-10-29 (1 TODO citation TBD;
-2 code-match PASS; 3 own camera lines; 4 no outside media;
-5 probes PASS — index-only and middle-only extend the
+AI-review: `ai-reviewed` 2026-10-29 (1 citation Lifeprint A
+chart PASS; 2 code-match PASS; 3 own camera lines; 4 no outside
+media; 5 probes PASS — index-only and middle-only extend the
 anatomically correct digit; 6 PASS by eye — closed fist, no
 extended digits, thumb alongside, palm-side framing, chirality
 MATCH vs reference). Detector MATCH on our render (fist, none
-extended). Open: citation TBD, thumb-lay nuance.
+extended). Open: thumb-lay nuance.
 
 ## B — flat hand
 
@@ -178,7 +181,10 @@ extended). Open: citation TBD, thumb-lay nuance.
 
 Wrist/camera: `letter_or_digit` preset — shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0), wrist neutral (roll 0.0, flexion 0.0, palm-side), right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
-Reference: citation TBD — no SignBank page fetched yet for B.
+Reference: [Lifeprint B](https://www.lifeprint.com/asl101/pages-signs/b/b.htm)
+("Version 1" general form: thumb with a slight bend, alongside).
+Citation formation: flat hand, fingers together, thumb alongside —
+matches ref-b.png below.
 Formation (ADR 0003 draft): flat hand.
 
 Compare: palm still shows four fingers up, parallel (spread
@@ -186,8 +192,8 @@ unarticulated — open), thumb at mid height on the radial side;
 profile shows a flat plane, no curl. Thumb lay: alongside as
 rendered — the across-palm variant is not confirmed (open).
 
-AI-review: `ai-reviewed` (shape) 2026-10-24; citation pending
-(check 1 TODO), thumb-across open. Still re-verified 2026-10-29
+AI-review: `ai-reviewed` (shape) 2026-10-24; citation Lifeprint B
+(check 1 PASS), thumb-across open. Still re-verified 2026-10-29
 under the neutral baseline; detector MATCH on our render (4
 extended).
 
@@ -215,7 +221,9 @@ extended).
 
 Wrist/camera: `letter_or_digit` preset — shoulders (0, -0.8, 0.15), elbows (0, -0.7, 0.0), wrist neutral (roll 0.0, flexion 0.0, palm-side), right side only. Palm-frame camera, soft neutral light, lens 110 front / 150 profile; in-situ witness below.
 
-Reference: citation TBD — no SignBank page fetched yet for F.
+Reference: [Lifeprint F](https://www.lifeprint.com/asl101/pages-signs/f/f.htm)
+(thumb-index circle, letter form — no tap). Citation formation:
+thumb-index circle, rest extended — matches ref-f.png below.
 Formation (ADR 0003 draft): thumb-index circle, others extended.
 
 Circle verdict (2026-10-24): bone-tip measurement drove the
@@ -227,8 +235,8 @@ profile shows a closed loop, and 11.7 mm is within summed finger
 radii (surfaces touching). The idle re-render shows the ring
 face-on. Compare against the CC0 reference still above.
 
-AI-review: `ai-reviewed` (shape) 2026-10-24; citation pending
-(check 1 TODO), spread open. Still re-verified 2026-10-29 under
+AI-review: `ai-reviewed` (shape) 2026-10-24; citation Lifeprint F
+(check 1 PASS), spread open. Still re-verified 2026-10-29 under
 the neutral baseline; detector MATCH on our render (ring gap
 0.19).
 
@@ -521,9 +529,9 @@ B dez, fingertips touching the lips, dorsal to the addressee,
 elbow tucked. The sign then moves forward and down away from
 the chin. Status: authored.
 
-Reference: citation TBD (no fetched SignBank variant yet;
-ASLLVD frames stay link-only). Local SignBank stills under
-reference-images/signbank/ informed the formation.
+Reference: [Lifeprint THANK-YOU](https://www.lifeprint.com/asl101/pages-signs/t/thankyou.htm)
+(Lesson 01: fingertips near the lips, flat hand, forward and a bit
+down). ASLLVD frames stay link-only per dataset terms.
 
 Wrist/camera: wrist roll 0, flexion −0.45, deviation 0.
 Camera is the torso witness: aims between neck and raised

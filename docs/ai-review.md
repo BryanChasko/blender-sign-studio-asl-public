@@ -25,9 +25,9 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 ```
 
 Pass: HTTP 200 and the page names the sign (e.g. "Related
-English Words for Sign Variant: TWO"). A/B/F have no fetched
-citation yet — they stay TODO on this check until one exists, and
-the cookbook must keep saying "citation TBD".
+English Words for Sign Variant: TWO"). A/B/F cite the Lifeprint
+letter pages, THANK-YOU cites the Lifeprint Lesson 01 page — every
+cookbook section links its citation.
 
 Reference landmark signature (same check, numeric half): every
 `ref-*.png` carries a MediaPipe extended-set that must equal the
