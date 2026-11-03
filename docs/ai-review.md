@@ -130,9 +130,7 @@ meaning preservation, regional variation. Palm orientation per
 sign IS certified: the chereme preset cites it, the signed
 frontality probe measures it, and the chirality gate checks it —
 but the preset itself rests on the Vicars isolated-1–5 rule, so
-a citation-form dispute would lapse every number at once. These
-stay open risks on every `ai-reviewed` pose, and the demo label
-must reflect that.
+a citation-form dispute would lapse every number at once.
 
 ## Re-review triggers
 

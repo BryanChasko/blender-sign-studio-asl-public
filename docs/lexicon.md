@@ -39,7 +39,7 @@ THAT form, HERE vs THIS.
    mark is reserved for a future signer; entry notes saying
    "reviewer to confirm" are superseded by ADR 0004.
 3. Fingerspelling (26 alphabet poses) covers proper nouns and every
-   out-of-lexicon word. Slow, clear, and correct beats fast and wrong.
+   out-of-lexicon word.
 4. Regional/dialect variation is noted in the entry when found;
    the build ships one citation form per gloss.
 5. Generic host `gesture.glb` clips (wave, heart, big, ...) are body

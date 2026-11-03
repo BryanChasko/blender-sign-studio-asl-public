@@ -76,9 +76,8 @@ docs/              poses, schema, review gate, architecture, licensing, credits
 
 ## Accuracy bar
 
-Ship rule and review gate: [`docs/ai-review.md`](docs/ai-review.md).
-Poses cite Bill Vicars' lessons; a pose that does not match the
-citation does not ship. The voice half (banked speech audio,
-engine sync) lives with the demo sources, not here.
+Poses cite Bill Vicars' lessons; review gate is
+[`docs/ai-review.md`](docs/ai-review.md). The voice half (banked
+speech audio, engine sync) lives with the demo sources, not here.
 
 Live demo: <https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing>
