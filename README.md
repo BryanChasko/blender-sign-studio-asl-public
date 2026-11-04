@@ -31,16 +31,17 @@ ln -sfn ~/opt/blender-5.2.3-linux-x64/blender ~/.local/bin/blender-5.2
 blender-5.2 --version   # Blender 5.2.3 LTS
 ```
 
-The installer creates `~/.local/bin/blender-5.2`.
+The installer creates `~/.local/bin/blender-5.2`. Put it on
+PATH (`export PATH="$HOME/.local/bin:$PATH"`), or the Try-it
+commands fail with `command not found`.
 
 ## Concepts in 60 seconds
 
 - **ASL.** Cheremes: handshape, place, movement, palm direction.
-  Meaningless parts combine into signs, like phonemes in speech.
-  Gloss: one token per sign, ASL order
-  (`["YOU","THANK-YOU","FINGERSPELL:H-E-L-P"]`). Citation form:
+  Gloss: one token per sign, ASL order. Citation form:
   the dictionary performance of a sign. Every row below links
-  its Lifeprint page.
+  its Lifeprint page. [How a sign is built](#how-a-sign-is-built)
+  works one example end to end.
 - **Kinematics.** A pose is three joint angles per arm
   (shoulder/elbow/wrist, radians) plus a named handshape. All 23
   live in `SIGNS`/`SIGNS_END` in
@@ -50,8 +51,7 @@ The installer creates `~/.local/bin/blender-5.2`.
 - **3D files.** The rig is GL Transmission Format (glTF): mesh
   plus armature. One clip is a binary glTF (.glb) file: an
   action, or bone angles per frame. The engine retargets each
-  clip onto the host skeleton. It bakes the clip additive. It
-  queues in/hold/out beside the gesture queue.
+  clip onto the host skeleton. It bakes the clip additive.
 - **Meta Model API.** Base URL `https://api.meta.ai/v1` plus a
   `MODEL_API_KEY` from dev.meta.ai. Used here: Muse Image
   (comparison set, poster, round-2 edits), Muse Voice
@@ -61,12 +61,10 @@ The installer creates `~/.local/bin/blender-5.2`.
   (gloss drafts via Muse Code). No model runs in production.
   The page serves committed outputs.
 
-<img src="docs/assets/concepts-illustration.webp" width="360" alt="Illustration of a rig: mannequin body over a visible bone skeleton, one hand raised">
-
-A rig is this: mesh over an armature. Muse Image drew its idea
-of one from a text prompt — mannequin, visible bones, raised
-hand. Fiona's real glTF armature works the same way: bones move,
-mesh follows.
+A rig is mesh over an armature: bones move, mesh follows.
+(Muse Image's idea of one lives in
+[`docs/assets/concepts-illustration.webp`](docs/assets/concepts-illustration.webp) —
+portrait poster, kept out of this flow.)
 
 ## Get a rig
 
@@ -84,7 +82,7 @@ repository keeps the same files at `fixtures/hosts/<id>/<id>.glb`:
 Scripts default to the sibling fixtures path. Point them
 elsewhere with `RIG_DIR=/path/to/fixtures`. Pass `--rig fiona`
 for this guide's rig. You can use any rig with the same bone
-names. Same skeleton, same names. Character files are CC BY-SA
+names, so one rig fits every clip. Rig files are CC BY-SA
 4.0 (Amazon Web Services, Inc.). Scripts and docs here are
 Apache-2.0. You must keep the attribution if you ship.
 
@@ -94,7 +92,7 @@ You need the rig file from Get a rig above. Run every command
 with `blender-5.2` from Requirements. A system `blender` is
 usually the wrong version.
 
-You render the citation still:
+You render the citation still. Run from the repo root:
 
 ```bash
 blender-5.2 -b --factory-startup --python-exit-code 1 \
@@ -118,7 +116,7 @@ import `fiona.glb` via `File > Import > glTF 2.0`, import
 switch it to Action Editor, select Fiona's armature, pick the
 `thank-you` action, drag to frame 36, press **Spacebar**.
 The full tour with screenshots sits in
-[Open Fiona in Blender and press play](#open-fiona-in-blender-and-press-play)
+[Press play in the Blender window](#press-play-in-the-blender-window)
 below.
 
 The first script reports `RENDER_OK` and `posed=36`: you posed
@@ -158,7 +156,7 @@ Vicars), mirrored to our Amazon Simple Storage Service (S3)
 bucket so the page never scrapes them. Per-gloss kinematics
 and both-sides scoring live in
 [`docs/ai-vs-rig/scorecards.md`](docs/ai-vs-rig/scorecards.md) —
-read it before disputing a verdict.
+open it before disputing a verdict.
 
 | sign      | real world                                                                                                                                                                                                  | Muse Image                                                                                                                                                                                                                                                                                                                                                                                    | Fiona                                                            | clip                                                                                                                                        | verdict                                                                             |
 | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -187,19 +185,18 @@ read it before disputing a verdict.
 | SECOND    | —                                                                                                                                                                                                           | —                                                                                                                                                                                                                                                                                                                                                                                             | <img src="docs/assets/spike-sign-second.png" width="220">        | [sign-second-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-second-fiona.glb)       | —                                                                                   |
 
 Right hand, wrong sign: the AI failures are chereme errors
-(palm, handshape), none anatomical. Read every row's
-evidence in [`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md).
-Copy any call from [`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md).
-Segment Anything Model (SAM) 3.1 masks rate-limited out, so these
-verdicts are inspected, not segmented.
+(palm, handshape), none anatomical. Segment Anything Model 3.1
+(SAM 3.1) masks rate-limited out, so these verdicts are
+inspected, not segmented.
 
 Second and third attempts: the bare gloss prompt failed
 THANK-YOU, HELLO, and EIGHT. The pose knowledge went in with the
-image, and THANK-YOU and HELLO pass corrected. EIGHT fails twice:
+image. THANK-YOU and HELLO pass corrected. EIGHT fails twice:
 the model cannot close the middle-to-thumb circle. No
-ControlNet-style pose conditioning exists on the API. The edits
-endpoint is the lever, and it has a limit. There is no video
-generation endpoint on the Model API (video is input-only). Motion
+ControlNet-style pose conditioning exists on the Meta Model API.
+The edits endpoint is the lever, and it has a limit. There is no
+video generation endpoint on the Meta Model API (video is
+input-only). Motion
 still comes from the Blender pipeline. Full calls in
 [`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md),
 verdicts in
@@ -211,8 +208,18 @@ verdicts in
 </table>
 
 Signs move — stills are citations. All five compared signs loop
-below (48 frames, 24 fps, Blender-rendered, served from S3; make
-your own with `--shot sign-<name>-move`):
+below (48 frames, 24 fps, Blender-rendered, served from S3; the
+engine clip stays 72 frames, the loop excerpts 48). Render your
+own — only these five exist as move shots — then assemble it:
+
+```bash
+blender-5.2 -b --factory-startup --python-exit-code 1 \
+  -P scripts/blender/render_host_shots.py -- \
+  --out-dir out --shot sign-hello-move --rig fiona
+# RENDER_OK out/sign-hello-move frames=48
+ffmpeg -framerate 24 -i out/sign-hello-move/frame_%04d.png \
+  -vf scale=480:-1 -loop 0 hello.webp
+```
 
 <table>
 <tr><th>hello</th><th>thank-you</th><th>yes</th><th>eight</th><th>first</th></tr>
@@ -221,10 +228,9 @@ your own with `--shot sign-<name>-move`):
 
 Stance between signs: neutral idle, arms slightly out (left) vs
 arms down (right). Rest bakes into the idle base upstream (pull
-requests #107–111). The rest-idle export tooling lives there too.
-Track the port in
-[issue #2](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues/2),
-the upstream port queue. Stills ported from upstream origin/main
+requests #107–111). The rest-idle export tooling lives there too
+(port queue: [issue #2](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues/2)).
+Stills ported from upstream origin/main
 `docs/assets/batch9/`. The upstream team eye-verified them there.
 
 <table>
@@ -232,23 +238,28 @@ the upstream port queue. Stills ported from upstream origin/main
 <tr><td><img src="docs/assets/upstream-stand-idle-rest-fiona.png" width="300"></td><td><img src="docs/assets/upstream-rest-arms-down-fiona.png" width="300"></td></tr>
 </table>
 
-## Open Fiona in Blender and press play
+## Press play in the Blender window
 
-You do this in the Blender window:
+You do this in the Blender window (open Blender 5.2, not system
+`blender`):
 
-1. Open Blender. Delete the default cube (`X`).
-2. Import `fiona.glb` via `File > Import > glTF 2.0`. The Outliner
-   shows the rig's meshes plus one armature. The armature is
-   the skeleton every clip moves.
-3. Select the armature. Switch to Pose Mode. Rotate a bone. Try
-   the right wrist.
-4. Pose the citation start: flat hand at the chin, fingertips at
-   the lips. The numbers live in `SIGNS`. The headless commands
-   above set exactly this pose.
-5. Import `sign-thank-you-fiona.glb` the same way. Export it
-   above, or grab the release. Ignore the second armature. Open a
-   Dope Sheet. Switch it to Action Editor. Select Fiona's
-   armature. Pick the `thank-you` action. Drag to frame 36.
+1. Open Blender. Delete the default cube (`X`, then `Enter`).
+2. Import the `fiona.glb` you fetched in Get a rig via
+   `File > Import > glTF 2.0`. The Outliner shows the rig's
+   meshes plus one armature. The armature is the skeleton every
+   clip moves.
+3. Select the armature. Switch to Pose Mode (mode dropdown in
+   the viewport header). Rotate a bone. Try the right wrist.
+4. Compare the viewport against the citation still in Try it.
+   The numbers live in `SIGNS`. The headless commands above set
+   exactly this pose.
+5. Import `sign-thank-you-fiona.glb` the same way (you exported
+   it to `out/` in Try it, or grab it from the release assets).
+   Ignore the second armature — it rode in with the clip file;
+   only Fiona's moves the mesh. Open a Dope Sheet (editor-type
+   selector, top-left icon). Switch it to Action Editor. Select
+   Fiona's armature. Pick the `thank-you` action. Drag the
+   playhead to frame 36.
 6. Press **Spacebar**. You play 72 frames: rest, chin hold,
    forward-down arc, palm-down end hold, return.
 
@@ -279,7 +290,7 @@ like phonemes in speech:
 - **Palm direction** — palm-out on letters, dorsal on isolated
   numbers 1–5. Presets cover nearly everything. The full table
   lives in the [cookbook](docs/cookbook.md) ("How to read a
-  pose") — read it when a preset looks wrong.
+  pose") — open it when a preset looks wrong.
 
 You turn a host line into a gloss sequence. One token per sign,
 ASL order. Fingerspell what the lexicon lacks:
@@ -296,7 +307,7 @@ python3 scripts/lint_lexicon.py
 ```
 
 The token rules live in
-[`docs/gloss-schema.md`](docs/gloss-schema.md) — read them
+[`docs/gloss-schema.md`](docs/gloss-schema.md) — check them
 before drafting. You author a sign like this: change the numbers
 in `SIGNS` / `SIGNS_END`. Re-run the two commands. Compare
 against the citation. The [cookbook](docs/cookbook.md) records
@@ -310,9 +321,9 @@ visemes.
 ## Built with Meta
 
 Every row ran while building this project. The table links the
-evidence. The reproducible core stays the headless scripts. Same
-numbers in, same pixels out. No model renders a frame. The page
-serves banked audio and prebuilt clips. Nothing bills per
+evidence. The reproducible core stays the headless scripts:
+same numbers in, same pixels out. No model renders a frame. The
+page serves banked audio and prebuilt clips. Nothing bills per
 request.
 
 | Model                       | What it did here                                                                                                                  | Evidence                                                                                                                     |
@@ -325,7 +336,7 @@ request.
 | Muse Glimmer (local)        | same gloss task on-device; too slow to finish (fragment recorded as a limitation)                                                 | [`gloss-glimmer-raw.json`](docs/meta-evidence/gloss-glimmer-raw.json)                                                        |
 | Muse Code                   | the agent that wrote it all                                                                                                       | commit history                                                                                                               |
 
-### Demo 1 — Spark drafts gloss, validators gate it
+### Demo 1 — Muse Spark drafts gloss, validators gate it
 
 Run the validators on the committed draft:
 
@@ -341,13 +352,84 @@ The draft lives in
 (`HELLO YES THANK-YOU C-O-M-I-N-G` for "Hello! Yes, thank-you for
 coming."). The model proposes. The validators dispose.
 
-### Demo 2 — Wonder plans, the rubric reviews
+### Demo 2 — Muse Wonder plans, the rubric reviews
 
 Read the plan, delegation, and verdict rubric in
 [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md) — it
 decided what counts as a PASS. Every evidence table passed that
-review before commit. The Wave-3 sign-off sits in
+review before commit. The sign-off sits in
 [`verdicts.md`](docs/ai-vs-rig/verdicts.md).
+
+### Demos 3–6 — hosted calls, one key
+
+One key (`MODEL_API_KEY`). Same base URL:
+`https://api.meta.ai/v1`. Get a key at dev.meta.ai: sign up,
+open API keys, create one, then `export MODEL_API_KEY=...`.
+Outputs are committed above. Rerun a call only when you change
+its inputs.
+
+#### Demo 3 — Muse Image generates (exact comparison call)
+
+This call made the comparison set. [`prompts.md`](docs/ai-vs-rig/prompts.md)
+logs model and prompt. It does not log size and aspect, so
+exact pixels may differ. Run from the repo root:
+
+```bash
+curl -X POST "https://api.meta.ai/v1/images/generations" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"muse-image-1.0",
+       "prompt":"photorealistic adult woman signing ASL THANK-YOU, hands clearly visible, neutral background"}' \
+  -o img.json
+python3 -c "import json,base64;open('img.webp','wb').write(base64.b64decode(json.load(open('img.json'))['data'][0]['b64_json']))"
+# img.webp — 1280x1920
+```
+
+#### Demo 4 — Muse Image edits with a reference (exact round-2 call — the one that fixed the palm)
+
+Convert the source first (the repo stores webp). Run from the
+repo root:
+
+```bash
+ffmpeg -y -i docs/ai-vs-rig/ai-thank-you.webp edit-ai-input.png
+curl -X POST "https://api.meta.ai/v1/images/edits" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -F 'model=muse-image-1.0' \
+  -F 'image=@edit-ai-input.png' \
+  -F 'prompt=Keep the same woman, framing and neutral background. Fix
+      only her signing hand: flat hand at the chin, fingertips touching
+      the chin, palm facing toward her, the ASL sign for thank-you.' \
+  -o edit.json
+python3 -c "import json,base64;open('edit.webp','wb').write(base64.b64decode(json.load(open('edit.json'))['data'][0]['b64_json']))"
+# edit.webp — palm corrected, rest intact
+```
+
+#### Demo 5 — Transcribe times the turn (`ENDPOINTING` returns turns; `PUSH_TO_TALK` returns none)
+
+Run from the repo root:
+
+```bash
+curl -X POST "https://api.meta.ai/v1/asr/transcribe" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -H "Accept: application/json" \
+  -F 'request={"model":"muse-voice-transcribe-1.0","audioEncoding":"WAV","mode":"ENDPOINTING"};type=application/json' \
+  -F "audio=@docs/meta-evidence/thank-you.wav;type=audio/wav"
+# {"transcript":"Thank you","audioDurationMs":880,
+#  "turns":[{"turnId":0,"startMs":140,"endMs":380,...}]}
+```
+
+#### Demo 6 — SAM segments hands (expect 429s until capacity recovers — every attempt here did)
+
+```bash
+curl -X POST "https://api.meta.ai/v1/responses" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"sam-3.1","stream":false,
+       "input":[{"role":"user","content":[
+         {"type":"input_text","text":"hands"},
+         {"type":"input_image","image_url":"https://.../ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
+# masks arrive as <|box;...|> + <|mask;...|> tokens in output_text
+```
 
 ### Demo 7 — Glimmer and Ollama run local
 
@@ -364,7 +446,7 @@ review before commit. The Wave-3 sign-off sits in
   still. Ask what differs. It catches pose drift a tired eye
   misses. The human reviewer still decides.
 
-(Muse Code drives all of this — see Demo 8. Spark via API is the
+(Muse Code drives all of this — see Demo 8. Muse Spark via API is the
 same model without the agent loop.)
 
 ### Demo 8 — Muse Code drives, bridge inspects
@@ -385,8 +467,8 @@ enabled and connected. It listens on `127.0.0.1:8190/mcp`.
 Every call below is read-only. The bridge answers about whatever
 file that Blender has open.
 
-Run the handshake. It returns a session id. This is a real reply
-from this box:
+Run the handshake. It returns a session id. A real reply looks
+like this:
 
 ```bash
 curl -X POST http://127.0.0.1:8190/mcp \
@@ -428,66 +510,5 @@ bridged Blender. Rerun the same call. It lists her mesh,
 armature, and bones. `get_object_detail_summary` drills into one
 bone. `render_viewport_to_path` snapshots the viewport. Both skip
 the headless scripts.
-
-### Demos 3–5 — hosted calls, one key
-
-One key (`MODEL_API_KEY` from dev.meta.ai). Same base URL:
-`https://api.meta.ai/v1`. Outputs are committed above. Rerun a
-call only when you change its inputs.
-
-#### Demo 3 — Image generates (exact comparison call)
-
-This call made the comparison set. Model and prompt are logged
-in [`prompts.md`](docs/ai-vs-rig/prompts.md). Size and aspect
-were not, so exact pixels may differ:
-
-```bash
-curl -X POST "https://api.meta.ai/v1/images/generations" \
-  -H "Authorization: Bearer $MODEL_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"muse-image-1.0",
-       "prompt":"photorealistic adult woman signing ASL THANK-YOU, hands clearly visible, neutral background"}'
-# {"data":[{"b64_json":"..."}]} — 1280x1920 webp
-```
-
-#### Demo 4 — Image edits with a reference (exact round-2 call — the one that fixed the palm)
-
-```bash
-curl -X POST "https://api.meta.ai/v1/images/edits" \
-  -H "Authorization: Bearer $MODEL_API_KEY" \
-  -F 'model=muse-image-1.0' \
-  -F 'image=@ai-thank-you.png' \
-  -F 'prompt=Keep the same woman, framing and neutral background. Fix
-      only her signing hand: flat hand at the chin, fingertips touching
-      the chin, palm facing toward her, the ASL sign for thank-you.'
-# {"data":[{"b64_json":"..."}]} — palm corrected, rest intact
-```
-
-#### Demo 5 — Transcribe times the turn (`ENDPOINTING` returns turns; `PUSH_TO_TALK` returns none)
-
-Run from the repo root:
-
-```bash
-curl -X POST "https://api.meta.ai/v1/asr/transcribe" \
-  -H "Authorization: Bearer $MODEL_API_KEY" \
-  -H "Accept: application/json" \
-  -F 'request={"model":"muse-voice-transcribe-1.0","audioEncoding":"WAV","mode":"ENDPOINTING"};type=application/json' \
-  -F "audio=@docs/meta-evidence/thank-you.wav;type=audio/wav"
-# {"transcript":"Thank you","audioDurationMs":880,
-#  "turns":[{"turnId":0,"startMs":140,"endMs":380,...}]}
-```
-
-#### Demo 6 — SAM segments hands (expect 429s until capacity recovers — every attempt here did)
-
-```bash
-curl -X POST "https://api.meta.ai/v1/responses" \
-  -H "Authorization: Bearer $MODEL_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"sam-3.1","stream":false,
-       "input":[{"role":"user","content":[
-         {"type":"input_text","text":"hands"},
-         {"type":"input_image","image_url":"https://.../ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
-# masks arrive as <|box;...|> + <|mask;...|> tokens in output_text
-```
 
 Watch it run: <https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing>
