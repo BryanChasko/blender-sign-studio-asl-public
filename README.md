@@ -1,14 +1,7 @@
 # Extending Amazon Sumerian Hosts with American Sign Language
 
-![Motion-trail banner: three light arcs for the spoken, captioned, and signed tracks (generated art, Muse Image)](docs/assets/banner-motion-trails.png)
-
-3D hosts that don't just talk — they sign. This repo adds an
-American Sign Language layer to Sumerian-style hosts: one host
-line performed three ways at once (spoken, captioned, signed).
-Fiona, the female rig, is the worked example throughout.
-
-No Blender, Sumerian, or ASL background assumed. Every step below
-is a command you can paste.
+Sign clips for Sumerian-style hosts. Fiona is the worked example.
+Commands run headless; the GUI path is covered too.
 
 ## How a Sumerian host works (60 seconds)
 
@@ -218,26 +211,34 @@ citation. That loop is the whole authoring process; the
 
 ## AI signs vs Blender signs
 
-Generative models draw plausible hands, not correct signs. Five
-lexicon signs from [Muse Image](https://dev.meta.ai/models/muse-image)
-(neutral prompt per sign, verbatim in
-[`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md)) beside the
-rig's authored citation still. Right hand, wrong sign — three of
-five fail on cheremes (palm, thumb, handshape), none on anatomy.
-Rubric in [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md);
-full table in [`verdicts.md`](docs/ai-vs-rig/verdicts.md). SAM 3.1
-masks were attempted for all ten images and rate-limited out, so
-these verdicts are inspected against the lexicon spec, not
-segmented — labeled as such throughout.
+Right hand, wrong sign. Each row judges both sides against the
+linked reference first — verdicts in
+[`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md) with the
+reference basis. Image calls (endpoint, model, prompts, payloads)
+in [`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md).
+Reference photos are linked, not vendored. Crops match (720px,
+face + signing hand). SAM 3.1 masks rate-limited out, so these are
+inspected, not segmented.
 
 <table>
-<tr><th>sign</th><th>Muse Image (generated)</th><th>Fiona rig (authored)</th><th>verdict</th></tr>
-<tr><td>THANK-YOU</td><td><img src="docs/ai-vs-rig/ai-thank-you.webp" width="300"></td><td><img src="docs/assets/spike-sign-thank-you.png" width="300"></td><td>FAIL — palm faces down, not toward signer</td></tr>
-<tr><td>HELLO</td><td><img src="docs/ai-vs-rig/ai-hello.webp" width="300"></td><td><img src="docs/assets/spike-sign-hello.png" width="300"></td><td>FAIL — thumb out makes a 5-hand, not B</td></tr>
-<tr><td>YES</td><td><img src="docs/ai-vs-rig/ai-yes.webp" width="300"></td><td><img src="docs/assets/spike-sign-yes.png" width="300"></td><td>PASS — S fist at chest, both sides</td></tr>
-<tr><td>EIGHT</td><td><img src="docs/ai-vs-rig/ai-eight.webp" width="300"></td><td><img src="docs/assets/spike-sign-eight.png" width="300"></td><td>FAIL — open V is a 2, not an 8</td></tr>
-<tr><td>FIRST</td><td><img src="docs/ai-vs-rig/ai-first.webp" width="300"></td><td><img src="docs/assets/spike-sign-first.png" width="300"></td><td>PASS — index up, palm forward, both sides</td></tr>
+<tr><th>sign (reference)</th><th>Muse Image</th><th>Fiona rig</th><th>verdict</th></tr>
+<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/t/thankyou.htm">THANK-YOU</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-thank-you-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-thank-you-rig.png" width="300"></td><td>AI FAIL — palm down, not toward signer. Rig PASS.</td></tr>
+<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/h/hello.htm">HELLO</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-hello-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-hello-rig.png" width="300"></td><td>AI FAIL vs authored B salute (reference allows wave variants). Rig PASS.</td></tr>
+<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/y/yes.htm">YES</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-yes-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-yes-rig.png" width="300"></td><td>PASS both — S fist at chest.</td></tr>
+<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm">EIGHT</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-eight-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-eight-rig.png" width="300"></td><td>AI FAIL — open V is a 2. Rig PASS (zoom verified).</td></tr>
+<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/f/first.htm">FIRST</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-first-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-first-rig.png" width="300"></td><td>PASS both — index up, palm forward.</td></tr>
 </table>
+
+Signs move — stills are citations. THANK-YOU looped, the rest as
+engine clips:
+
+![Fiona signs THANK-YOU, looped](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp)
+
+[thank-you](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-thank-you-fiona.glb) ·
+[hello](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-hello-fiona.glb) ·
+[yes](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-yes-fiona.glb) ·
+[eight](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-eight-fiona.glb) ·
+[first](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-first-fiona.glb)
 
 ## Built with Meta
 

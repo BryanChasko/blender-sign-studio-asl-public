@@ -1,52 +1,41 @@
-# ai-vs-rig verdicts (Wave 2, 2026-11-04)
+# ai-vs-rig verdicts (Wave 2, 2026-11-04; reference-grounded 2026-11-04)
 
-SAM 3.1 status: 0 masks. All 20 segmentation calls (10 images x "hands" + 1 retry x "person signing") returned HTTP 429 rate_limit_exceeded ("Service temporarily unavailable"). Rerun 2026-11-04 ~16:50 UTC: 10 images x up to 12 paced attempts each (retry-after honored, 12 s spacing, "hands" + "person signing", stream true and false variants) still all HTTP 429; no masks, no agreement scores.
+SAM 3.1 status: 0 masks. All 20 segmentation calls (10 images x "hands" + 1 retry x "person signing") returned HTTP 429 rate_limit_exceeded ("Service temporarily unavailable"). Rerun 2026-11-04 ~16:50 UTC: 10 images x up to 12 paced attempts each (retry-after honored, 12 s spacing, "hands" + "person signing", stream true and false variants) still all HTTP 429; no masks, no agreement scores. Owner probe after the window: 429. No further attempts today.
 Raw error bodies saved verbatim in sam-\<slug\>-ai.json / sam-\<slug\>-still.json with result NO-MATCH.
-Verdicts below rest on direct eyeball inspection of local copies byte-identical (sha256) to the segmented URLs.
-Rubric: docs/meta-evidence/wonder-notes.md section Verdict rubric.
+Verdicts below are inspected against the reference spec, not segmented.
 
-Lexicon refs (data/lexicon/lexicon.v1.json notes): THANK-YOU = B hand, fingertips on chin, palm toward signer.
-HELLO = B hand beside forehead, palm out. YES = S fist, chest signing space.
-EIGHT = dominant-hand 8 handshape (index up, middle bent to thumb), non-dominant uninvolved.
-FIRST = index up, palm forward, slight wrist twist.
+## reference basis (Lifeprint, linked not vendored — third-party photos stay off this repo)
 
-| slug      | AI fingers (R/L visible)                                                         | still fingers (R/L visible)                                    | handshape vs lexicon (AI)                                     | anatomy AI R/L | anatomy still R/L | verdict                       |
-| --------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | -------------- | ----------------- | ----------------------------- |
-| thank-you | R4+thumb flat under chin / L not visible                                         | R4 together at chin / L relaxed open, uninvolved               | B hand at chin yes, palm faces down not toward signer         | yes / n/a      | yes / yes         | FAIL (pose: palm orientation) |
-| hello     | R4 extended + thumb stuck out sideways beside forehead, palm out / L not visible | R raised beside head, loose B, small in frame / L out of frame | 4 fingers yes, B thumb placement no (thumb abducted = 5-hand) | yes / n/a      | yes / n/a         | FAIL (thumb placement)        |
-| yes       | L0 fist + thumb across at chest / R not visible                                  | R0 fist + thumb at chest side / L relaxed open                 | S fist at chest matches                                       | n/a / yes      | yes / yes         | PASS                          |
-| eight     | R2 (index+middle V, no thumb contact) / L not visible                            | R1 up + middle-to-thumb circle (8) / L relaxed                 | shows 2, not 8                                                | yes / n/a      | yes / yes         | FAIL (handshape: 2 for 8)     |
-| first     | R1 index up, palm forward, rest curled, thumb across / L not visible             | R1 index up, palm forward / L relaxed                          | matches index-up palm-forward                                 | yes / n/a      | yes / yes         | PASS                          |
+- THANK-YOU: [ASL "thank you"](https://www.lifeprint.com/asl101/pages-signs/t/thankyou.htm) — flat hand, fingertips start at lips/chin, palm toward signer, forward-down toward addressee. Reference photo viewed: fingertips at lips, palm facing signer.
+- HELLO: [ASL "hello"](https://www.lifeprint.com/asl101/pages-signs/h/hello.htm) — no fixed form: "just wave", side-to-side, "no one specific type of wave". The lexicon pins one variant (B-hand salute beside forehead).
+- YES: [ASL "yes"](https://www.lifeprint.com/asl101/pages-signs/y/yes.htm) — "S" hand, wrist nod (fist = head nodding).
+- EIGHT: [ASL numbers 1-10](https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm) — 8 = index/ring/pinky up, middle bent down to thumb contact (chart photo viewed).
+- FIRST: [ASL "first"](https://www.lifeprint.com/asl101/pages-signs/f/first.htm) — "many right versions"; general form index up with wrist-twist variants.
 
-Evidence, one line per fact:
+## verdicts (AI and rig each judged against the reference, not against each other)
 
-- ai-thank-you.webp: single flat hand under chin, 4 fingertips + thumb nail visible, no extra digits.
-- ai-thank-you.webp: fingertips point sideways, palm faces down toward neck, not toward face.
-- still-thank-you.png (= spike-sign-thank-you.png sha256-identical): right fingertips contact chin/lip area, fingers together.
-- ai-hello.webp: 4 fingers spread beside forehead, thumb extended outward to frame-left, palm toward camera.
-- ai-hello.webp: 5 digits total extended on the signing hand.
-- still-hello.png (= spike-sign-hello.png sha256-identical): right hand raised lateral to head, fingers loosely together.
-- ai-yes.webp: left fist at chest height, 0 fingers extended, thumb folded across front, knuckles intact.
-- still-yes.png (= spike-sign-yes.png sha256-identical): right S fist at chest side, thumb up across fingers.
-- ai-eight.webp: right hand V shape, index + middle extended spread, ring/pinky folded, thumb hidden, no finger-thumb circle.
-- still-eight.png (= spike-sign-eight.png sha256-identical): right index extended up, middle bent down to thumb forming circle.
-- ai-first.webp: right index extended up, middle/ring/pinky curled, thumb across them, palm facing camera.
-- still-first.png (= spike-sign-first.png sha256-identical): right index up palm-forward, others curled.
-- No image on either side shows fused, missing, or supernumerary digits; all hands anatomically possible.
-- All 10 segmented URLs verified HTTP 200 before the SAM pass; local copies sha256-identical to remote bytes.
+| sign      | reference says                                       | Muse Image vs reference                                                                                          | Fiona rig vs reference                                                               | verdict                                                              |
+| --------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| thank-you | flat hand at lips/chin, palm to signer, forward-down | flat hand at chin, palm DOWN, static                                                                             | fingertips at lips, palm-to-signer, clip arcs forward-down                           | AI FAIL (palm), rig PASS                                             |
+| hello     | no fixed form — any natural wave                     | open 5-hand held static at forehead height; inside the reference's latitude as a wave, but posed high and frozen | B-hand salute beside forehead (one pinned variant)                                   | AI FAIL vs authored spec (latitude noted), rig PASS vs authored spec |
+| yes       | S fist, wrist nod                                    | S fist at chest, 0 extended (left hand; lexicon sets no dominance)                                               | S fist at chest                                                                      | PASS both                                                            |
+| eight     | index/ring/pinky up, middle-to-thumb contact         | open V = index+middle spread, no thumb contact: a 2, not an 8                                                    | index up, middle-to-thumb circle, ring+pinky extended (zoom-eight-hand.png verified) | AI FAIL (handshape), rig PASS                                        |
+| first     | many right versions; index up + wrist twist          | index up, palm forward, rest curled                                                                              | index up, palm forward                                                               | PASS both                                                            |
+
+Right hand, wrong sign: the three AI failures are chereme errors (palm, thumb, handshape), none anatomical — every hand shown has the correct digit count.
+
+Evidence (comparison crops, 720px, same framing per sign):
+
+- cmp/cmp-\<slug\>-ai.webp: AI crop (face + signing hand, hand fully visible).
+- cmp/cmp-\<slug\>-rig.png: rig crop (face + signing hand from the citation still).
+- cmp/zoom-eight-hand.png: rig eight hand close-up (middle-to-thumb circle, ring+pinky extended).
+- Full frames: docs/ai-vs-rig/ai-\<slug\>.webp + docs/assets/spike-sign-\<slug\>.png, sha256-identical to the segmented URLs.
+- All 10 segmented URLs verified HTTP 200 before the SAM pass.
 - SAM request shape that passed validation: {"model":"sam-3.1","input":[{"role":"user","content":[{"type":"input_text","text":...},{"type":"input_image","image_url":...}]}],"stream":true}; parameters input_image and include_confidence rejected as unknown (HTTP 400).
 - Key used read-only from ~/.config/muse/auth.json providers.meta.api_key; never printed or logged.
 
 ## Wave 3 review (Wonder, owner session)
 
-- Viewed all 5 AI images: thank-you FAIL (palm down under chin),
-  hello FAIL (thumb abducted = 5-hand), yes PASS (S fist),
-  eight FAIL (V = 2), first PASS (index up palm forward).
-  Confirms the table above; no silent edits made.
-- Viewed still-thank-you.png (fingertips at chin, B hand,
-  palm-to-signer) and still-eight.png (index up,
-  middle-to-thumb circle): both match their lexicon notes.
-  Control side stands.
-- SAM: one clean single-image probe after the rerun window also
-  returned 429. No further attempts today; masks remain a gap,
-  verdicts stay labeled inspected-not-segmented.
+- Viewed all 5 AI images and the thank-you/eight reference photos; verdicts above confirm the table. Reference grounding added after review; no silent edits to scores.
+- Viewed still-thank-you.png (fingertips at chin, palm-to-signer) and still-eight.png + zoom (index up, middle-to-thumb circle, ring+pinky extended): both match their Lifeprint pages. Control side stands.
+- SAM: clean single-image probes after the rerun window also returned 429. No further attempts today; verdicts stay labeled inspected-not-segmented.
