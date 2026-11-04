@@ -1,12 +1,12 @@
-# Extending Amazon Sumerian Hosts with American Sign Language
+# Blender Sign Studio (ASL)
 
 You reproduce American Sign Language signs as engine clips —
 58 glosses, 23 reviewed — starting with Fiona.
 [Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
 the live page plays the host signing.
-[All 23 clips](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/tag/v0.2-batch5):
+[All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
 every .glb, no Blender needed.
-[Issues](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues):
+[Issues](https://github.com/bryanchasko/blender-sign-studio-asl-public/issues):
 report a break, request a port.
 Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 
@@ -121,7 +121,7 @@ The first script reports `RENDER_OK` and `posed=36`: you posed
 36 bones. The second reports `CLIP_OK`: it exported only the
 `thank-you` action. Skip the export step: grab ready-made clips
 from the
-[release assets](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases).
+[release assets](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases).
 Release files travel through the asset pipeline, never git.
 
 <table>
@@ -180,6 +180,14 @@ ffmpeg -framerate 24 -i out/sign-hello-move/frame_%04d.png \
   -vf scale=480:-1 -loop 0 hello.webp
 ```
 
+Fingerspelling stress test: nine words, one frame each, same
+prompt shape with the word swapped in. A still cannot spell —
+fingerspelling is motion. 9/9 mouths speak, 2/9 hands pass, one
+extra limb, three text cheats. Full calls and per-word verdicts
+in [`docs/ai-vs-rig/fingerspell.md`](docs/ai-vs-rig/fingerspell.md):
+
+![Nine fingerspelling attempts: amazon, sumerian, hosts, meta, wonderful, glimmer, model, api, muse](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/ai-vs-rig/fp-grid.webp)
+
 <table>
 <tr><th>hello</th><th>thank-you</th><th>yes</th><th>eight</th><th>first</th></tr>
 <tr><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-hello-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-yes-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-eight-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-first-move.webp" width="200"></td></tr>
@@ -188,7 +196,7 @@ ffmpeg -framerate 24 -i out/sign-hello-move/frame_%04d.png \
 Stance between signs: neutral idle, arms slightly out (left) vs
 arms down (right). Rest bakes into the idle base upstream (pull
 requests #107–111). The rest-idle export tooling lives there too
-(port queue: [issue #2](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues/2)).
+(port queue: [issue #2](https://github.com/bryanchasko/blender-sign-studio-asl-public/issues/2)).
 Stills ported from upstream origin/main
 `docs/assets/batch9/`. The upstream team eye-verified them there.
 
@@ -387,18 +395,22 @@ curl -X POST "https://api.meta.ai/v1/responses" \
   -d '{"model":"sam-3.1","stream":false,
        "input":[{"role":"user","content":[
          {"type":"input_text","text":"hands"},
-         {"type":"input_image","image_url":"https://raw.githubusercontent.com/bryanchasko/amazon-sumerian-hosts-asl/main/docs/ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
+         {"type":"input_image","image_url":"https://raw.githubusercontent.com/bryanchasko/blender-sign-studio-asl-public/main/docs/ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
 # masks arrive as <|box;...|> + <|mask;...|> tokens in output_text
 ```
 
 ### Demo 7 — Glimmer and Ollama run local
 
-- **A local open-weights model** (we used Glimmer 30B for gloss
-  drafts): any OpenAI-compatible server on your own hardware —
-  about 20 gigabytes free for a 30-billion-parameter quantized
-  model (vLLM, SGLang, or llama.cpp all serve one). Send it
-  the same requests you send the API. Keep the validators as
-  the gate, not the model's word.
+- **A local open-weights model** (Glimmer 30B, on this box via
+  `http://127.0.0.1:8181/v1`, OpenAI-compatible): asked to score
+  EIGHT (rig vs AI) from the citation. A 40-token reply returns
+  200 with the verdict still in reasoning; the full reply times
+  out past 280 s under GPU contention; a 387 KB image payload
+  returns nothing in 180 s. Text works, vision hangs, long
+  answers starve. Send it the same requests you send the API.
+  Keep the validators as the gate, not the model's word.
+  Attempt log:
+  [`glimmer-verdict-attempt.md`](docs/meta-evidence/glimmer-verdict-attempt.md).
 - **A vision model for second opinions** (we used Ollama vision
   models for render-vs-citation checks): install Ollama, the
   free local model runner, from [ollama.com](https://ollama.com).

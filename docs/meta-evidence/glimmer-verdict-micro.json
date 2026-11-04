@@ -1,0 +1,13 @@
+{
+  "request": "EIGHT citation vs rig vs AI, 40 tokens",
+  "content": "",
+  "reasoning_content": "EIGHT citation: index up, middle touches thumb, ring+pinky out. Rig: matches. AI: open V. Reply two short lines starting RIG: and AI: with",
+  "usage": {
+    "completion_tokens": 40,
+    "prompt_tokens": 97,
+    "total_tokens": 137,
+    "prompt_tokens_details": {
+      "cached_tokens": 49
+    }
+  }
+}

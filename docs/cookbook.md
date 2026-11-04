@@ -673,7 +673,7 @@ throughout (the Vicars end frame keeps the flat hand).
 
 `scripts/blender/export_sign_clip.py` builds the same keyed
 movement as a 72-frame armature-only GLB (`.glb` files ship
-through the [v0.1-mvp release](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/tag/v0.1-mvp),
+through the [v0.1-mvp release](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.1-mvp),
 not git; one `thank-you` action carrying the rig's bone names)
 for the sibling `sumerian-hosts` repo, whose gesture queue
 retargets clip GLBs onto the host by bone name
