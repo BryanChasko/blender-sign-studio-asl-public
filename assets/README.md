@@ -81,3 +81,26 @@ Index up, palm forward, shoulder travel:
 Made with `--shot sign-first-move --rig fiona`.
 Sidecar:
 [`plays/fiona-first-move.sidecar.json`](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/plays/fiona-first-move.sidecar.json)
+
+## Labeled strip (five rig stills, one image)
+
+Built with Python Pillow (DejaVu Sans Bold labels on a dark
+bar), committed as webp:
+
+![Fiona's five compared signs](../docs/assets/fiona-five-strip.webp)
+
+## Live site capture (headless Chromium, S3-hosted)
+
+The README header shows the real page. Capture it again with:
+
+```bash
+chromium-browser --headless --disable-gpu --no-sandbox \
+  --window-size=1280,800 --virtual-time-budget=20000 \
+  --screenshot=signing-hosts.png \
+  "https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing"
+ffmpeg -y -i signing-hosts.png -q:v 85 signing-hosts-live.webp
+aws s3 cp signing-hosts-live.webp \
+  s3://bryanchasko-amazon-sumerian-hosts-asl-webp/webp/signing-hosts-live.webp
+```
+
+![The live signing page](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/signing-hosts-live.webp)

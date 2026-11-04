@@ -12,6 +12,12 @@ Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 
 ![Fiona signs THANK-YOU, looped](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp)
 
+<img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/signing-hosts-live.webp" width="760" alt="The live signing page: Fiona on stage, sign picker, sign deck with practice rings, timeline">
+
+The live page: sign picker, sign deck with practice rings,
+timeline with gather-hold-release, slow-mo. Captured headless
+with Chromium (see `assets/README.md` for the command).
+
 ## Requirements
 
 You need three things: Blender 5.2 Long Term Support (LTS),
@@ -55,10 +61,12 @@ The installer creates `~/.local/bin/blender-5.2`.
   (gloss drafts via Muse Code). No model runs in production.
   The page serves committed outputs.
 
-![Illustration: a signing rig as Muse Image imagines one — mannequin, visible bones, raised hand](docs/assets/concepts-illustration.webp)
+<img src="docs/assets/concepts-illustration.webp" width="360" alt="Illustration of a rig: mannequin body over a visible bone skeleton, one hand raised">
 
-Illustration, not a rig render: Muse Image generated it from a
-text prompt. The real rig is Fiona's glTF below.
+A rig is this: mesh over an armature. Muse Image drew its idea
+of one from a text prompt — mannequin, visible bones, raised
+hand. Fiona's real glTF armature works the same way: bones move,
+mesh follows.
 
 ## Get a rig
 
@@ -120,13 +128,18 @@ from the
 [release assets](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases).
 Release files travel through the asset pipeline, never git.
 
-![THANK-YOU citation still, start](docs/assets/spike-sign-thank-you.png)
-![THANK-YOU citation still, end hold](docs/assets/spike-sign-thank-you-end.png)
+<table>
+<tr><th>citation start</th><th>end hold</th></tr>
+<tr><td><img src="docs/assets/spike-sign-thank-you.png" width="380" alt="THANK-YOU citation still, start"></td><td><img src="docs/assets/spike-sign-thank-you-end.png" width="380" alt="THANK-YOU citation still, end hold"></td></tr>
+</table>
 
 Flat hand at the chin, fingertips at the lips. Forward-down arc
-to the palm-down end hold (frames 44–52 of 72).
+to the palm-down end hold (frames 44–52 of 72). Re-render these
+exact pixels any time with the first command above.
 
 ## The 23 signs
+
+![Fiona's five compared signs: hello, thank-you, yes, eight, first](docs/assets/fiona-five-strip.webp)
 
 This fork ships 23 ai-reviewed signs with engine clips (23
 of 58 v1 glosses). Upstream tracks more: 25 ai-reviewed on
