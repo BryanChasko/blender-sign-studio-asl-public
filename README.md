@@ -118,7 +118,7 @@ Prefer windows over terminals? Same result, by hand:
    that armature, a skeleton of named bones, is what every
    animation moves. The mesh is just the skin on top.
 
-![Fiona imported: mesh plus armature](docs/assets/gui-step1-imported.png)
+![Fiona imported, full-body rest render](docs/assets/gui-step1-imported.png)
 
 3. Select the armature, switch the editor from Object Mode to
    **Pose Mode** (dropdown, top left of the 3D view). Now
@@ -127,7 +127,7 @@ Prefer windows over terminals? Same result, by hand:
    the lips (the numbers behind this pose live in `SIGNS` in the
    scripts — the headless commands above set exactly this).
 
-![THANK-YOU citation start, posed by hand](docs/assets/gui-step2-posed.png)
+![THANK-YOU citation start, same pose as a render](docs/assets/gui-step2-posed.png)
 
 5. Load the animation: `File > Import > glTF 2.0`, pick
    `sign-thank-you-fiona.glb` (export it with the headless
@@ -138,7 +138,7 @@ Prefer windows over terminals? Same result, by hand:
    Select Fiona's armature, pick `thank-you` in that dropdown,
    drag the timeline to frame 36.
 
-![The thank-you action playing on Fiona, frame 36](docs/assets/gui-step3-playing.png)
+![The thank-you action on Fiona, frame 36 render](docs/assets/gui-step3-playing.png)
 
 6. Press **Spacebar**. Fiona signs. The playhead runs 72 frames:
    rest, chin hold, forward-down arc, palm-down end hold, return.
