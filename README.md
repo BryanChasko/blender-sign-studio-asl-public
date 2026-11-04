@@ -1,5 +1,7 @@
 # Extending Amazon Sumerian Hosts with American Sign Language
 
+![Motion-trail banner: three light arcs for the spoken, captioned, and signed tracks (generated art, Muse Image)](docs/assets/banner-motion-trails.png)
+
 3D hosts that don't just talk — they sign. This repo adds an
 American Sign Language layer to Sumerian-style hosts: one host
 line performed three ways at once (spoken, captioned, signed).
