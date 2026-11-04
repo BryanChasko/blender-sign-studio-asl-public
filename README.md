@@ -244,9 +244,143 @@ audio and prebuilt clips.
 | Muse Glimmer (local)        | same gloss task on-device; too slow to finish (fragment recorded as a limitation)                                                 | [`gloss-glimmer-raw.json`](docs/meta-evidence/gloss-glimmer-raw.json)                                                        |
 | Muse Code                   | the agent that wrote it all                                                                                                       | repo history                                                                                                                 |
 
-Heavy models ran in the dev loop on this workstation; the page
-serves their outputs, so nothing bills per request. The
-reproducible core stays the headless scripts: same numbers in,
-same pixels out, no model in the loop at render time.
+Heavy models ran in the dev loop; the page serves their
+outputs, so nothing bills per request. The reproducible core
+stays the headless scripts: same numbers in, same pixels out, no
+model in the loop at render time.
+
+### Run the local stack yourself
+
+Nothing here needs our machines. What each piece needs, and the
+command that starts it:
+
+- **Muse Code** (agent, drives everything): any Mac/Linux box.
+  `curl -fsSL https://dev.meta.ai/install.sh | sh`, then `muse`
+  in the repo and sign in. Non-interactive use takes
+  `MODEL_API_KEY` instead.
+- **Muse Spark** (the model behind the agent): the same key over
+  `https://api.meta.ai/v1` — point any OpenAI-compatible client
+  at it. Contributor-mode models cost less per token.
+- **A local open-weights model** (we used Glimmer 30B for gloss
+  drafts): any OpenAI-compatible server on your own hardware —
+  ~20 GB free for a 30B quant (vLLM, SGLang, or llama.cpp all
+  serve one). Query it the same way you would the API; keep the
+  repo validators as the gate, not the model's word.
+- **A vision model for second opinions** (we used Ollama vision
+  models for render-vs-citation checks): install
+  [Ollama](https://ollama.com), `ollama pull` a vision model,
+  show it the render next to the citation still and ask what
+  differs. It catches pose drift a tired eye misses; the human
+  reviewer still decides.
+
+### Inspect a live scene over HTTP (Blender MCP)
+
+The `blender-mcp` bridge (v1.29.1 answered here) exposes the open
+Blender file as MCP tools over Streamable HTTP. Replicate it:
+open your `.blend` in a Blender with the MCP addon enabled and
+connected — it listens on `127.0.0.1:8190/mcp`. Every call below
+is read-only; the bridge answers about whatever file that Blender
+has open.
+
+Handshake (returns a session id — real reply from this box):
+
+```bash
+curl -X POST http://127.0.0.1:8190/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize",
+       "params":{"protocolVersion":"2025-06-18","capabilities":{},
+       "clientInfo":{"name":"my-probe","version":"0.1"}}}'
+# 200, serverInfo: {"name":"blender-mcp","version":"1.29.1"},
+# header mcp-session-id: <SID>
+```
+
+List tools, then ask what is in the scene:
+
+```bash
+curl -X POST http://127.0.0.1:8190/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "mcp-session-id: <SID>" \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
+# tools include: get_objects_summary, get_object_detail_summary,
+# render_viewport_to_path, search_api_docs, execute_blender_code ...
+
+curl -X POST http://127.0.0.1:8190/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "mcp-session-id: <SID>" \
+  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call",
+       "params":{"name":"get_objects_summary","arguments":{}}}'
+# {"status":"ok","scene_name":"Scene","active_object":"Cube",
+#  "collections":[{"name":"Scene Collection", ...,"objects":
+#  [{"name":"Camera","type":"CAMERA",...},
+#   {"name":"Cube","type":"MESH",...},
+#   {"name":"Light","type":"LIGHT",...}] ...}]}
+```
+
+That reply came from a default scene — open Fiona's file in the
+bridged Blender and the same call lists her mesh, armature, and
+bones. `get_object_detail_summary` drills into one bone;
+`render_viewport_to_path` snapshots the viewport without the
+headless scripts.
+
+### Re-run the hosted calls yourself
+
+One key (`MODEL_API_KEY` from dev.meta.ai), same base URL
+throughout: `https://api.meta.ai/v1`. Outputs are committed above;
+re-running only matters if you change the inputs.
+
+Generate (exact call behind the comparison set):
+
+```bash
+curl -X POST "https://api.meta.ai/v1/images/generations" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"muse-image-1.0",
+       "prompt":"photorealistic adult woman signing ASL THANK-YOU, hands clearly visible, neutral background"}'
+# {"data":[{"b64_json":"..."}]} — 1280x1920 webp
+```
+
+Edit with a reference image (exact round-2 call — the one that
+fixed the palm):
+
+```bash
+curl -X POST "https://api.meta.ai/v1/images/edits" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -F 'model=muse-image-1.0' \
+  -F 'image=@ai-thank-you.png' \
+  -F 'prompt=Keep the same woman, framing and neutral background. Fix
+      only her signing hand: flat hand at the chin, fingertips touching
+      the chin, palm facing toward her, the ASL sign for thank-you.'
+# {"data":[{"b64_json":"..."}]} — palm corrected, rest intact
+```
+
+Transcribe with turn timing (exact audit call — `ENDPOINTING`
+is what returns turns; `PUSH_TO_TALK` returns none):
+
+```bash
+curl -X POST "https://api.meta.ai/v1/asr/transcribe" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -H "Accept: application/json" \
+  -F 'request={"model":"muse-voice-transcribe-1.0","audioEncoding":"WAV","mode":"ENDPOINTING"};type=application/json' \
+  -F "audio=@thank-you.wav;type=audio/wav"
+# {"transcript":"Thank you","audioDurationMs":880,
+#  "turns":[{"turnId":0,"startMs":140,"endMs":380,...}]}
+```
+
+Segment hands (validated shape; expect 429s until capacity
+recovers — every attempt here did):
+
+```bash
+curl -X POST "https://api.meta.ai/v1/responses" \
+  -H "Authorization: Bearer $MODEL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"sam-3.1","stream":false,
+       "input":[{"role":"user","content":[
+         {"type":"input_text","text":"hands"},
+         {"type":"input_image","image_url":"https://.../ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
+# masks arrive as <|box;...|> + <|mask;...|> tokens in output_text
+```
 
 Live demo: <https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing>
