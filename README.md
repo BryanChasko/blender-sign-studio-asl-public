@@ -207,6 +207,13 @@ Stills ported from upstream origin/main
 
 ## Press play in the Blender window
 
+<img src="docs/assets/ui-fiona-viewport.webp" width="760" alt="Fiona in the Blender window: mesh framed in the 3D viewport, armature in the outliner, captured with no display attached">
+
+The real window, captured headless under Xvfb — menus, viewport,
+outliner, timeline. The armature stays hidden: hundred-unit
+bones display degenerately under software GL. Full capture
+protocol in [`assets/README.md`](assets/README.md).
+
 You do this in the Blender window (open Blender 5.2, not system
 `blender`):
 

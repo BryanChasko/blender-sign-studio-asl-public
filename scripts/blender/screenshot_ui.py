@@ -1,70 +1,58 @@
-"""True Blender UI screenshots under Xvfb (no display needed).
+"""True Blender UI screenshot, session half of the protocol.
 
-Loads a rig (and optional clip), frames the viewport, captures
-the actual Blender window — menus, outliner, editors included.
-Headless `-b` renders pixels; this screenshots the program.
+Opens the .blend that prepare_ui_blend.py built, hides the
+armature, frames the mesh, settles the draws, then HOLDS the
+window open so you can capture it from outside. The internal
+screenshot operator returns black under Xvfb — capture with
+ImageMagick's `import -window root` instead, then kill this
+process. Full protocol (run from the repo root, one display):
 
-Run from the repo root (COMMITTED protocol, see assets README):
+    Xvfb :98 -screen 0 1600x900x24 &
+    LIBGL_ALWAYS_SOFTWARE=1 DISPLAY=:98 blender-5.2 \
+      out/ui-fiona.blend --factory-startup \
+      -P scripts/blender/screenshot_ui.py -- --hold 75 &
+    sleep 40
+    DISPLAY=:98 import -window root out/ui-fiona.png
+    kill <blender pid>
 
-    xvfb-run -a -s "-screen 0 1600x900x24" blender-5.2 \
-      --factory-startup \
-      -P scripts/blender/screenshot_ui.py -- \
-      --rig /path/to/fiona.glb --shot viewport --out out/ui-fiona.png
-
-Shots: `viewport` (fiona framed in the 3D view), `action`
-(viewport + thank-you action loaded, for the Dope Sheet tour).
-`--clip` points at the sign .glb for the `action` shot.
+Why hidden: the fixture's hundred-unit bones display
+degenerately under software GL (a solid blob even in STICK
+mode), and its 2 m proxy mesh occludes the rig. Hide both for
+the working view; renders never draw bones anyway. Details in
+assets/README.md ("True UI screenshots").
 """
 
 import argparse
 import sys
+import time
 
 import bpy
 
 
-def parse(argv):
+def main(argv):
     p = argparse.ArgumentParser()
-    p.add_argument("--rig", required=True)
-    p.add_argument("--clip", default=None)
-    p.add_argument("--shot", default="viewport",
-                   choices=("viewport", "action"))
-    p.add_argument("--out", required=True)
-    return p.parse_args(argv)
-
-
-def view_all():
+    p.add_argument("--hold", type=int, default=75)
+    args = p.parse_args(argv)
+    arm = next((o for o in bpy.data.objects if o.type == "ARMATURE"),
+               None)
+    if arm is not None:
+        arm.hide_viewport = True
     for window in bpy.context.window_manager.windows:
-        screen = window.screen
-        for area in screen.areas:
+        for area in window.screen.areas:
             if area.type != "VIEW_3D":
                 continue
             for region in area.regions:
                 if region.type != "WINDOW":
                     continue
                 with bpy.context.temp_override(
-                        window=window, screen=screen,
+                        window=window, screen=window.screen,
                         area=area, region=region):
                     bpy.ops.view3d.view_all(center=False)
-
-
-def main(argv):
-    args = parse(argv)
-    bpy.ops.wm.read_factory_settings(use_empty=True)
-    for coll in bpy.data.collections:
-        for obj in list(coll.objects):
-            bpy.data.objects.remove(obj, do_unlink=True)
-    bpy.ops.import_scene.gltf(filepath=args.rig)
-    if args.clip:
-        bpy.ops.import_scene.gltf(filepath=args.clip)
-        for obj in bpy.data.objects:
-            if obj.type == "ARMATURE" and obj.animation_data:
-                if obj.animation_data.action:
-                    bpy.context.view_layer.objects.active = obj
-                    break
-    view_all()
-    bpy.ops.wm.redraw_timer(type="DRAW_WIN_SWAP", iterations=1)
-    bpy.ops.screen.screenshot(filepath=args.out)
-    print("SCREENSHOT_OK %s" % args.out)
+    for _ in range(3):
+        bpy.ops.wm.redraw_timer(type="DRAW_WIN_SWAP", iterations=1)
+        time.sleep(3)
+    print("HOLD_READY", flush=True)
+    time.sleep(args.hold)
 
 
 if __name__ == "__main__":

@@ -89,6 +89,34 @@ bar), committed as webp:
 
 ![Fiona's five compared signs](../docs/assets/fiona-five-strip.webp)
 
+## True UI screenshots (Xvfb, no display)
+
+`bpy.ops.screen.screenshot` returns black under Xvfb, so the
+protocol splits in two: `prepare_ui_blend.py` builds the
+`.blend` headless (imports the rig, hides the 2 m proxy
+`Icosphere`, sets STICK bones), `screenshot_ui.py` opens it in
+a GUI Blender under Xvfb, hides the armature, frames the mesh,
+and holds the window while ImageMagick captures the X screen:
+
+```bash
+Xvfb :98 -screen 0 1600x900x24 &
+LIBGL_ALWAYS_SOFTWARE=1 DISPLAY=:98 blender-5.2 \
+  out/ui-fiona.blend --factory-startup \
+  -P scripts/blender/screenshot_ui.py -- --hold 75 &
+sleep 40
+DISPLAY=:98 import -window root docs/assets/ui-fiona-viewport.webp
+```
+
+Findings that cost an evening: the fixture's hundred-unit bones
+render as a solid blob in the viewport even in STICK mode under
+software GL (renders never draw bones, so stills stay clean);
+hide the armature for mesh screenshots. With no window manager,
+the first-mapped window stays on top — kill stale Blenders by
+PID before capturing, never by broad `pkill -f` from the same
+shell (the pattern matches your own command line).
+
+![Fiona in the Blender window](../docs/assets/ui-fiona-viewport.webp)
+
 ## Live site capture (headless Chromium, S3-hosted)
 
 The README header shows the real page. Capture it again with:
