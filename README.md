@@ -1,10 +1,13 @@
 # Extending Amazon Sumerian Hosts with American Sign Language
 
-This project adds American Sign Language to Sumerian-style hosts: 23
-signs as engine clips. Fiona is the worked example.
-[Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing) ·
-[All 23 clips](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/tag/v0.2-batch5) ·
-[Issues](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues) ·
+You reproduce 23 American Sign Language signs as engine clips,
+starting with Fiona.
+[Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
+the live page plays the host signing.
+[All 23 clips](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/tag/v0.2-batch5):
+every .glb, no Blender needed.
+[Issues](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues):
+report a break, request a port.
 Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 
 ![Fiona signs THANK-YOU, looped](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp)
@@ -44,46 +47,72 @@ The installer creates `~/.local/bin/blender-5.2`.
   clip onto the host skeleton. It bakes the clip additive. It
   queues in/hold/out beside the gesture queue.
 - **Meta Model API.** Base URL `https://api.meta.ai/v1` plus a
-  `MODEL_API_KEY` from dev.meta.ai. Used here: Image (the
-  comparison set, poster, round-2 edits), Voice Transcribe
-  (turn 0.140–0.380 s lands inside the gesture in-phase),
-  Segment Anything Model 3.1 (SAM 3.1) for segmentation QA
-  (capacity-blocked all day), Spark (gloss drafts via Muse
-  Code). No model runs in production. The page serves committed
-  outputs.
+  `MODEL_API_KEY` from dev.meta.ai. Used here: Muse Image
+  (comparison set, poster, round-2 edits), Muse Voice
+  Transcribe (turn 0.140–0.380 s lands inside the gesture
+  in-phase), Segment Anything Model 3.1 (SAM 3.1) for
+  segmentation QA (capacity-blocked all day), Muse Spark
+  (gloss drafts via Muse Code). No model runs in production.
+  The page serves committed outputs.
+
+## Get a rig
+
+**Option A — upstream open source.** The canonical rigs live in
+[aws-samples/amazon-sumerian-hosts](https://github.com/aws-samples/amazon-sumerian-hosts)
+at `109baefef53cc18ef3e2e2340170c44078d011b91`, under
+`packages/demos-babylon/src/character-assets/characters/adult_female/fiona/`.
+Take the whole folder: `.gltf`, its `.bin`, `textures/`.
+
+**Option B — vendored fixtures.** The sibling `sumerian-hosts`
+repository keeps the same files at `fixtures/hosts/<id>/<id>.glb`:
+`fiona`, `cristine`, `grace`, `maya`, `jay`, `luke`, `preston`,
+`wes`, `alien`. Same upstream commit, same license.
+
+Scripts default to the sibling fixtures path. Pass `--rig fiona`
+for this guide's rig. You can use any rig with the same bone
+names. Same skeleton, same names. Character files are CC BY-SA
+4.0 (Amazon Web Services, Inc.). Scripts and docs here are
+Apache-2.0. You must keep the attribution if you ship.
 
 ## Try it: THANK-YOU in three commands
+
+You need the rig file from Get a rig above. Run every command
+with `blender-5.2` from Requirements. A system `blender` is
+usually the wrong version.
 
 You render the citation still:
 
 ```bash
-blender -b --factory-startup --python-exit-code 1 \
+blender-5.2 -b --factory-startup --python-exit-code 1 \
   -P scripts/blender/render_host_shots.py -- \
-  --out-dir out --shot signing-torso --rig fiona
-# RENDER_OK out/spike-host-signing-torso.png posed=36
+  --out-dir out --shot sign-thank-you --rig fiona
+# RENDER_OK out/spike-sign-thank-you.png posed=36
 ```
 
 You export the 72-frame engine clip:
 
 ```bash
-blender -b --factory-startup --python-exit-code 1 \
+blender-5.2 -b --factory-startup --python-exit-code 1 \
   -P scripts/blender/export_sign_clip.py -- \
   --sign thank-you --rig fiona --out out/sign-thank-you-fiona.glb
 # CLIP_OK out/sign-thank-you-fiona.glb action=thank-you
 ```
 
-You play it in Blender. Open Blender. Delete the cube. Import
-`fiona.glb` via `File > Import > glTF 2.0`. Import
-`sign-thank-you-fiona.glb` the same way. Open a Dope Sheet.
-Switch it to Action Editor. Select Fiona's armature. Pick the
-`thank-you` action. Drag to frame 36. Press **Spacebar**.
+You play the clip in Blender: open Blender, delete the cube,
+import `fiona.glb` via `File > Import > glTF 2.0`, import
+`sign-thank-you-fiona.glb` the same way, open a Dope Sheet,
+switch it to Action Editor, select Fiona's armature, pick the
+`thank-you` action, drag to frame 36, press **Spacebar**.
+The full tour with screenshots sits in
+[Open Fiona in Blender and press play](#open-fiona-in-blender-and-press-play)
+below.
 
 The first script reports `RENDER_OK` and `posed=36`: you posed
 36 bones. The second reports `CLIP_OK`: it exported only the
-`thank-you` action. Skip the export step by grabbing ready-made
-exports from the
-[release assets](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases) —
-`.glb` files travel through the asset pipeline, not git.
+`thank-you` action. Skip the export step: grab ready-made clips
+from the
+[release assets](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases).
+Release files travel through the asset pipeline, never git.
 
 ![THANK-YOU citation still, start](docs/assets/spike-sign-thank-you.png)
 ![THANK-YOU citation still, end hold](docs/assets/spike-sign-thank-you-end.png)
@@ -93,18 +122,22 @@ to the palm-down end hold (frames 44–52 of 72).
 
 ## The 23 signs
 
-This fork ships 23 ai-reviewed signs with engine clips (23 of 58
-v1 glosses). Upstream tracks more: 25 ai-reviewed on main, and a
-greetings bake is in flight. Track it in
+This fork ships 23 ai-reviewed signs with engine clips (23
+of 58 v1 glosses). Upstream tracks more: 25 ai-reviewed on
+main, and a greetings bake is in flight. Track it in
 [issue #2](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/issues/2),
-the upstream port queue. Five signs carry the full comparison:
-human reference, Muse Image output with its exact prompt, the
-rig still, and a verdict. The table judges each side against the
-reference first. Reference photos: [ASL University /
-Lifeprint](https://www.lifeprint.com/asl101) (© William G. Vicars),
-mirrored to our Amazon Simple Storage Service (S3) bucket so the
-page never scrapes them. Per-gloss kinematics and both-sides
-scoring live in
+the upstream port queue.
+
+Five signs carry the full comparison: human reference, Muse
+Image output with its exact prompt, the rig still, and a
+verdict. The table judges each side against the reference
+first.
+
+Reference photos: [ASL University /
+Lifeprint](https://www.lifeprint.com/asl101) (© William G.
+Vicars), mirrored to our Amazon Simple Storage Service (S3)
+bucket so the page never scrapes them. Per-gloss kinematics
+and both-sides scoring live in
 [`docs/ai-vs-rig/scorecards.md`](docs/ai-vs-rig/scorecards.md) —
 read it before disputing a verdict.
 
@@ -171,10 +204,12 @@ the upstream port queue. Stills ported from upstream origin/main
 
 ## Open Fiona in Blender and press play
 
+You do this in the Blender window:
+
 1. Open Blender. Delete the default cube (`X`).
 2. Import `fiona.glb` via `File > Import > glTF 2.0`. The Outliner
-   shows one mesh plus one armature. The armature is the skeleton
-   every clip moves.
+   shows the rig's meshes plus one armature. The armature is
+   the skeleton every clip moves.
 3. Select the armature. Switch to Pose Mode. Rotate a bone. Try
    the right wrist.
 4. Pose the citation start: flat hand at the chin, fingertips at
@@ -196,25 +231,6 @@ instead of mouse drags. You reproduce the exact pose either way.
 ![THANK-YOU citation start, same pose as a render](docs/assets/gui-step2-posed.png)
 
 ![The thank-you action on Fiona, frame 36 render](docs/assets/gui-step3-playing.png)
-
-## Get a rig
-
-**Option A — upstream open source.** The canonical rigs live in
-[aws-samples/amazon-sumerian-hosts](https://github.com/aws-samples/amazon-sumerian-hosts)
-at `109baefef53cc18ef3e2e2340170c44078d011b91`, under
-`packages/demos-babylon/src/character-assets/characters/adult_female/fiona/`.
-Take the whole folder: `.gltf`, its `.bin`, `textures/`.
-
-**Option B — vendored fixtures.** The sibling `sumerian-hosts`
-repository keeps the same files at `fixtures/hosts/<id>/<id>.glb`:
-`fiona`, `cristine`, `grace`, `maya`, `jay`, `luke`, `preston`,
-`wes`, `alien`. Same upstream commit, same license.
-
-Scripts default to the sibling fixtures path. Pass `--rig fiona`
-for this guide's rig. You can use any rig with the same bone
-names. Same skeleton, same names. Character files are CC BY-SA
-4.0 (Amazon Web Services, Inc.). Scripts and docs here are
-Apache-2.0. You must keep the attribution if you ship.
 
 ## How a sign is built
 
@@ -307,9 +323,10 @@ review before commit. The Wave-3 sign-off sits in
 
 - **A local open-weights model** (we used Glimmer 30B for gloss
   drafts): any OpenAI-compatible server on your own hardware —
-  ~20 GB free for a 30B quant (vLLM, SGLang, or llama.cpp all
-  serve one). Query it the same way you would the API. Keep the
-  validators as the gate, not the model's word.
+  about 20 gigabytes free for a 30-billion-parameter quantized
+  model (vLLM, SGLang, or llama.cpp all serve one). Query it the
+  same way you would the API. Keep the validators as the gate,
+  not the model's word.
 - **A vision model for second opinions** (we used Ollama vision
   models for render-vs-citation checks): install Ollama, the
   free local model runner, from [ollama.com](https://ollama.com).
@@ -385,12 +402,14 @@ the headless scripts.
 ### Demos 3–5 — hosted calls, one key
 
 One key (`MODEL_API_KEY` from dev.meta.ai). Same base URL:
-`https://api.meta.ai/v1`. Outputs are committed above. Rerun one
-only to change its inputs.
+`https://api.meta.ai/v1`. Outputs are committed above. Rerun a
+call only when you change its inputs.
 
 #### Demo 3 — Image generates (exact comparison call)
 
-Run this exact call to remake the comparison set:
+This call made the comparison set. Model and prompt are logged
+in [`prompts.md`](docs/ai-vs-rig/prompts.md). Size and aspect
+were not, so exact pixels may differ:
 
 ```bash
 curl -X POST "https://api.meta.ai/v1/images/generations" \
@@ -416,12 +435,14 @@ curl -X POST "https://api.meta.ai/v1/images/edits" \
 
 #### Demo 5 — Transcribe times the turn (`ENDPOINTING` returns turns; `PUSH_TO_TALK` returns none)
 
+Run from the repo root:
+
 ```bash
 curl -X POST "https://api.meta.ai/v1/asr/transcribe" \
   -H "Authorization: Bearer $MODEL_API_KEY" \
   -H "Accept: application/json" \
   -F 'request={"model":"muse-voice-transcribe-1.0","audioEncoding":"WAV","mode":"ENDPOINTING"};type=application/json' \
-  -F "audio=@thank-you.wav;type=audio/wav"
+  -F "audio=@docs/meta-evidence/thank-you.wav;type=audio/wav"
 # {"transcript":"Thank you","audioDurationMs":880,
 #  "turns":[{"turnId":0,"startMs":140,"endMs":380,...}]}
 ```
