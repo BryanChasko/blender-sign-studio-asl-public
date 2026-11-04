@@ -33,10 +33,13 @@ Content-Type: application/json
 {"model": "muse-image-1.0", "prompt": "<per-sign prompt above>"}
 ```
 
-measured outputs: 1280x1920 webp, 211–477 KB. unrecorded gap: the
-producer logged the prompt but not the size/aspect params it sent —
-whether 1280x1920 was requested or the default is unknown. all five
-succeeded first attempt, zero retries.
+measured outputs: 1280x1920 webp. per-sign bytes on S3:
+thank-you 477090, hello 267572, yes 349738, eight 265104, first 211078. unrecorded gap: the producer logged the prompt but not the
+size/aspect params it sent — whether 1280x1920 was requested or the
+default is unknown. no seed recorded (not a param of this
+endpoint's logged shape). all five succeeded first attempt, zero
+retries. reference mirrors on S3: ref-thank-you.jpg 434914,
+ref-yes.jpg 34748, ref-eight.jpg 10351, ref-first.jpg 35256.
 
 demo poster call (owner, same session), exact payload:
 
