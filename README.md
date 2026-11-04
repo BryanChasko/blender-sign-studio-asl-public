@@ -49,43 +49,76 @@ action exported). Ready-made exports ship as
 Flat hand at the chin, fingertips at the lips; forward-down arc to
 the palm-down end hold (frames 44–52 of 72).
 
+Play it in the Blender UI: open Blender, delete the cube, `File >
+Import > glTF 2.0` → `fiona.glb`, then import
+`sign-thank-you-fiona.glb` the same way. Open a Dope Sheet, switch
+it to Action Editor, select Fiona's armature, pick `thank-you`,
+drag to frame 36, press **Spacebar**. Full tour with screenshots:
+[Open Fiona in Blender and press
+play](#open-fiona-in-blender-and-press-play).
+
 ## The 23 signs
 
 All ai-reviewed, all with engine clips. Proposed signs live in
 [`data/lexicon/lexicon.v1.json`](data/lexicon/lexicon.v1.json)
-without clips yet.
+without clips yet. Five signs carry the full comparison: real
+human reference, Muse Image output with its exact prompt, the
+rig still, and a verdict — each judged against the reference
+first. Reference photos are hotlinked Lifeprint originals, not
+vendored.
 
-| conversation | clip                                                                                                                                        |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| HELLO        | [sign-hello-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-hello-fiona.glb)         |
-| THANK-YOU    | [sign-thank-you-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-thank-you-fiona.glb) |
-| YES          | [sign-yes-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-yes-fiona.glb)             |
-| NO           | [sign-no-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-no-fiona.glb)               |
-| QUESTION     | [sign-question-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-question-fiona.glb)   |
-| TRUE         | [sign-true-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-true-fiona.glb)           |
+| sign      | real world                                                                                                                                                      | Muse Image                                                                                                                                                                                                                                              | Fiona rig                                                        | clip                                                                                                                                        | verdict                                                                 |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| HELLO     | [no fixed form — any wave](https://www.lifeprint.com/asl101/pages-signs/h/hello.htm)                                                                            | <img src="docs/ai-vs-rig/cmp/cmp-hello-ai.webp" width="220"><details><summary>prompt</summary>muse-image-1.0 · POST /v1/images/generations<br>photorealistic adult woman signing ASL HELLO, hands clearly visible, neutral background</details>         | <img src="docs/ai-vs-rig/cmp/cmp-hello-rig.png" width="220">     | [sign-hello-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-hello-fiona.glb)         | AI FAIL vs authored B salute (reference allows wave variants); rig PASS |
+| THANK-YOU | <a href="https://www.lifeprint.com/asl101/pages-signs/t/thankyou.htm"><img src="https://www.lifeprint.com/asl101/signjpegs/t/thank-you-01.jpg" width="220"></a> | <img src="docs/ai-vs-rig/cmp/cmp-thank-you-ai.webp" width="220"><details><summary>prompt</summary>muse-image-1.0 · POST /v1/images/generations<br>photorealistic adult woman signing ASL THANK-YOU, hands clearly visible, neutral background</details> | <img src="docs/ai-vs-rig/cmp/cmp-thank-you-rig.png" width="220"> | [sign-thank-you-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-thank-you-fiona.glb) | AI FAIL — palm down, not toward signer; rig PASS                        |
+| YES       | <a href="https://www.lifeprint.com/asl101/pages-signs/y/yes.htm"><img src="https://www.lifeprint.com/asl101/signjpegs/y/yes1.jpg" width="200"></a>              | <img src="docs/ai-vs-rig/cmp/cmp-yes-ai.webp" width="220"><details><summary>prompt</summary>muse-image-1.0 · POST /v1/images/generations<br>photorealistic adult woman signing ASL YES, hands clearly visible, neutral background</details>             | <img src="docs/ai-vs-rig/cmp/cmp-yes-rig.png" width="220">       | [sign-yes-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-yes-fiona.glb)             | PASS both — S fist at chest                                             |
+| NO        | —                                                                                                                                                               | —                                                                                                                                                                                                                                                       | <img src="docs/assets/spike-sign-no.png" width="220">            | [sign-no-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-no-fiona.glb)               | —                                                                       |
+| QUESTION  | —                                                                                                                                                               | —                                                                                                                                                                                                                                                       | <img src="docs/assets/spike-sign-question.png" width="220">      | [sign-question-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-question-fiona.glb)   | —                                                                       |
+| TRUE      | —                                                                                                                                                               | —                                                                                                                                                                                                                                                       | <img src="docs/assets/spike-sign-true.png" width="220">          | [sign-true-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-true-fiona.glb)           | —                                                                       |
 
-| numbers | clip                                                                                                                                |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| ONE     | [sign-one-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-one-fiona.glb)     |
-| TWO     | [sign-two-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-two-fiona.glb)     |
-| THREE   | [sign-three-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-three-fiona.glb) |
-| FOUR    | [sign-four-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-four-fiona.glb)   |
-| FIVE    | [sign-five-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-five-fiona.glb)   |
-| SIX     | [sign-six-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-six-fiona.glb)     |
-| SEVEN   | [sign-seven-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-seven-fiona.glb) |
-| EIGHT   | [sign-eight-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-eight-fiona.glb) |
-| NINE    | [sign-nine-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-nine-fiona.glb)   |
+| sign  | real world                                                                                                                                                           | Muse Image                                                                                                                                                                                                                                      | Fiona rig                                                    | clip                                                                                                                                | verdict                                           |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| ONE   | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-one.png" width="220">       | [sign-one-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-one-fiona.glb)     | —                                                 |
+| TWO   | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-two.png" width="220">       | [sign-two-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-two-fiona.glb)     | —                                                 |
+| THREE | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-three.png" width="220">     | [sign-three-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-three-fiona.glb) | —                                                 |
+| FOUR  | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-four.png" width="220">      | [sign-four-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-four-fiona.glb)   | —                                                 |
+| FIVE  | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-five.png" width="220">      | [sign-five-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-five-fiona.glb)   | —                                                 |
+| SIX   | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-six.png" width="220">       | [sign-six-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-six-fiona.glb)     | —                                                 |
+| SEVEN | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-seven.png" width="220">     | [sign-seven-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-seven-fiona.glb) | —                                                 |
+| EIGHT | <a href="https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm"><img src="https://www.lifeprint.com/asl101/signjpegs/numbers/number08.jpg" width="220"></a> | <img src="docs/ai-vs-rig/cmp/cmp-eight-ai.webp" width="220"><details><summary>prompt</summary>muse-image-1.0 · POST /v1/images/generations<br>photorealistic adult woman signing ASL EIGHT, hands clearly visible, neutral background</details> | <img src="docs/ai-vs-rig/cmp/cmp-eight-rig.png" width="220"> | [sign-eight-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-eight-fiona.glb) | AI FAIL — open V is a 2; rig PASS (zoom verified) |
+| NINE  | —                                                                                                                                                                    | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-nine.png" width="220">      | [sign-nine-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-nine-fiona.glb)   | —                                                 |
 
-| pointing | clip                                                                                                                                      |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| ME       | [sign-me-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-me-fiona.glb)             |
-| YOU      | [sign-you-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-you-fiona.glb)           |
-| THIS     | [sign-this-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-this-fiona.glb)         |
-| WHERE    | [sign-where-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-where-fiona.glb)       |
-| WHO      | [sign-who-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-who-fiona.glb)           |
-| HOW-MANY | [sign-how-many-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-how-many-fiona.glb) |
-| FIRST    | [sign-first-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-first-fiona.glb)       |
-| SECOND   | [sign-second-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-second-fiona.glb)     |
+| sign     | real world                                                                                                                                             | Muse Image                                                                                                                                                                                                                                      | Fiona rig                                                    | clip                                                                                                                                      | verdict                            |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| ME       | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-me.png" width="220">        | [sign-me-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-me-fiona.glb)             | —                                  |
+| YOU      | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-you.png" width="220">       | [sign-you-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-you-fiona.glb)           | —                                  |
+| THIS     | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-this.png" width="220">      | [sign-this-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-this-fiona.glb)         | —                                  |
+| WHERE    | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-where.png" width="220">     | [sign-where-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-where-fiona.glb)       | —                                  |
+| WHO      | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-who.png" width="220">       | [sign-who-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-who-fiona.glb)           | —                                  |
+| HOW-MANY | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-how-many.png" width="220">  | [sign-how-many-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-how-many-fiona.glb) | —                                  |
+| FIRST    | <a href="https://www.lifeprint.com/asl101/pages-signs/f/first.htm"><img src="https://www.lifeprint.com/asl101/signjpegs/f/first1.jpg" width="200"></a> | <img src="docs/ai-vs-rig/cmp/cmp-first-ai.webp" width="220"><details><summary>prompt</summary>muse-image-1.0 · POST /v1/images/generations<br>photorealistic adult woman signing ASL FIRST, hands clearly visible, neutral background</details> | <img src="docs/ai-vs-rig/cmp/cmp-first-rig.png" width="220"> | [sign-first-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-first-fiona.glb)       | PASS both — index up, palm forward |
+| SECOND   | —                                                                                                                                                      | —                                                                                                                                                                                                                                               | <img src="docs/assets/spike-sign-second.png" width="220">    | [sign-second-fiona.glb](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-second-fiona.glb)     | —                                  |
+
+Signs move — stills are citations. THANK-YOU looped; the rest play
+from their clips above.
+
+![Fiona signs THANK-YOU, looped](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp)
+
+Second attempt, same session: the bare gloss prompt failed
+THANK-YOU, so the pose knowledge went in with the image via
+`/v1/images/edits` — once to fix the AI image, once to photoreal
+the rig still. No ControlNet-style pose conditioning exists on the
+API; the edits endpoint is the lever, and both pass. There is no
+video generation endpoint on the Model API (video is input-only),
+so motion still comes from the Blender pipeline. Full calls in
+[`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md#round-2-edits-endpoint-same-session),
+verdicts in
+[`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md#round-2-edits-endpoint-same-session).
+
+<table>
+<tr><th>fix the AI image</th><th>photoreal the rig still</th></tr>
+<tr><td><img src="docs/ai-vs-rig/edit-thank-you-fix-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/edit-thank-you-from-rig.webp" width="300"></td></tr>
+</table>
 
 ## Open Fiona in Blender and press play
 
@@ -180,54 +213,6 @@ At runtime nothing about the engine changes: each sign is one
 short clip on the same skeleton, queued in / hold / out beside
 the gesture queue, on the same clock as banked audio + visemes.
 
-## AI signs vs Blender signs
-
-Right hand, wrong sign. Each row judges both sides against the
-linked reference first. Crops match (1000×1500, head-top to
-elbow, signing hand visible throughout). Reference photos are
-linked, not vendored. Full verdicts in
-[`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md); image
-calls in [`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md).
-SAM 3.1 masks rate-limited out, so these are inspected, not
-segmented.
-
-<table>
-<tr><th>sign (reference)</th><th>Muse Image</th><th>Fiona rig</th><th>verdict</th></tr>
-<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/t/thankyou.htm">THANK-YOU</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-thank-you-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-thank-you-rig.png" width="300"></td><td>AI FAIL — palm down, not toward signer. Rig PASS.</td></tr>
-<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/h/hello.htm">HELLO</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-hello-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-hello-rig.png" width="300"></td><td>AI FAIL vs authored B salute (reference allows wave variants). Rig PASS.</td></tr>
-<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/y/yes.htm">YES</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-yes-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-yes-rig.png" width="300"></td><td>PASS both — S fist at chest.</td></tr>
-<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm">EIGHT</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-eight-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-eight-rig.png" width="300"></td><td>AI FAIL — open V is a 2. Rig PASS (zoom verified).</td></tr>
-<tr><td><a href="https://www.lifeprint.com/asl101/pages-signs/f/first.htm">FIRST</a></td><td><img src="docs/ai-vs-rig/cmp/cmp-first-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/cmp/cmp-first-rig.png" width="300"></td><td>PASS both — index up, palm forward.</td></tr>
-</table>
-
-Signs move — stills are citations. THANK-YOU looped, the rest as
-engine clips:
-
-![Fiona signs THANK-YOU, looped](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp)
-
-[thank-you](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-thank-you-fiona.glb) ·
-[hello](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-hello-fiona.glb) ·
-[yes](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-yes-fiona.glb) ·
-[eight](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-eight-fiona.glb) ·
-[first](https://github.com/bryanchasko/amazon-sumerian-hosts-asl/releases/download/v0.2-batch5/sign-first-fiona.glb)
-
-Second attempt, same session: the bare gloss prompt failed
-THANK-YOU, so the pose knowledge went in with the image via
-`/v1/images/edits` — once to fix the AI image, once to photoreal
-the rig still. No ControlNet-style pose conditioning exists on
-the API; the edits endpoint is the lever, and both pass. There is
-no video generation endpoint on the Model API (video is
-input-only: SAM segmentation, Spark understanding), so motion
-still comes from the Blender pipeline. Full calls in
-[`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md#round-2-edits-endpoint-same-session),
-verdicts in
-[`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md#round-2-edits-endpoint-same-session).
-
-<table>
-<tr><th>fix the AI image</th><th>photoreal the rig still</th></tr>
-<tr><td><img src="docs/ai-vs-rig/edit-thank-you-fix-ai.webp" width="300"></td><td><img src="docs/ai-vs-rig/edit-thank-you-from-rig.webp" width="300"></td></tr>
-</table>
-
 ## Built with Meta
 
 Every row ran in this repo's dev loop; evidence linked. No Meta
@@ -250,9 +235,6 @@ stays the headless scripts: same numbers in, same pixels out, no
 model in the loop at render time.
 
 ### Run the local stack yourself
-
-Nothing here needs our machines. What each piece needs, and the
-command that starts it:
 
 - **Muse Code** (agent, drives everything): any Mac/Linux box.
   `curl -fsSL https://dev.meta.ai/install.sh | sh`, then `muse`
