@@ -68,7 +68,8 @@ repository keeps the same files at `fixtures/hosts/<id>/<id>.glb`:
 `fiona`, `cristine`, `grace`, `maya`, `jay`, `luke`, `preston`,
 `wes`, `alien`. Same upstream commit, same license.
 
-Scripts default to the sibling fixtures path. Pass `--rig fiona`
+Scripts default to the sibling fixtures path. Point them
+elsewhere with `RIG_DIR=/path/to/fixtures`. Pass `--rig fiona`
 for this guide's rig. You can use any rig with the same bone
 names. Same skeleton, same names. Character files are CC BY-SA
 4.0 (Amazon Web Services, Inc.). Scripts and docs here are

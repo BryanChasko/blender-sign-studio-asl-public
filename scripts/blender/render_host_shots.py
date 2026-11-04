@@ -312,12 +312,6 @@ if _HOST_RIG not in RIGS:
                      % (_HOST_RIG, ", ".join(RIGS)))
 
 
-def rig_glb(name):
-    return os.path.expanduser(
-        "~/code/chasko-labs/sumerian-hosts/fixtures/hosts/"
-        "%s/%s.glb" % (name, name))
-
-
 def host_glb():
     if _HOST_RIG == "cristine":
         return P["cristine_glb"]
