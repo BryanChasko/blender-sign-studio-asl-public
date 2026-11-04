@@ -1,0 +1,24 @@
+# transcribe-audit: banked thank-you spoken audio
+
+- source clip: /home/bryanchasko/code/chasko-labs/work-demo-audio/fixtures/audio/adult_female/thank-you.mp3 (read-only, unmodified).
+- source format: mp3, 24000 Hz, mono, duration 0.840 s, size 5084 bytes.
+- manifest text for sign thank-you: "thank you" (fixtures/audio/manifest.json, engine neural, voice Kendra).
+- banked viseme marks span 0.012 s to 0.562 s (thank-you.marks.json, 7 entries T..sil).
+- evidence copy: docs/meta-evidence/thank-you.wav (pcm_s16le, 16000 Hz, mono, duration 0.840 s, size 26958 bytes).
+- evidence copy is under 10 min / 32 MB (0.84 s, 26958 bytes).
+- clip envelope reference: scripts/blender/export_sign_clip.py, 72f @ 24fps.
+- frame/time mapping assumption: blender frame f plays at t = (f-1)/24 s, so f1 = 0.000 s, f12 = 0.458 s, f20 = 0.792 s, f44 = 1.792 s, f52 = 2.125 s, f72 = 2.958 s (clip length 3.0 s).
+- blender phases in seconds: rest f1 = 0.000 s; citation hold f12-20 = 0.458-0.792 s; arc f20-44 = 0.792-1.792 s; end hold f44-52 = 1.792-2.125 s; return f52-72 = 2.125-2.958 s.
+- babylon mapping assumption: gltf loader runs at 60 fps, so babylon frame b plays at t = b/60 s.
+- babylon thank-you windows in seconds: in {1-30} = 0.017-0.500 s; hold {30-50} = 0.500-0.833 s; out {50-180} = 0.833-3.000 s.
+- signing window (in+hold+out) spans 0.017-3.000 s; banked audio (0.000-0.840 s, speech marks 0.012-0.562 s) temporally overlaps in/hold/early-out.
+- transcribe attempt 1: POST https://api.meta.ai/v1/asr/transcribe multipart request+file parts, model muse-voice-transcribe-1.0, Accept application/json.
+- attempt 1 result: HTTP 400 invalid_request_error, "Both a 'request' and an 'audio' part are required".
+- transcribe retry (one, final): multipart request+audio parts with audio/wav file.
+- retry result: HTTP 400 invalid_request_error, param audioEncoding, "You must specify the 'audioEncoding' field".
+- raw error bodies in docs/meta-evidence/transcribe-response.json.
+- corrected attempt (Wave 3, owner): request JSON {"model":"muse-voice-transcribe-1.0","audioEncoding":"WAV","mode":"PUSH_TO_TALK"} + audio part. HTTP 200, transcript "Thank you.!", audioDurationMs 880, turns [] (PUSH_TO_TALK returns no turns).
+- second corrected attempt with "mode":"ENDPOINTING": HTTP 200, transcript "Thank you", turns [{"turnId":0,"startMs":140,"endMs":380,"transcript":"Thank you"}].
+- raw success bodies in docs/meta-evidence/transcribe-response-ok.json.
+- turn onset/offset in seconds: 0.140-0.380.
+- verdict: CONFIRMED. The spoken turn 0.140-0.380 s falls inside the gesture in-phase 0.017-0.500 s (babylon frames 1-30 @60fps). Banked viseme marks 0.012-0.562 s overlap in/hold the same way. Word-level timing does not exist on this model; turn-level is the finest granularity and it is sufficient here.

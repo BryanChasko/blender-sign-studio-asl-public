@@ -216,20 +216,44 @@ the numbers, re-run the two commands, compare against the
 citation. That loop is the whole authoring process; the
 [cookbook](docs/cookbook.md) records every still's numbers.
 
+## AI signs vs Blender signs
+
+Generative models draw plausible hands, not correct signs. Five
+lexicon signs from [Muse Image](https://dev.meta.ai/models/muse-image)
+(neutral prompt per sign, verbatim in
+[`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md)) beside the
+rig's authored citation still. Right hand, wrong sign — three of
+five fail on cheremes (palm, thumb, handshape), none on anatomy.
+Rubric in [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md);
+full table in [`verdicts.md`](docs/ai-vs-rig/verdicts.md). SAM 3.1
+masks were attempted for all ten images and rate-limited out, so
+these verdicts are inspected against the lexicon spec, not
+segmented — labeled as such throughout.
+
+<table>
+<tr><th>sign</th><th>Muse Image (generated)</th><th>Fiona rig (authored)</th><th>verdict</th></tr>
+<tr><td>THANK-YOU</td><td><img src="docs/ai-vs-rig/ai-thank-you.webp" width="300"></td><td><img src="docs/assets/spike-sign-thank-you.png" width="300"></td><td>FAIL — palm faces down, not toward signer</td></tr>
+<tr><td>HELLO</td><td><img src="docs/ai-vs-rig/ai-hello.webp" width="300"></td><td><img src="docs/assets/spike-sign-hello.png" width="300"></td><td>FAIL — thumb out makes a 5-hand, not B</td></tr>
+<tr><td>YES</td><td><img src="docs/ai-vs-rig/ai-yes.webp" width="300"></td><td><img src="docs/assets/spike-sign-yes.png" width="300"></td><td>PASS — S fist at chest, both sides</td></tr>
+<tr><td>EIGHT</td><td><img src="docs/ai-vs-rig/ai-eight.webp" width="300"></td><td><img src="docs/assets/spike-sign-eight.png" width="300"></td><td>FAIL — open V is a 2, not an 8</td></tr>
+<tr><td>FIRST</td><td><img src="docs/ai-vs-rig/ai-first.webp" width="300"></td><td><img src="docs/assets/spike-sign-first.png" width="300"></td><td>PASS — index up, palm forward, both sides</td></tr>
+</table>
+
 ## Built with Meta
 
-Every row below ran in this project's dev loop (evidence: the
-upstream pull-request history). No Meta model runs in
-production on the demo page — the site serves banked audio and
-prebuilt clips, so there is nothing to bill at request time.
+Every row ran in this repo's dev loop; evidence linked. No Meta
+model runs in production on the demo page — the site serves banked
+audio and prebuilt clips.
 
-| Model                                                         | What it did here                                                                                                                                                                                                                                                                                          |
-| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Muse Spark](https://dev.meta.ai/models/muse-spark)           | orchestrated the build: pose recipes, citations, and renders kept consistent across every sign                                                                                                                                                                                                            |
-| [Muse Glimmer 30B](https://dev.meta.ai/models/muse-glimmer)   | local judge: close-looking render-vs-citation checks (the chin-contact catch came out of this loop), served on-device                                                                                                                                                                                     |
-| [Muse Code](https://dev.meta.ai/lp/muse-code)                 | the coding agent that wrote it all: scripts, checks, pull requests with evidence attached                                                                                                                                                                                                                 |
-| [Meta Model API](https://dev.meta.ai/products/meta-model-api) | staged path for hosted calls (event credits): [Image](https://dev.meta.ai/models/muse-image) for neutral stage backgrounds, [Voice Transcribe](https://dev.meta.ai/models/muse-voice-transcribe) for speech/clock drift measurement, [SAM 3.1](https://dev.meta.ai/models/sam-3-1) for hand-visibility QA |
-| [Muse Spark Open](https://dev.meta.ai/models/muse-spark-open) | self-hosted gloss-sequencing fallback next to the local-model rows in the architecture doc                                                                                                                                                                                                                |
+| Model                       | What it did here                                                                                                                  | Evidence                                                                                                                     |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Muse Spark (via Muse Code)  | orchestration; drafted the gloss for "Hello! Yes, thank-you for coming." — validators pass (GLOSS PASS 4 tokens, LEXICON PASS 58) | [`gloss-draft.md`](docs/meta-evidence/gloss-draft.md), [`gloss-draft-spark.json`](docs/meta-evidence/gloss-draft-spark.json) |
+| Muse Wonder (via Muse Code) | planned the work, set the verdict rubric, reviewed every evidence table                                                           | [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md), [`verdicts.md`](docs/ai-vs-rig/verdicts.md)                         |
+| Muse Image (API)            | generated the 5-sign comparison set (prompts verbatim) + the demo poster                                                          | [`prompts.md`](docs/ai-vs-rig/prompts.md), [`demo-poster.webp`](docs/assets/demo-poster.webp)                                |
+| Muse Voice Transcribe (API) | timing audit: banked "thank you" turn 0.140–0.380 s confirmed inside the gesture in-phase                                         | [`transcribe-audit.md`](docs/meta-evidence/transcribe-audit.md)                                                              |
+| SAM 3.1 (API)               | hand-segmentation QA attempted on all 10 images; capacity 429s all day, zero masks — verdicts are inspected, rerun queued         | [`verdicts.md`](docs/ai-vs-rig/verdicts.md)                                                                                  |
+| Muse Glimmer (local)        | same gloss task on-device; too slow to finish (fragment recorded as a limitation, not a result)                                   | [`gloss-glimmer-raw.json`](docs/meta-evidence/gloss-glimmer-raw.json)                                                        |
+| Muse Code                   | the coding agent that wrote it all                                                                                                | repo history                                                                                                                 |
 
 Full model map (active, parked, blocked): [`docs/meta-models.md`](docs/meta-models.md).
 
@@ -243,11 +267,11 @@ dev loop on this workstation; the site serves their outputs.
   (render judging), and the ollama vision models (render-vs-still
   checks) run on rocmaibox hardware. Muse Code is the agent that
   drives them. This is where every still and clip was reviewed.
-- **Staged on credits:** the Meta Model API calls — Image for
-  stage backgrounds, Voice Transcribe for speech/clock drift
-  measurement, SAM 3.1 for hand-visibility QA — are queued behind
-  the event's API credits, not wired into the page. See the
-  staged rows in `docs/meta-models.md` for what each call will do.
+- **On credits, then committed:** the Meta Model API calls —
+  Image comparison set + poster, Transcribe timing audit, SAM
+  segmentation attempts — ran during development and their outputs
+  are committed above. The page serves those outputs; nothing
+  bills per request.
 - **Blender MCP:** a live-Blender bridge (`blender-mcp-http`)
   runs on this workstation for scene inspection during authoring
   — ask it what is in the scene instead of guessing. The

@@ -1,0 +1,26 @@
+{
+  "lines": [
+    {
+      "duration_ms": 3200,
+      "host": "fiona",
+      "line_id": "host-hello-thanks-01",
+      "text": "Hello! Yes, thank you for coming.",
+      "tokens": [
+        { "gloss": "HELLO", "hold_ms": 500, "start_ms": 0, "type": "sign" },
+        { "gloss": "YES", "hold_ms": 400, "start_ms": 650, "type": "sign" },
+        {
+          "gloss": "THANK-YOU",
+          "hold_ms": 600,
+          "start_ms": 1200,
+          "type": "sign"
+        },
+        {
+          "gloss": "C-O-M-I-N-G",
+          "hold_ms": 1000,
+          "start_ms": 1950,
+          "type": "fingerspell"
+        }
+      ]
+    }
+  ]
+}

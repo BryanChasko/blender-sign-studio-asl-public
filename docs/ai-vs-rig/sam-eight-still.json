@@ -1,0 +1,6 @@
+{
+  "http_status": "HTTP 429",
+  "attempt_phrases": ["hands", "person signing"],
+  "result": "NO-MATCH",
+  "raw": "{\"error\": {\"code\": \"rate_limit_exceeded\", \"message\": \"Service temporarily unavailable. Please retry.\", \"param\": null, \"type\": \"rate_limit_error\"}}"
+}

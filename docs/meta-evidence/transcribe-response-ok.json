@@ -1,0 +1,21 @@
+{
+  "push_to_talk": {
+    "sessionId": "voyager/transcribe/F46556E7024144DAB2AB2FF6E7494A3F",
+    "transcript": "Thank you.!",
+    "audioDurationMs": 880,
+    "turns": []
+  },
+  "endpointing": {
+    "sessionId": "voyager/transcribe/8F6897605FC14F868460189CF6CAB99D",
+    "transcript": "Thank you",
+    "audioDurationMs": 880,
+    "turns": [
+      {
+        "turnId": 0,
+        "startMs": 140,
+        "endMs": 380,
+        "transcript": "Thank you"
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "sessionId": "voyager/transcribe/BEEF9F2E42864BF68BE8360ED2CC4D16",
+  "error": {
+    "code": null,
+    "param": "audioEncoding",
+    "type": "invalid_request_error",
+    "message": "You must specify the 'audioEncoding' field"
+  }
+}

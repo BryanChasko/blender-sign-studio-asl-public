@@ -1,0 +1,32 @@
+{
+  "choices": [
+    {
+      "text": " {\"gloss\":\"YES\",\"type\":\"sign\",\"start_ms\":500,\"hold_ms\":400}, {\"gloss\":\"THANK-YOU\",\"type\":\"sign\",\"start_ms\":900,\"hold_ms\":600}, {\"gloss\":\"FOR\",\"type\":\"fingerspell\",\"start_ms\":1500,\"hold_ms\":300}, {\"gloss\":\"COMING\",\"type\":\"fingerspell\",\"start_ms\":1800,\"",
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "length"
+    }
+  ],
+  "created": 1793809724,
+  "model": "/home/bryanchasko/models/muse-glimmer-30b/Muse-Glimmer-30B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-62acc89",
+  "object": "text_completion",
+  "usage": {
+    "completion_tokens": 85,
+    "prompt_tokens": 100,
+    "total_tokens": 185,
+    "prompt_tokens_details": { "cached_tokens": 0 }
+  },
+  "id": "chatcmpl-wjyz2uqOPBipHuTDkBpOiL1sOW3MQMHh",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 100,
+    "prompt_ms": 7929.13,
+    "prompt_per_token_ms": 79.2913,
+    "prompt_per_second": 12.611724110968037,
+    "predicted_n": 85,
+    "predicted_ms": 234205.109,
+    "predicted_per_token_ms": 2788.1560595238093,
+    "predicted_per_second": 0.35865998123892334
+  }
+}
