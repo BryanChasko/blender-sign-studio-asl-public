@@ -108,6 +108,93 @@ forward-down arc to the palm-down end hold (frames 44–52 of 72).
 Animated versions live under [`assets/`](assets/) as hosted
 webp clips.
 
+## Open Fiona in Blender and press play (the GUI way)
+
+Prefer windows over terminals? Same result, by hand:
+
+1. Open Blender. Delete the default cube (select it, press `X`).
+2. `File > Import > glTF 2.0`, pick `fiona.glb`. Fiona appears;
+   the Outliner (top right) shows one mesh plus one armature —
+   that armature, a skeleton of named bones, is what every
+   animation moves. The mesh is just the skin on top.
+
+![Fiona imported: mesh plus armature](docs/assets/gui-step1-imported.png)
+
+3. Select the armature, switch the editor from Object Mode to
+   **Pose Mode** (dropdown, top left of the 3D view). Now
+   rotating a bone poses the body — try the right wrist.
+4. Pose the citation start: flat hand at the chin, fingertips at
+   the lips (the numbers behind this pose live in `SIGNS` in the
+   scripts — the headless commands above set exactly this).
+
+![THANK-YOU citation start, posed by hand](docs/assets/gui-step2-posed.png)
+
+5. Load the animation: `File > Import > glTF 2.0`, pick
+   `sign-thank-you-fiona.glb` (export it with the headless
+   command above, or grab it from the release). It arrives as a
+   second armature — ignore that armature; what you want is its
+   **action**. Open a Dope Sheet editor, switch it to Action
+   Editor mode: the `thank-you` action is in the dropdown.
+   Select Fiona's armature, pick `thank-you` in that dropdown,
+   drag the timeline to frame 36.
+
+![The thank-you action playing on Fiona, frame 36](docs/assets/gui-step3-playing.png)
+
+6. Press **Spacebar**. Fiona signs. The playhead runs 72 frames:
+   rest, chin hold, forward-down arc, palm-down end hold, return.
+
+That is all "playing an animation" ever is here: an action (a
+bag of bone angles over frames) assigned to an armature, played
+back. The headless scripts do steps 4–5 with numbers instead of
+mouse drags, so anyone can reproduce the exact pose.
+
+## Cheremes: the four building blocks of a sign
+
+Linguists break signs into cheremes — meaningless parts that
+combine into meaning, like phonemes in speech. Every sign in
+this repo is four cheremes:
+
+- **Handshape** — which fingers are extended and how the rest
+  fold. A fist with the thumb alongside is A; a flat hand with
+  fingers together is B; thumb-index circle is F. The exact
+  curl of every finger joint lives in
+  `scripts/spike-finger-articulation/pose_handshapes.py`, one
+  dict per shape.
+- **Place** — where the sign happens: chin (THANK-YOU), beside
+  the forehead (HELLO), chest height (YOU), mouth height (WHO).
+- **Movement** — what travels: forward-down arc (THANK-YOU),
+  pinwheel (HELLO), forward point (YOU).
+- **Palm direction** — palm-side toward the addressee on letters,
+  dorsal (back of hand) on isolated numbers 1–5.
+
+Two presets cover the wrist and camera for nearly everything:
+`letter_or_digit` (palm-out) and `cardinal_numeral` (palm-in,
+dorsal). Full table in the [cookbook](docs/cookbook.md) ("How
+to read a pose").
+
+## Gloss: how a line becomes signs
+
+Nobody animates sentences by hand. A host line is first rewritten
+as an ASL gloss sequence — one token per sign, in ASL order, with
+fingerspelling marked where the lexicon has no entry:
+
+```json
+["YOU", "THANK-YOU", "FINGERSPELL:H-E-L-P"]
+```
+
+`data/examples/gloss-demo.json` is a validated sequence the
+adapter consumes. The rules live in
+[`docs/gloss-schema.md`](docs/gloss-schema.md); two repo scripts
+enforce them:
+
+```bash
+python3 scripts/validate_gloss.py data/examples/gloss-demo.json
+python3 scripts/lint_lexicon.py
+```
+
+Out-of-lexicon words are fingerspelled, never improvised — a
+missing sign degrades to letters, not to a made-up gesture.
+
 ## How the parts fit
 
 ```
@@ -143,5 +230,27 @@ prebuilt clips, so there is nothing to bill at request time.
 | [Muse Spark Open](https://dev.meta.ai/models/muse-spark-open) | self-hosted gloss-sequencing fallback next to the local-model rows in the architecture doc                                                                                                                                                                                                                |
 
 Full model map (active, parked, blocked): [`docs/meta-models.md`](docs/meta-models.md).
+
+### Where the models actually run
+
+Budget matters here, so be precise: nothing above bills per
+request on the demo page. The heavy models ran (and run) in the
+dev loop on this workstation; the site serves their outputs.
+
+- **Local and free:** Muse Spark (orchestration), Glimmer 30B
+  (render judging), and the ollama vision models (render-vs-still
+  checks) run on rocmaibox hardware. Muse Code is the agent that
+  drives them. This is where every still and clip was reviewed.
+- **Staged on credits:** the Meta Model API calls — Image for
+  stage backgrounds, Voice Transcribe for speech/clock drift
+  measurement, SAM 3.1 for hand-visibility QA — are queued behind
+  the event's API credits, not wired into the page. See the
+  staged rows in `docs/meta-models.md` for what each call will do.
+- **Blender MCP:** a live-Blender bridge (`blender-mcp-http`)
+  runs on this workstation for scene inspection during authoring
+  — ask it what is in the scene instead of guessing. The
+  reproducible core stays the headless scripts in this repo: same
+  numbers in, same pixels out, no model in the loop at render
+  time.
 
 Live demo: <https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing>
