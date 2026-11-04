@@ -244,10 +244,11 @@ You do this in the Blender window (open Blender 5.2, not system
 `blender`):
 
 1. Open Blender. Delete the default cube (`X`, then `Enter`).
-2. Import the `fiona.glb` you fetched in Get a rig via
-   `File > Import > glTF 2.0`. The Outliner shows the rig's
-   meshes plus one armature. The armature is the skeleton every
-   clip moves.
+2. Import the `fiona.glb` you fetched in Get a rig (default
+   `~/code/chasko-labs/sumerian-hosts/fixtures/hosts/fiona/fiona.glb`,
+   or wherever `RIG_DIR` points) via `File > Import > glTF 2.0`.
+   The Outliner shows the rig's meshes plus one armature. The
+   armature is the skeleton every clip moves.
 3. Select the armature. Switch to Pose Mode (mode dropdown in
    the viewport header). Rotate a bone. Try the right wrist.
 4. Compare the viewport against the citation still in Try it.
@@ -342,7 +343,7 @@ Run the validators on the committed draft:
 
 ```bash
 python3 scripts/validate_gloss.py docs/meta-evidence/gloss-draft-spark.json
-# GLOSS PASS: 4 tokens, 0 failures
+# GLOSS PASS: 20 tokens across 1 files, 0 failures (ship=False)
 python3 scripts/lint_lexicon.py
 # LEXICON PASS: 58 entries, 0 failures
 ```
@@ -427,7 +428,7 @@ curl -X POST "https://api.meta.ai/v1/responses" \
   -d '{"model":"sam-3.1","stream":false,
        "input":[{"role":"user","content":[
          {"type":"input_text","text":"hands"},
-         {"type":"input_image","image_url":"https://.../ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
+         {"type":"input_image","image_url":"https://raw.githubusercontent.com/bryanchasko/amazon-sumerian-hosts-asl/main/docs/ai-vs-rig/cmp/cmp-yes-ai.webp"}]}]}'
 # masks arrive as <|box;...|> + <|mask;...|> tokens in output_text
 ```
 
@@ -436,9 +437,9 @@ curl -X POST "https://api.meta.ai/v1/responses" \
 - **A local open-weights model** (we used Glimmer 30B for gloss
   drafts): any OpenAI-compatible server on your own hardware —
   about 20 gigabytes free for a 30-billion-parameter quantized
-  model (vLLM, SGLang, or llama.cpp all serve one). Query it the
-  same way you would the API. Keep the validators as the gate,
-  not the model's word.
+  model (vLLM, SGLang, or llama.cpp all serve one). Send it
+  the same requests you send the API. Keep the validators as
+  the gate, not the model's word.
 - **A vision model for second opinions** (we used Ollama vision
   models for render-vs-citation checks): install Ollama, the
   free local model runner, from [ollama.com](https://ollama.com).
