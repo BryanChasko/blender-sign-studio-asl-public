@@ -109,7 +109,9 @@ the asset pipeline.
 
 ## Two-machine validation
 
-Macmini has no Blender and validates everything else: lexicon lint,
+Hardware names in this section are the author's own machines;
+generic requirements are Blender 5.2 + Python 3. Macmini has no
+Blender and validates everything else: lexicon lint,
 ASL Gloss validation against `data/examples/gloss-demo.json`, timing
 monotonicity inside `duration_ms`, category-slug checks, and contract
 tests. Rocmaibox owns Blender authoring from ASLLVD reference, renders,

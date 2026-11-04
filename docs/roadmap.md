@@ -1,5 +1,9 @@
 # Build roadmap
 
+Fork status (2026-11-04): this plan predates the fork — phases
+1–4 largely landed upstream; the fork tracks ports as GitHub
+issues (#1–#3). Read it as history, not a task list.
+
 Ordered phases. Each phase lands as its own PRs per
 [CONTRIBUTING.md](../CONTRIBUTING.md); a phase is done when its
 checks are green and AI review has passed on

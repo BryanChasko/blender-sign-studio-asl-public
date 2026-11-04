@@ -4,6 +4,13 @@ AI review with tooling grants `ai-reviewed`, never
 `reviewed`. Commands and pass/fail bars below define what an AI
 reviewer can and cannot certify.
 
+Fork status (2026-11-04): checks 1–4 run here (SignBank curl,
+`scripts/review_signs.py`, own-lines rule, git-media rule).
+Checks 5–6 need `scripts/qa/probe_fingers.py`,
+`compare_landmarks.py`, `check_chirality.py`, `inspect_pose.py` —
+not ported from upstream yet (tracked in issue #2). The six-check
+bar itself is unchanged.
+
 ## Marks and ship rule
 
 - `proposed` → `authored` → `ai-reviewed`, and `ai-reviewed`
