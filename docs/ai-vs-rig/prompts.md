@@ -78,3 +78,50 @@ POST https://api.meta.ai/v1/images/edits  (multipart/form-data)
 
 both PASS the reference rubric on inspection (palm toward signer,
 fingertips at chin/lips). verdicts in verdicts.md round-2 section.
+
+## round 3: hello fix lands, eight resists (same key, $21.80 budget session)
+
+same lever as round 2, two more failures. 4 calls, all HTTP 200
+first attempt:
+
+```
+POST https://api.meta.ai/v1/images/edits  (multipart/form-data)
+- model=muse-image-1.0
+- image=@edit-hello-input.png  (ai-hello.webp converted to PNG)
+- prompt="Keep the same woman, framing and neutral background. Fix
+  only her signing hand: B hand, flat hand with fingers together,
+  held at the forehead, palm facing forward, the ASL citation
+  salute for hello."
+-> docs/ai-vs-rig/edit-hello-fix-ai.webp (1280x1920 webp, 283120 B)
+   PASS: B hand at forehead, palm forward.
+
+- image=@edit-eight-input.png  (ai-eight.webp converted to PNG)
+- prompt="Keep the same woman, framing and neutral background. Fix
+  only her signing hand: index finger up, middle finger bent to
+  touch the thumb, ring finger and pinky extended, the ASL number
+  eight. Not a V shape."
+-> docs/ai-vs-rig/edit-eight-fix-ai.webp (1280x1920 webp, 307640 B)
+   FAIL: three fingers up, no middle-to-thumb contact.
+
+- image=@edit-eight-input.png  (same source, sharper instruction)
+- prompt="Keep the same woman, framing and neutral background. Fix
+  only her signing hand, ASL number eight: index finger pointing
+  straight up, ring finger and pinky pointing straight up, middle
+  finger bent down so its tip touches the tip of the thumb forming
+  a closed circle. Three fingers up plus a middle-to-thumb circle."
+-> docs/ai-vs-rig/edit-eight-fix-ai2.webp (1280x1920 webp, 308836 B)
+   FAIL: still three up, thumb misses the middle finger. the model
+   cannot close a finger-contact circle. stop here; two attempts
+   is the finding.
+
+POST https://api.meta.ai/v1/images/generations
+- model=muse-image-1.0
+- prompt="Stylized 3D game character rig: smooth gray mannequin with
+  a visible bone skeleton inside, one hand raised mid-sign, dark
+  studio background, teal rim light, digital illustration, no text,
+  no words, no letters"
+-> docs/assets/concepts-illustration.webp (1280x1920 webp, 253348 B)
+   illustration for the Concepts section, captioned as such.
+```
+
+verdicts updated in verdicts.md round-3 section.

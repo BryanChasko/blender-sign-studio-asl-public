@@ -15,7 +15,7 @@ attributed in the README) — no hotlink scraping.
 
 - Reference: [Lifeprint hello](https://www.lifeprint.com/asl101/pages-signs/h/hello.htm) (page: wave latitude, no photo) + citation form from Wiktionary/PocketSign: B hand at forehead/temple, palm forward, salute motion outward.
 - Rig kinematics: hand b; start sh(-0.4,-0.95,-0.15) el(0,-1.5,0) wr(1.2,0,0) → end sh(-0.4,-0.95,-0.45), same el/wr (travel is shoulder abduction). Clip assets/clips/sign-hello.glb.
-- AI: open 5-hand held static at forehead height. Fails the citation salute; sits inside the page's wave latitude but reads posed, not waved.
+- AI round 1: open 5-hand held static at forehead height. Fails the citation salute; sits inside the page's wave latitude but reads posed, not waved. AI round 2 (edit-hello-fix-ai.webp): B hand at forehead, palm forward. PASS.
 - Rig: B salute beside forehead, palm out, still = render of these numbers. PASS.
 
 ## THANK-YOU — AI FAIL (palm) · rig PASS (photo-inspected)
@@ -60,7 +60,7 @@ attributed in the README) — no hotlink scraping.
 
 - Reference: [Lifeprint numbers 1-10](https://www.lifeprint.com/asl101/pages-signs/n/numbers1-10.htm) (chart linked; number08 photo viewed: index/ring/pinky up, middle bent to thumb contact).
 - Rig kinematics: shared arm sh(0,-0.9,0) el(0.5,-1.5,0), hand n6..n9; start wr(0.5,0.1,0.2) → end wr(0.5,0.1,0.15). Clips assets/clips/sign-{six,seven,eight,nine}.glb.
-- EIGHT AI: open V (index+middle spread, no thumb contact) = a 2. FAIL (photo-inspected).
+- EIGHT AI round 1: open V (index+middle spread, no thumb contact) = a 2. FAIL (photo-inspected). Rounds 2–3 (edit-eight-fix-ai.webp, ai2): three fingers up both times, no middle-to-thumb circle. FAIL.
 - EIGHT rig: index up, middle-to-thumb circle, ring+pinky extended (zoom-eight-hand.png verified). PASS (photo-inspected).
 - SIX/SEVEN/NINE rig: stills render these numbers (ai-reviewed). PASS vs authored spec.
 

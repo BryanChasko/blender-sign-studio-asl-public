@@ -51,3 +51,15 @@ Evidence (comparison crops, 720px, same framing per sign):
 - calls in prompts.md round-2 section. takeaway: the model fails
   the sign from a bare gloss prompt but corrects it when handed
   the pose knowledge — reference image or exact chereme wording.
+
+## round 3: hello fixed, eight resists (same key)
+
+- edit-hello-fix-ai.webp (AI image + B-salute instruction): B hand
+  at forehead, palm forward. PASS vs citation salute.
+- edit-eight-fix-ai.webp (attempt 1): three fingers up, no
+  middle-to-thumb contact. FAIL.
+- edit-eight-fix-ai2.webp (attempt 2, circle wording): still three
+  up, thumb misses middle. FAIL. the model cannot close a
+  finger-contact circle. takeaway: the edits lever fixes
+  orientation and placement, not fine finger contact. calls in
+  prompts.md round-3 section.
