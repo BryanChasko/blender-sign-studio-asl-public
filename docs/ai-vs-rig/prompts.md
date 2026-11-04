@@ -48,3 +48,30 @@ POST https://api.meta.ai/v1/images/generations
 
 response: `{"data": [{"b64_json": "..."}]}`, saved to
 docs/assets/demo-poster.webp (RIFF webp). one call, first attempt ok.
+
+## round 2: edits endpoint (same session)
+
+no ControlNet-style pose conditioning exists on the API; the lever
+is `/v1/images/edits` (OpenAI-images compatible, multipart) plus the
+Responses API's interleaved text+image input. test: feed the model
+our knowledge (the failed AI image, the rig still) with a corrective
+instruction. 2 calls, both HTTP 200 first attempt:
+
+```
+POST https://api.meta.ai/v1/images/edits  (multipart/form-data)
+- model=muse-image-1.0
+- image=@edit-ai-input.png   (ai-thank-you.webp converted to PNG)
+- prompt="Keep the same woman, framing and neutral background. Fix
+  only her signing hand: flat hand at the chin, fingertips touching
+  the chin, palm facing toward her, the ASL sign for thank-you."
+-> docs/ai-vs-rig/edit-thank-you-fix-ai.webp (RIFF webp)
+
+- image=@edit-rig-input.png  (spike-sign-thank-you.png)
+- prompt="Photorealistic adult woman signing ASL thank-you, same pose
+  as the reference: flat hand at the chin, fingertips at the lips,
+  palm facing toward her, neutral background."
+-> docs/ai-vs-rig/edit-thank-you-from-rig.webp (RIFF webp)
+```
+
+both PASS the reference rubric on inspection (palm toward signer,
+fingertips at chin/lips). verdicts in verdicts.md round-2 section.

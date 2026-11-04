@@ -39,3 +39,15 @@ Evidence (comparison crops, 720px, same framing per sign):
 - Viewed all 5 AI images and the thank-you/eight reference photos; verdicts above confirm the table. Reference grounding added after review; no silent edits to scores.
 - Viewed still-thank-you.png (fingertips at chin, palm-to-signer) and still-eight.png + zoom (index up, middle-to-thumb circle, ring+pinky extended): both match their Lifeprint pages. Control side stands.
 - SAM: clean single-image probes after the rerun window also returned 429. No further attempts today; verdicts stay labeled inspected-not-segmented.
+
+## round 2: edits endpoint (same session)
+
+- edit-thank-you-fix-ai.webp (AI image + corrective instruction):
+  flat hand vertical at chin, fingertips at chin, palm facing
+  signer. PASS vs reference (matches the Lifeprint citation photo).
+- edit-thank-you-from-rig.webp (rig still + photoreal instruction):
+  fingertips at lips, palm toward signer; kept headband, hoops,
+  beads. PASS vs reference.
+- calls in prompts.md round-2 section. takeaway: the model fails
+  the sign from a bare gloss prompt but corrects it when handed
+  the pose knowledge — reference image or exact chereme wording.
