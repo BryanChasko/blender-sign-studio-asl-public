@@ -1,6 +1,6 @@
 # Meta models in this repo: active, parked, blocked
 
-Honest map, 2026-11-04. Supersedes the 2026-11-03 edition: the API
+Map, 2026-11-04. Supersedes the 2026-11-03 edition: the API
 key works now, and every active row below ran with committed
 evidence. Each row names the exact proof.
 

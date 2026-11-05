@@ -1,20 +1,27 @@
 # Blender Sign Studio (ASL)
 
-Build signing game characters, tutors, and VTubers on the open
-source Amazon Sumerian Hosts SDK and Babylon.js. You get a
+Build signing game characters, tutors, VTubers. Base: open
+source Amazon Sumerian Hosts SDK, Babylon.js. Contents:
 58-gloss ASL lexicon, 23 reviewed engine clips on the Fiona
-rig, and reference 3D hand rigs for every sign.
-You reproduce them as engine clips, starting with Fiona.
+rig, reference 3D hand rigs per sign.
+[Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
+live page, host signing.
+[All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
+finished .glb files. The tutorial builds them below — start
+there, skip ahead only to compare.
+[Issues](https://github.com/bryanchasko/blender-sign-studio-asl-public/issues):
+report breaks, request ports.
+Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 
-Honest status: these are initial placeholders. Hand-adjust in
-Blender or fine-tune programmatically before calling any sign
-correct. The win is breadth: 58 labeled, close signs as
-in-Blender references instead of starting from scratch.
+Status: initial placeholders. Hand-adjust in Blender or
+fine-tune programmatically before calling any sign correct.
+Breadth is the win: 58 labeled, close signs as in-Blender
+references. No starting from scratch.
 
-Built in parallel: Muse Code workflows split this across
-focused subagents — renders, lexicon, evidence tables, site —
-while the team bakes hero signs upstream. Same pattern scales
-to your own sign packs.
+Method: Muse Code workflows split the work across focused
+subagents — renders, lexicon, evidence tables, site — while
+the team bakes hero signs upstream. Same pattern scales to
+new sign packs.
 [Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
 the live page plays the host signing.
 [All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
@@ -31,8 +38,8 @@ with Chromium (see `assets/README.md` for the command).
 
 ## Requirements
 
-You need three things: Blender 5.2 Long Term Support (LTS),
-Python 3, and a rig file (see Get a rig). Install Blender once:
+Three things: Blender 5.2 Long Term Support (LTS),
+Python 3, a rig file (see Get a rig). Install Blender once:
 
 ```bash
 mkdir -p ~/opt && cd ~/opt
@@ -92,18 +99,18 @@ repository keeps the same files at `fixtures/hosts/<id>/<id>.glb`:
 
 Scripts default to the sibling fixtures path. Point them
 elsewhere with `RIG_DIR=/path/to/fixtures`. Pass `--rig fiona`
-for this guide's rig. You can use any rig with the same bone
-names, so one rig fits every clip. Rig files are CC BY-SA
+for this guide's rig. Any rig with the same bone names
+fits, so one rig fits every clip. Rig files are CC BY-SA
 4.0 (Amazon Web Services, Inc.). Scripts and docs here are
-Apache-2.0. You must keep the attribution if you ship.
+Apache-2.0. The license requires attribution on ship.
 
 ## Try it: THANK-YOU in three commands
 
-You need the rig file from Get a rig above. Run every command
-with `blender-5.2` from Requirements. A system `blender` is
-usually the wrong version.
+Prerequisite: the rig file from Get a rig above. Run every
+command with `blender-5.2` from Requirements. A system
+`blender` is usually the wrong version.
 
-You render the citation still. Run from the repo root:
+Render the citation still. Run from the repo root:
 
 ```bash
 blender-5.2 -b --factory-startup --python-exit-code 1 \
@@ -112,7 +119,7 @@ blender-5.2 -b --factory-startup --python-exit-code 1 \
 # RENDER_OK out/spike-sign-thank-you.png posed=36
 ```
 
-You export the 72-frame engine clip:
+Export the 72-frame engine clip:
 
 ```bash
 blender-5.2 -b --factory-startup --python-exit-code 1 \
@@ -121,7 +128,7 @@ blender-5.2 -b --factory-startup --python-exit-code 1 \
 # CLIP_OK out/sign-thank-you-fiona.glb action=thank-you
 ```
 
-You play the clip in Blender: open Blender, delete the cube,
+Play the clip in Blender: open Blender, delete the cube,
 import `fiona.glb` via `File > Import > glTF 2.0`, import
 `sign-thank-you-fiona.glb` the same way, open a Dope Sheet,
 switch it to Action Editor, select Fiona's armature, pick the
@@ -130,8 +137,8 @@ The full tour with screenshots sits in
 [Press play in the Blender window](#press-play-in-the-blender-window)
 below.
 
-The first script reports `RENDER_OK` and `posed=36`: you posed
-36 bones. The second reports `CLIP_OK`: it exported only the
+The first script reports `RENDER_OK` and `posed=36`: 36
+bones posed. The second reports `CLIP_OK`: it exported only the
 `thank-you` action. Skip the export step: grab ready-made clips
 from the
 [release assets](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases).
@@ -219,11 +226,11 @@ outliner, timeline. The armature stays hidden: hundred-unit
 bones display degenerately under software GL. Full capture
 protocol in [`assets/README.md`](assets/README.md).
 
-You do this in the Blender window (open Blender 5.2, not system
+In the Blender window (open Blender 5.2, not system
 `blender`):
 
 1. Open Blender. Delete the default cube (`X`, then `Enter`).
-2. Import the `fiona.glb` you fetched in Get a rig (default
+2. Import `fiona.glb` from Get a rig (default
    `~/code/chasko-labs/sumerian-hosts/fixtures/hosts/fiona/fiona.glb`,
    or wherever `RIG_DIR` points) via `File > Import > glTF 2.0`.
    The Outliner shows the rig's meshes plus one armature. The
@@ -233,25 +240,30 @@ You do this in the Blender window (open Blender 5.2, not system
 4. Compare the viewport against the citation still in Try it.
    The numbers live in `SIGNS`. The headless commands above set
    exactly this pose.
-5. Import `sign-thank-you-fiona.glb` the same way (you exported
-   it to `out/` in Try it, or grab it from the release assets).
+5. Import `sign-thank-you-fiona.glb` the same way (exported
+   to `out/` in Try it, or grab it from the release assets).
    Ignore the second armature — it rode in with the clip file;
    only Fiona's moves the mesh. Open a Dope Sheet (editor-type
    selector, top-left icon). Switch it to Action Editor. Select
    Fiona's armature. Pick the `thank-you` action. Drag the
    playhead to frame 36.
-6. Press **Spacebar**. You play 72 frames: rest, chin hold,
-   forward-down arc, palm-down end hold, return.
+6. Press **Spacebar**. Spacebar plays 72 frames: rest, chin
+   hold, forward-down arc, palm-down end hold, return.
+7. Tweak: in Pose Mode rotate the right wrist, note the new
+   angles, copy them into `SIGNS`, re-run the export. The
+   validators re-check the draft.
 
 <img src="docs/assets/ui-fiona-action.webp" width="760" alt="Fiona at frame 36 in the Blender window: citation pose in the viewport, thank-you action open in the Dope Sheet, playhead at 36">
 
-Frame 36 in the window: citation pose up top, thank-you keys
-in the Dope Sheet, playhead parked where the chin hold lands.
-Captured with the same headless protocol as the import shot.
+Frame 36 in the window: rest mesh up top, thank-you keys
+in the Dope Sheet, playhead at 36. The clip is engine-relative
+— it needs the gesture-queue base to pose the mesh, so Blender
+shows the setup while the render shows the pose. Captured with
+the same headless protocol as the import shot.
 
 An animation is an action: bone angles over frames, assigned to
 an armature. The headless scripts set steps 4–5 with numbers
-instead of mouse drags. You reproduce the exact pose either way.
+instead of mouse drags. Same pose either way.
 
 ![Fiona imported, full-body rest render](docs/assets/gui-step1-imported.png)
 
@@ -278,14 +290,14 @@ like phonemes in speech:
   lives in the [cookbook](docs/cookbook.md) ("How to read a
   pose") — open it when a preset looks wrong.
 
-You turn a host line into a gloss sequence. One token per sign,
+Turn a host line into a gloss sequence. One token per sign,
 ASL order. Fingerspell what the lexicon lacks:
 
 ```json
 ["YOU", "THANK-YOU", "FINGERSPELL:H-E-L-P"]
 ```
 
-You check a draft with two commands:
+Check a draft with two commands:
 
 ```bash
 python3 scripts/validate_gloss.py data/examples/gloss-demo.json
@@ -294,7 +306,7 @@ python3 scripts/lint_lexicon.py
 
 The token rules live in
 [`docs/gloss-schema.md`](docs/gloss-schema.md) — check them
-before drafting. You author a sign like this: change the numbers
+before drafting. Author a sign like this: change the numbers
 in `SIGNS` / `SIGNS_END`. Re-run the two commands. Compare
 against the citation. The [cookbook](docs/cookbook.md) records
 every still's numbers, so start there when a pose looks off.
@@ -312,17 +324,23 @@ same numbers in, same pixels out. No model renders a frame. The
 page serves banked audio and prebuilt clips. Nothing bills per
 request.
 
-| Model                       | What it did here                                                                                                                  | Evidence                                                                                                                     |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Muse Spark (via Muse Code)  | orchestration; drafted the gloss for "Hello! Yes, thank-you for coming." — validators pass (GLOSS PASS 4 tokens, LEXICON PASS 58) | [`gloss-draft.md`](docs/meta-evidence/gloss-draft.md), [`gloss-draft-spark.json`](docs/meta-evidence/gloss-draft-spark.json) |
-| Muse Wonder (via Muse Code) | planned the work, set the verdict rubric, reviewed every evidence table                                                           | [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md), [`verdicts.md`](docs/ai-vs-rig/verdicts.md)                         |
-| Muse Image (API)            | 5-sign comparison set (prompts + payloads verbatim), demo poster, round-2 edits (both pass), round-3 (hello fixed, eight resists) | [`prompts.md`](docs/ai-vs-rig/prompts.md), [`demo-poster.webp`](docs/assets/demo-poster.webp)                                |
-| Muse Voice Transcribe (API) | timing audit: banked "thank you" turn 0.140–0.380 s inside the gesture in-phase                                                   | [`transcribe-audit.md`](docs/meta-evidence/transcribe-audit.md)                                                              |
-| SAM 3.1 (API)               | hand-segmentation QA on all 10 images; capacity 429s, zero masks — verdicts inspected, rerun queued                               | [`verdicts.md`](docs/ai-vs-rig/verdicts.md)                                                                                  |
-| Muse Glimmer (local)        | same gloss task on-device; too slow to finish (fragment recorded as a limitation)                                                 | [`gloss-glimmer-raw.json`](docs/meta-evidence/gloss-glimmer-raw.json)                                                        |
-| Muse Code                   | the agent that wrote it all                                                                                                       | commit history                                                                                                               |
+| Model                       | What it did here                                                                                                                           | Evidence                                                                                                                     |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Muse Spark (via Muse Code)  | orchestration; drafted the gloss for "Hello! Yes, thank-you for coming." — validators pass (GLOSS PASS 20 tokens, LEXICON PASS 58 entries) | [`gloss-draft.md`](docs/meta-evidence/gloss-draft.md), [`gloss-draft-spark.json`](docs/meta-evidence/gloss-draft-spark.json) |
+| Muse Wonder (via Muse Code) | planned the work, set the verdict rubric, reviewed every evidence table                                                                    | [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md), [`verdicts.md`](docs/ai-vs-rig/verdicts.md)                         |
+| Muse Image (API)            | 5-sign comparison set (prompts + payloads verbatim), demo poster, round-2 edits (both pass), round-3 (hello fixed, eight resists)          | [`prompts.md`](docs/ai-vs-rig/prompts.md), [`demo-poster.webp`](docs/assets/demo-poster.webp)                                |
+| Muse Voice Transcribe (API) | timing audit: banked "thank you" turn 0.140–0.380 s inside the gesture in-phase                                                            | [`transcribe-audit.md`](docs/meta-evidence/transcribe-audit.md)                                                              |
+| SAM 3.1 (API)               | hand-segmentation QA on all 10 images; capacity 429s, zero masks — verdicts inspected, rerun queued                                        | [`verdicts.md`](docs/ai-vs-rig/verdicts.md)                                                                                  |
+| Muse Glimmer (local)        | same gloss task on-device; too slow to finish (fragment recorded as a limitation)                                                          | [`gloss-glimmer-raw.json`](docs/meta-evidence/gloss-glimmer-raw.json)                                                        |
+| Muse Code                   | the agent that wrote it all                                                                                                                | commit history                                                                                                               |
 
 ### Demo 1 — Muse Spark drafts gloss, validators gate it
+
+A gloss is one written token per sign, in ASL order — the
+script the engine bakes into clips. Spark read the English
+line and proposed the token sequence. The validators decide:
+every token must exist in the lexicon. The model proposes,
+the validators dispose.
 
 Run the validators on the committed draft:
 
@@ -342,8 +360,7 @@ coming."). The model proposes. The validators dispose.
 
 Read the plan, delegation, and verdict rubric in
 [`wonder-notes.md`](docs/meta-evidence/wonder-notes.md) — it
-decided what counts as a PASS. Every evidence table passed that
-review before commit. The sign-off sits in
+decided what counts as a PASS. The sign-off sits in
 [`verdicts.md`](docs/ai-vs-rig/verdicts.md).
 
 ### Demos 3–6 — hosted calls, one key
@@ -440,7 +457,7 @@ curl -X POST "https://api.meta.ai/v1/responses" \
   200 with the verdict still in reasoning; the full reply times
   out past 280 s under GPU contention; a 387 KB image payload
   returns nothing in 180 s. Text works, vision hangs, long
-  answers starve. Send it the same requests you send the API.
+  answers starve. Send it the same requests the API takes.
   Keep the validators as the gate, not the model's word.
   Attempt log:
   [`glimmer-verdict-attempt.md`](docs/meta-evidence/glimmer-verdict-attempt.md).
