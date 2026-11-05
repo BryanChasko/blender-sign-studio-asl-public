@@ -397,6 +397,7 @@ visemes.
 - [`docs/lexicon.md`](docs/lexicon.md) — the v1 seed list, so you pick a real gloss (machine-readable truth: `data/lexicon/lexicon.v1.json`).
 - [`docs/asset-licensing.md`](docs/asset-licensing.md) — dataset and asset terms, so you stay legal.
 - [`docs/ai-vs-rig/scorecards.md`](docs/ai-vs-rig/scorecards.md) — per-gloss rig values, so you never hand-tune blind.
+- [`docs/game-ui-scorecard.md`](docs/game-ui-scorecard.md) — 12-row UI rubric, so your game screen stays playable.
 
 ## Built with Meta
 
