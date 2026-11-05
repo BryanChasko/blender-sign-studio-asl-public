@@ -11,7 +11,8 @@ letters, mouth open speaking the word, neutral background
 
 A single still cannot spell a word — fingerspelling is motion.
 Scored: does the visible hand match any letter of the word, is
-the mouth open (speaking), anything anatomically wrong.
+the mouth open (speaking), anything anatomically wrong. The rig
+sets the standard; these images are the foil, never the reference.
 References: [Lifeprint fingerspelling](https://www.lifeprint.com/asl101/pages-layout/fingerspelling.htm)
 (how it works), [handshape chart](https://www.lifeprint.com/asl101/pages-layout/handshapes.htm)
 (the alphabet), [WONDERFUL](https://www.lifeprint.com/asl101/pages-signs/w/wonderful.htm)

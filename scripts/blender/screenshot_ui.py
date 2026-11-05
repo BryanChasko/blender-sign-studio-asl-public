@@ -32,11 +32,17 @@ import bpy
 def main(argv):
     p = argparse.ArgumentParser()
     p.add_argument("--hold", type=int, default=75)
+    p.add_argument("--shot", default="mesh",
+                   choices=("mesh", "action"))
     args = p.parse_args(argv)
-    arm = next((o for o in bpy.data.objects if o.type == "ARMATURE"),
-               None)
-    if arm is not None:
-        arm.hide_viewport = True
+    if args.shot == "action":
+        for window in bpy.context.window_manager.windows:
+            for area in window.screen.areas:
+                if area.ui_type == "TIMELINE":
+                    area.ui_type = "DOPESHEET"
+    for o in bpy.data.objects:
+        if o.type == "ARMATURE":
+            o.hide_viewport = True
     for window in bpy.context.window_manager.windows:
         for area in window.screen.areas:
             if area.type != "VIEW_3D":

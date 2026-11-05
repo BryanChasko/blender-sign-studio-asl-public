@@ -1,7 +1,20 @@
 # Blender Sign Studio (ASL)
 
-You reproduce American Sign Language signs as engine clips —
-58 glosses, 23 reviewed — starting with Fiona.
+Build signing game characters, tutors, and VTubers on the open
+source Amazon Sumerian Hosts SDK and Babylon.js. You get a
+58-gloss ASL lexicon, 23 reviewed engine clips on the Fiona
+rig, and reference 3D hand rigs for every sign.
+You reproduce them as engine clips, starting with Fiona.
+
+Honest status: these are initial placeholders. Hand-adjust in
+Blender or fine-tune programmatically before calling any sign
+correct. The win is breadth: 58 labeled, close signs as
+in-Blender references instead of starting from scratch.
+
+Built in parallel: Muse Code workflows split this across
+focused subagents — renders, lexicon, evidence tables, site —
+while the team bakes hero signs upstream. Same pattern scales
+to your own sign packs.
 [Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
 the live page plays the host signing.
 [All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
@@ -180,14 +193,6 @@ ffmpeg -framerate 24 -i out/sign-hello-move/frame_%04d.png \
   -vf scale=480:-1 -loop 0 hello.webp
 ```
 
-Fingerspelling stress test: nine words, one frame each, same
-prompt shape with the word swapped in. A still cannot spell —
-fingerspelling is motion. 9/9 mouths speak, 2/9 hands pass, one
-extra limb, three text cheats. Full calls and per-word verdicts
-in [`docs/ai-vs-rig/fingerspell.md`](docs/ai-vs-rig/fingerspell.md):
-
-![Nine fingerspelling attempts: amazon, sumerian, hosts, meta, wonderful, glimmer, model, api, muse](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/ai-vs-rig/fp-grid.webp)
-
 <table>
 <tr><th>hello</th><th>thank-you</th><th>yes</th><th>eight</th><th>first</th></tr>
 <tr><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-hello-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-thank-you-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-yes-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-eight-move.webp" width="200"></td><td><img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/fiona-first-move.webp" width="200"></td></tr>
@@ -237,6 +242,12 @@ You do this in the Blender window (open Blender 5.2, not system
    playhead to frame 36.
 6. Press **Spacebar**. You play 72 frames: rest, chin hold,
    forward-down arc, palm-down end hold, return.
+
+<img src="docs/assets/ui-fiona-action.webp" width="760" alt="Fiona at frame 36 in the Blender window: citation pose in the viewport, thank-you action open in the Dope Sheet, playhead at 36">
+
+Frame 36 in the window: citation pose up top, thank-you keys
+in the Dope Sheet, playhead parked where the chin hold lands.
+Captured with the same headless protocol as the import shot.
 
 An animation is an action: bone angles over frames, assigned to
 an armature. The headless scripts set steps 4–5 with numbers
@@ -378,6 +389,21 @@ curl -X POST "https://api.meta.ai/v1/images/edits" \
 python3 -c "import json,base64;open('edit.webp','wb').write(base64.b64decode(json.load(open('edit.json'))['data'][0]['b64_json']))"
 # edit.webp — palm corrected, rest intact
 ```
+
+#### Demo 4b — Fingerspelling stress test (same model, nine words)
+
+Nine words, one frame each, same prompt shape with the word
+swapped in. Read every image below as labeled AI slop: only
+MUSE and SUMERIAN pass, WONDERFUL is unscored, the other six
+fail (wrong hands, an extra limb, burned-in text). The rig sets the standard here, never the
+model. These failures are why this repo builds programmatic 3D
+references first: pose references (ControlNet-style
+conditioning, which the Model API lacks) are the future lever
+that could make image models stop failing signs. Full calls and
+per-word verdicts in
+[`docs/ai-vs-rig/fingerspell.md`](docs/ai-vs-rig/fingerspell.md):
+
+![Nine fingerspelling attempts: amazon, sumerian, hosts, meta, wonderful, glimmer, model, api, muse](https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/ai-vs-rig/fp-grid.webp)
 
 #### Demo 5 — Transcribe times the turn (`ENDPOINTING` returns turns; `PUSH_TO_TALK` returns none)
 

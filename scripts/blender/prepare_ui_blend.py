@@ -38,7 +38,22 @@ def main(argv):
             # frame at true size. Renders never draw bones either way.
             obj.data.display_type = "STICK"
     if args.clip:
+        rigs_before = {o.name for o in bpy.data.objects
+                       if o.type == "ARMATURE"}
         bpy.ops.import_scene.gltf(filepath=args.clip)
+        rigs = [o for o in bpy.data.objects
+                if o.type == "ARMATURE" and o.name not in rigs_before]
+        rig = rigs[0] if rigs else next(
+            (o for o in bpy.data.objects if o.type == "ARMATURE"), None)
+        if rig is not None and rig.animation_data:
+            act = rig.animation_data.action
+            if act is not None:
+                for o in bpy.data.objects:
+                    if o.type == "ARMATURE" and o is not rig:
+                        if o.animation_data is None:
+                            o.animation_data_create()
+                        o.animation_data.action = act
+                        bpy.context.scene.frame_set(36)
     bpy.ops.wm.save_as_mainfile(filepath=args.out)
     print("BLEND_OK %s" % args.out)
 
