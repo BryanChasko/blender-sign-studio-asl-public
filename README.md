@@ -2,9 +2,10 @@
 
 Build signing game characters, tutors, VTubers. Base: open
 source Amazon Sumerian Hosts SDK, Babylon.js. Contents:
-58-gloss ASL lexicon, 23 reviewed engine clips on the Fiona
-rig, reference 3D hand rigs per sign.
-[Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
+158-sign ASL dictionary (58 validated v1 + 100 v2), 23
+reviewed engine clips on the Fiona rig, headless Blender
+scripts that rebuild every still and clip.
+[Watch it run](https://bryanchasko.com/blender-sign-studio/?host=fiona&shot=signing):
 live page, host signing.
 [All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
 finished .glb files. The tutorial builds them below — start
@@ -13,10 +14,11 @@ there, skip ahead only to compare.
 report breaks, request ports.
 Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 
-Status: initial placeholders. Hand-adjust in Blender or
-fine-tune programmatically before calling any sign correct.
-Breadth is the win: 58 labeled, close signs as in-Blender
-references. No starting from scratch.
+Status: 23 reviewed clips ship as starting references, not
+final ASL. Hand-adjust in Blender or fine-tune
+programmatically before calling any sign correct. Breadth is
+the win: 158 labeled, close signs as in-Blender references
+(58 validated v1 + 100 v2). No starting from scratch.
 
 Method: Muse Code workflows split the work across focused
 subagents — renders, lexicon, evidence tables, site — while
@@ -27,11 +29,11 @@ One host line plays three ways at once: spoken, captioned,
 signed. All three share one clock. Path: watch it, play it in
 Blender, export one clip.
 
-<img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/signing-hosts-live.webp" width="760" alt="The live signing page: Fiona on stage, sign picker, sign deck with practice rings, timeline">
+<img src="docs/assets/live-fiona-face.png" width="760" alt="Fiona on the live signing page: face camera, sign deck with practice rings, lineup strip, transport bar">
 
-The live page: sign picker, sign deck with practice rings,
-timeline with gather-hold-release, slow-mo. Recapture any
-time — command in `assets/README.md`.
+The live page: face camera on Fiona, sign deck with practice
+rings, lineup strip with up/down/remove, transport with
+timeline blocks, quiz mode. Shot 2026-11-05, ?host=fiona&shot=face.
 
 ## Requirements
 
@@ -178,12 +180,13 @@ Flat hand at the chin, fingertips at the lips. Forward-down arc
 to the palm-down end hold (frames 44–52 of 72). Re-render these
 exact pixels any time with the first command above.
 
-## The signs: 58 glosses, 23 reviewed and clipped
+## The signs: 158 glosses, 23 reviewed and clipped
 
 ![Fiona's five compared signs: hello, thank-you, yes, eight, first](docs/assets/fiona-five-strip.webp)
 
-The lexicon holds 58 glosses: 23 reviewed with engine clips,
-35 proposed ([lexicon JSON](data/lexicon/lexicon.v1.json)). The
+The lexicons hold 158 glosses: 23 reviewed with engine clips,
+the rest proposed ([v1 JSON](data/lexicon/lexicon.v1.json),
+[v2 JSON](data/lexicon/lexicon.v2.json)). The
 full per-sign table — reference, Muse Image call, rig still,
 clip, verdict — lives in
 [`docs/reviewed-signs.md`](docs/reviewed-signs.md).
