@@ -12,27 +12,30 @@ is one user action: what you do, what you expect, what you see.
 4. File issues only for screenshot-grounded findings. Link the
    screenshot. Name what you did not test.
 
-## Audit 2026-11-05 — blender-sign-studio (BLOCKED)
+## Audit 2026-11-05 — blender-sign-studio (COMPLETE, pixel-grounded)
 
 Target: `https://bryanchasko.com/blender-sign-studio/`.
-Evidence: `docs/site-audit/01-loaded.png` (app, loading),
-`docs/site-audit/02-ready.png` (404 page).
+Method: headless Chromium, real clicks, one screenshot per
+step (`docs/site-audit/10`–`18`). The deck renders async
+(~5 s, 59 cards) — wait for `button.deck-card` before acting.
 
-| #   | Action                  | Expected                        | Actual (evidence)                                                                                  |
-| --- | ----------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| 0   | Open the URL            | App loads                       | App loaded once (01), then 404 x3 via curl; `/signing-hosts/` 301s into the 404 (02)               |
-| 1   | Tap a sign card         | Plays in ~100 ms, sight + sound | BLOCKED — site down before interaction                                                             |
-| 2   | Count default surface   | ~4 live items                   | 4 host cards + 6 sign cards + loader + tips + scrub + status visible in 01; shelves collapsed      |
-| 3   | Read smallest text      | 0.75 rem min, size control      | 0/5 counters and 0.0s labels tiny in 01; no size control visible                                   |
-| 4   | Grayscale quiz verdicts | Shape/icon twin                 | BLOCKED — never reached quiz                                                                       |
-| 5   | Mute, finish objective  | Captions carry it               | BLOCKED — never played a sign                                                                      |
-| 6   | Remap an input          | Rebind UI                       | BLOCKED — no interaction possible                                                                  |
-| 7   | New player, first win   | Success in ~90 s, no manual     | Zero-gate path visible in 01 ("tap a card to play it now", loader % + tips); win itself unobserved |
-| 8   | Long gloss caption      | Full text shows                 | BLOCKED — no caption rendered while loading                                                        |
-| 9   | Read state at a glance  | One consistent state            | CONTRADICTION in 01: loader says "still loading", pill says READY                                  |
-| 10  | Same verb everywhere    | One label per action            | "+/-", "reset", "views^", "play/pause" visible in 01; full map needs interaction                   |
-| 11  | Clear the lineup        | Confirm or undo                 | BLOCKED — never reached lineup                                                                     |
-| 12  | Pause mid-play          | Instant, granular               | BLOCKED — never played                                                                             |
+Total: 13/24. Ship bar fails: rows 6 and 11 score 0.
+
+| #   | Action                  | Expected                   | Actual (evidence)                                                                              |
+| --- | ----------------------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
+| 0   | Open the URL            | App loads                  | 200 after outage (10). Earlier: 404 x3 + 301 into 404 (02, fixed)                              |
+| 1   | Tap card, tap mid-play  | Confirm each tap           | First tap: gold outline + PLAYING + ring + xp + streak (11, 12). Mid-play: no busy cue (12). 1 |
+| 2   | Count default surface   | ~4 live items              | Play mode: 8 cards + scrub + status. Builder: ~40 controls (15, 17). 1                         |
+| 3   | Read smallest text      | 0.75 rem min, size control | 0/5 counters, 0.0s labels tiny; contrast good; no size control (10-13). 1                      |
+| 4   | Grayscale verdicts      | Shape/icon twin            | Every observed state has a text twin (PLAYING/IDLE, streak N, n/5). No quiz surfaced. 2        |
+| 5   | Finish by captions      | Caption track              | Zero caption-class nodes; two polite live regions ("watch..."). 1                              |
+| 6   | Remap an input          | Rebind UI                  | No keybind UI; Tab reaches skip link, native focus works. 0                                    |
+| 7   | New player, first win   | Success in ~90 s           | Zero gates; loader % + tips; first tap plays in seconds (10, 11). 2                            |
+| 8   | Read timeline blocks    | Readable at a glance       | gather/hold/release blocks legible; host readable (17). 2                                      |
+| 9   | Read state at a glance  | One consistent state       | "ready! tap a card." + IDLE/PLAYING coherent (15-17). Loader-vs-READY seen once (01). 1        |
+| 10  | Same verb everywhere    | One label per action       | play / play sequence / preview / play sample sequence / replay; "moon"; "+/-" (15, 17). 1      |
+| 11  | Clear a 2-item sequence | Confirm or undo            | One click wipes both; no dialog, toast, or undo button (17, 16). 0                             |
+| 12  | Slow down, pause        | Granular assists           | slow-mo toggle, hold ms, pause, 5 camera presets, sound checkbox (15). 1                       |
 
 ## Standing rule
 
