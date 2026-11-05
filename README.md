@@ -22,6 +22,10 @@ Method: Muse Code workflows split the work across focused
 subagents — renders, lexicon, evidence tables, site — while
 the team bakes hero signs upstream. Same pattern scales to
 new sign packs.
+
+One host line plays three ways at once: spoken, captioned,
+signed. All three share one clock. Path: watch it, play it in
+Blender, export one clip.
 [Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
 the live page plays the host signing.
 [All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
@@ -55,21 +59,27 @@ commands fail with `command not found`.
 
 ## Concepts in 60 seconds
 
-- **ASL.** Cheremes: handshape, place, movement, palm direction.
-  Gloss: one token per sign, ASL order. Citation form:
-  the dictionary performance of a sign. Every row below links
-  its Lifeprint page. [How a sign is built](#how-a-sign-is-built)
-  works one example end to end.
+| Word    | Meaning                                                             |
+| ------- | ------------------------------------------------------------------- |
+| host    | One animated 3D character. Fiona hosts Blender signing here.        |
+| gloss   | Written label for one sign, capitals. Example: `THANK-YOU`.         |
+| chereme | One dictionary sign as one short animation. Handshape, place,       |
+|         | movement, palm direction baked in.                                  |
+| clip    | One exported chereme file (`.glb`, 72 frames at 24 fps). The engine |
+|         | plays it.                                                           |
+| rig     | Skeleton file the clip is built on. Rigs live outside this repo     |
+|         | (see Get a rig). Citation form: the dictionary performance of a     |
+|         | sign. Every compared row links its Lifeprint page.                  |
+
 - **Kinematics.** A pose is three joint angles per arm
   (shoulder/elbow/wrist, radians) plus a named handshape. All 23
   live in `SIGNS`/`SIGNS_END` in
   `scripts/blender/render_host_shots.py`. Per-gloss values sit in
   [`docs/ai-vs-rig/scorecards.md`](docs/ai-vs-rig/scorecards.md) —
   read it before touching a number.
-- **3D files.** The rig is GL Transmission Format (glTF): mesh
-  plus armature. One clip is a binary glTF (.glb) file: an
-  action, or bone angles per frame. The engine retargets each
-  clip onto the host skeleton. It bakes the clip additive.
+- **Engine.** Binary glTF (.glb) holds an action: bone angles
+  per frame. The engine retargets each clip onto the host
+  skeleton. It bakes the clip additive.
 - **Meta Model API.** Base URL `https://api.meta.ai/v1` plus a
   `MODEL_API_KEY` from dev.meta.ai. Used here: Muse Image
   (comparison set, poster, round-2 edits), Muse Voice
@@ -162,29 +172,6 @@ The lexicon holds 58 glosses: 23 reviewed with engine clips,
 full per-sign table — reference, Muse Image call, rig still,
 clip, verdict — lives in
 [`docs/reviewed-signs.md`](docs/reviewed-signs.md).
-
-Right hand, wrong sign: the AI failures are chereme errors
-(palm, handshape), none anatomical. Segment Anything Model 3.1
-(SAM 3.1) masks rate-limited out, so these verdicts are
-inspected, not segmented.
-
-Second and third attempts: the bare gloss prompt failed
-THANK-YOU, HELLO, and EIGHT. The pose knowledge went in with the
-image. THANK-YOU and HELLO pass corrected. EIGHT fails twice:
-the model cannot close the middle-to-thumb circle. No
-ControlNet-style pose conditioning exists on the Meta Model API.
-The edits endpoint is the lever, and it has a limit. There is no
-video generation endpoint on the Meta Model API (video is
-input-only). Motion
-still comes from the Blender pipeline. Full calls in
-[`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md),
-verdicts in
-[`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md).
-
-<table>
-<tr><th>fix thank-you: PASS</th><th>photoreal rig still: PASS</th><th>fix hello: PASS</th><th>fix eight: FAIL ×2</th></tr>
-<tr><td><img src="docs/ai-vs-rig/edit-thank-you-fix-ai.webp" width="220"></td><td><img src="docs/ai-vs-rig/edit-thank-you-from-rig.webp" width="220"></td><td><img src="docs/ai-vs-rig/edit-hello-fix-ai.webp" width="220"></td><td><img src="docs/ai-vs-rig/edit-eight-fix-ai2.webp" width="220"></td></tr>
-</table>
 
 Signs move — stills are citations. All five compared signs loop
 below (48 frames, 24 fps, Blender-rendered, served from S3; the
@@ -311,10 +298,28 @@ in `SIGNS` / `SIGNS_END`. Re-run the two commands. Compare
 against the citation. The [cookbook](docs/cookbook.md) records
 every still's numbers, so start there when a pose looks off.
 
+Gate: pass AI review before any clip is labeled ASL
+([docs/ai-review.md](docs/ai-review.md)). Propose any lexicon
+gloss. Never improvise a sign. Never label a generic gesture
+clip as ASL.
+
 At runtime the engine needs nothing new. Each sign is one short
 clip on the same skeleton. It queues in/hold/out beside the
 gesture queue. It runs on the same clock as banked audio and
 visemes.
+
+## Docs route map
+
+- [`docs/architecture.md`](docs/architecture.md) — pipeline and host foundations, so speech, captions, and signs share one clock in your head.
+- [`docs/cookbook.md`](docs/cookbook.md) — joint values and code samples, so you author exact poses.
+- [`docs/gloss-schema.md`](docs/gloss-schema.md) — token rules, so entries validate.
+- [`docs/asl-gloss-core-rules.md`](docs/asl-gloss-core-rules.md) — plain-language gloss primer, so lines stay legal.
+- [`docs/ai-review.md`](docs/ai-review.md) — the review gate, so you know the bar before starting.
+- [`docs/reviewer-guide.md`](docs/reviewer-guide.md) — signer path, so a fluent signer can join review.
+- [`docs/reviewed-signs.md`](docs/reviewed-signs.md) — full per-sign table, so every verdict stays inspectable.
+- [`docs/roadmap.md`](docs/roadmap.md) — build plan, so you see what is done and next.
+- [`docs/decisions/`](docs/decisions/) — architecture records, so choices stay learnable.
+- [`docs/credits.md`](docs/credits.md) — reference attribution, so sources stay cited.
 
 ## Built with Meta
 
@@ -370,6 +375,32 @@ One key (`MODEL_API_KEY`). Same base URL:
 open API keys, create one, then `export MODEL_API_KEY=...`.
 Outputs are committed above. Rerun a call only when you change
 its inputs.
+
+The Image column below is the foil, never the reference.
+Each side is judged against the Lifeprint citation first.
+
+Right hand, wrong sign: the AI failures are chereme errors
+(palm, handshape), none anatomical. Segment Anything Model 3.1
+(SAM 3.1) masks rate-limited out, so these verdicts are
+inspected, not segmented.
+
+Second and third attempts: the bare gloss prompt failed
+THANK-YOU, HELLO, and EIGHT. The pose knowledge went in with the
+image. THANK-YOU and HELLO pass corrected. EIGHT fails twice:
+the model cannot close the middle-to-thumb circle. No
+ControlNet-style pose conditioning exists on the Meta Model API.
+The edits endpoint is the lever, and it has a limit. There is no
+video generation endpoint on the Meta Model API (video is
+input-only). Motion
+still comes from the Blender pipeline. Full calls in
+[`docs/ai-vs-rig/prompts.md`](docs/ai-vs-rig/prompts.md),
+verdicts in
+[`docs/ai-vs-rig/verdicts.md`](docs/ai-vs-rig/verdicts.md).
+
+<table>
+<tr><th>fix thank-you: PASS</th><th>photoreal rig still: PASS</th><th>fix hello: PASS</th><th>fix eight: FAIL ×2</th></tr>
+<tr><td><img src="docs/ai-vs-rig/edit-thank-you-fix-ai.webp" width="220"></td><td><img src="docs/ai-vs-rig/edit-thank-you-from-rig.webp" width="220"></td><td><img src="docs/ai-vs-rig/edit-hello-fix-ai.webp" width="220"></td><td><img src="docs/ai-vs-rig/edit-eight-fix-ai2.webp" width="220"></td></tr>
+</table>
 
 #### Demo 3 — Muse Image generates (exact comparison call)
 
