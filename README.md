@@ -26,13 +26,6 @@ new sign packs.
 One host line plays three ways at once: spoken, captioned,
 signed. All three share one clock. Path: watch it, play it in
 Blender, export one clip.
-[Watch it run](https://bryanchasko.com/signing-hosts/?host=fiona&shot=signing):
-the live page plays the host signing.
-[All 23 clips](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases/tag/v0.2-batch5):
-every .glb, no Blender needed.
-[Issues](https://github.com/bryanchasko/blender-sign-studio-asl-public/issues):
-report a break, request a port.
-Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 
 <img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/signing-hosts-live.webp" width="760" alt="The live signing page: Fiona on stage, sign picker, sign deck with practice rings, timeline">
 
@@ -59,17 +52,18 @@ commands fail with `command not found`.
 
 ## Concepts in 60 seconds
 
-| Word    | Meaning                                                             |
-| ------- | ------------------------------------------------------------------- |
-| host    | One animated 3D character. Fiona hosts Blender signing here.        |
-| gloss   | Written label for one sign, capitals. Example: `THANK-YOU`.         |
-| chereme | One dictionary sign as one short animation. Handshape, place,       |
-|         | movement, palm direction baked in.                                  |
-| clip    | One exported chereme file (`.glb`, 72 frames at 24 fps). The engine |
-|         | plays it.                                                           |
-| rig     | Skeleton file the clip is built on. Rigs live outside this repo     |
-|         | (see Get a rig). Citation form: the dictionary performance of a     |
-|         | sign. Every compared row links its Lifeprint page.                  |
+| Word          | Meaning                                                             |
+| ------------- | ------------------------------------------------------------------- |
+| host          | One animated 3D character. Fiona hosts Blender signing here.        |
+| gloss         | Written label for one sign, capitals. Example: `THANK-YOU`.         |
+| chereme       | One dictionary sign as one short animation. Handshape, place,       |
+|               | movement, palm direction baked in.                                  |
+| clip          | One exported chereme file (`.glb`, 72 frames at 24 fps). The engine |
+|               | plays it.                                                           |
+| rig           | Skeleton file the clip is built on. Rigs live outside this repo     |
+|               | (see Get a rig).                                                    |
+| citation form | The dictionary performance of a sign. Every compared row links      |
+|               | its Lifeprint page.                                                 |
 
 - **Kinematics.** A pose is three joint angles per arm
   (shoulder/elbow/wrist, radians) plus a named handshape. All 23
@@ -85,7 +79,8 @@ commands fail with `command not found`.
   (comparison set, poster, round-2 edits), Muse Voice
   Transcribe (turn 0.140–0.380 s lands inside the gesture
   in-phase), Segment Anything Model 3.1 (SAM 3.1) for
-  segmentation QA (capacity-blocked all day), Muse Spark
+  segmentation QA (rate-limited during development, so verdicts
+  are inspected, not segmented), Muse Spark
   (gloss drafts via Muse Code). No model runs in production.
   The page serves committed outputs.
 
@@ -102,23 +97,43 @@ at `109baefef53cc18ef3e2e2340170c44078d011b91`, under
 `packages/demos-babylon/src/character-assets/characters/adult_female/fiona/`.
 Take the whole folder: `.gltf`, its `.bin`, `textures/`.
 
-**Option B — vendored fixtures.** The sibling `sumerian-hosts`
+**Option B — sibling checkout (only if you already work with
+both repos).** A checkout of the sibling `sumerian-hosts`
 repository keeps the same files at `fixtures/hosts/<id>/<id>.glb`:
 `fiona`, `cristine`, `grace`, `maya`, `jay`, `luke`, `preston`,
-`wes`, `alien`. Same upstream commit, same license.
+`wes`, `alien`. Same upstream commit, same license. Use this
+option only if that checkout already exists next to this repo;
+otherwise use Option A.
 
-Scripts default to the sibling fixtures path. Point them
-elsewhere with `RIG_DIR=/path/to/fixtures`. Pass `--rig fiona`
-for this guide's rig. Any rig with the same bone names
-fits, so one rig fits every clip. Rig files are CC BY-SA
+**Tell the scripts where the rigs live.** Every script in this
+repo resolves a rig through the `RIG_DIR` environment variable
+plus a `--rig <id>` flag, as `RIG_DIR/<id>/<id>.glb`. Set it
+once per shell:
+
+```bash
+export RIG_DIR=/path/to/rig-root
+```
+
+Replace `/path/to/rig-root` with the directory that directly
+contains the per-rig folders: the `fixtures/hosts` directory
+for Option B, or the directory holding your Option A download.
+Skip the export and the scripts look next to this repo for a
+sibling checkout with fixtures — set `RIG_DIR` to be explicit.
+This guide uses `--rig fiona`, which resolves to
+`RIG_DIR/fiona/fiona.glb`. Any rig with the same bone names
+works with any clip. Rig files are CC BY-SA
 4.0 (Amazon Web Services, Inc.). Scripts and docs here are
-Apache-2.0. The license requires attribution on ship.
+Apache-2.0. The rig license requires attribution when you ship.
 
-## Try it: THANK-YOU in three commands
+## Try it: THANK-YOU in three commands_T_
 
-Prerequisite: the rig file from Get a rig above. Run every
-command with `blender-5.2` from Requirements. A system
-`blender` is usually the wrong version.
+Prerequisite: a rig folder from Get a rig above, with `RIG_DIR`
+exported so `RIG_DIR/fiona/fiona.glb` exists.
+
+The commands below call a Blender 5.2 Long Term Support (LTS)
+binary as `blender-5.2`. Any Blender 5.2 LTS binary works under
+any name; adjust the command if yours is named differently. Run
+every command from the repo root.
 
 Render the citation still. Run from the repo root:
 
@@ -126,7 +141,7 @@ Render the citation still. Run from the repo root:
 blender-5.2 -b --factory-startup --python-exit-code 1 \
   -P scripts/blender/render_host_shots.py -- \
   --out-dir out --shot sign-thank-you --rig fiona
-# RENDER_OK out/spike-sign-thank-you.png posed=36
+# RENDER_OK out/spike-sign-thank-you.png posed=36_T_
 ```
 
 Export the 72-frame engine clip:
@@ -135,7 +150,7 @@ Export the 72-frame engine clip:
 blender-5.2 -b --factory-startup --python-exit-code 1 \
   -P scripts/blender/export_sign_clip.py -- \
   --sign thank-you --rig fiona --out out/sign-thank-you-fiona.glb
-# CLIP_OK out/sign-thank-you-fiona.glb action=thank-you
+# CLIP_OK out/sign-thank-you-fiona.glb action=thank-you_T_
 ```
 
 Play the clip in Blender: open Blender, delete the cube,
@@ -173,10 +188,11 @@ full per-sign table — reference, Muse Image call, rig still,
 clip, verdict — lives in
 [`docs/reviewed-signs.md`](docs/reviewed-signs.md).
 
-Signs move — stills are citations. All five compared signs loop
-below (48 frames, 24 fps, Blender-rendered, served from S3; the
-engine clip stays 72 frames, the loop excerpts 48). Render your
-own — only these five exist as move shots — then assemble it:
+Signs move — stills are citations. Each loop below is a 48-frame
+excerpt at 24 fps rendered by `scripts/blender/render_host_shots.py`
+(the engine clip stays 72 frames; the loop excerpts 48). Render
+any loop the same way — hello shown here, change only `--shot` for
+the other signs — then assemble it:
 
 ```bash
 blender-5.2 -b --factory-startup --python-exit-code 1 \
@@ -193,126 +209,173 @@ ffmpeg -framerate 24 -i out/sign-hello-move/frame_%04d.png \
 </table>
 
 Stance between signs: neutral idle, arms slightly out (left) vs
-arms down (right). Rest bakes into the idle base upstream (pull
-requests #107–111). The rest-idle export tooling lives there too
-(port queue: [issue #2](https://github.com/bryanchasko/blender-sign-studio-asl-public/issues/2)).
-Stills ported from upstream origin/main
-`docs/assets/batch9/`. The upstream team eye-verified them there.
+arms down (right). Rest is part of the idle base pose, built
+upstream — these two stills are ported from the upstream repo's
+asset batch for reference. Rest-idle export tooling is tracked in
+[issue #2](https://github.com/bryanchasko/blender-sign-studio-asl-public/issues/2).
 
 <table>
 <tr><th>stand idle rest</th><th>rest arms down</th></tr>
 <tr><td><img src="docs/assets/upstream-stand-idle-rest-fiona.png" width="300"></td><td><img src="docs/assets/upstream-rest-arms-down-fiona.png" width="300"></td></tr>
 </table>
 
-## Press play in the Blender window
+## Press play in the Blender window_T_
 
 <img src="docs/assets/ui-fiona-viewport.webp" width="760" alt="Fiona in the Blender window: mesh framed in the 3D viewport, armature in the outliner">
 
-The real Blender window — menus, viewport, outliner, timeline.
-Capture protocol in [`assets/README.md`](assets/README.md).
+Expected window layout: mesh framed in the 3D viewport, armature
+listed in the Outliner, timeline along the bottom. Every
+screenshot in this section is a committed output of the steps
+below — reproduce each one with the same commands on any Linux
+box with Blender 5.2.
 
-In the Blender window (open Blender 5.2, not system
-`blender`):
+Build the window file headless (no display needed for this
+step). Run from the repo root:
 
-1. Open Blender. Delete the default cube (`X`, then `Enter`).
-2. Import `fiona.glb` from Get a rig (default
-   `~/code/chasko-labs/sumerian-hosts/fixtures/hosts/fiona/fiona.glb`,
-   or wherever `RIG_DIR` points) via `File > Import > glTF 2.0`.
-   The Outliner shows the rig's meshes plus one armature. The
-   armature is the skeleton every clip moves.
+```bash
+blender-5.2 -b --factory-startup --python-exit-code 1 \
+  -P scripts/blender/prepare_ui_blend.py -- \
+  --rig <path-to-fiona.glb> --out out/ui-fiona.blend
+# window file ready: out/ui-fiona.blend_T_
+```
+
+`<path-to-fiona.glb>` is the rig fixture from Get a rig above
+(the scripts default to the `RIG_DIR` fixture; pass `--rig
+fiona` for this guide's rig). Then open `out/ui-fiona.blend`
+in Blender 5.2 on any Linux desktop and work the steps below.
+
+1. Open `out/ui-fiona.blend`. (Without it: open Blender,
+   delete the default cube — `X`, then `Enter`.)
+2. Import `fiona.glb` via `File > Import > glTF 2.0`. The
+   Outliner shows the rig's meshes plus one armature. The
+   armature is the skeleton every clip moves. Expected output
+   — imported full-body rest:
+
+   ![Fiona imported, full-body rest render](docs/assets/gui-step1-imported.png)
+
 3. Select the armature. Switch to Pose Mode (mode dropdown in
    the viewport header). Rotate a bone. Try the right wrist.
 4. Compare the viewport against the citation still in Try it.
    The numbers live in `SIGNS`. The headless commands above set
-   exactly this pose.
-5. Import `sign-thank-you-fiona.glb` the same way (exported
-   to `out/` in Try it, or grab it from the release assets).
-   Ignore the second armature — it rode in with the clip file;
-   only Fiona's moves the mesh. Open a Dope Sheet (editor-type
-   selector, top-left icon). Switch it to Action Editor. Select
-   Fiona's armature. Pick the `thank-you` action. Drag the
-   playhead to frame 36.
+   exactly this pose. Expected output — citation start pose:
+
+   ![THANK-YOU citation start, same pose as a render](docs/assets/gui-step2-posed.png)
+
+5. Import `sign-thank-you-fiona.glb` the same way (exported to
+   `out/` in Try it, or grab it from the
+   [release assets](https://github.com/bryanchasko/blender-sign-studio-asl-public/releases)).
+   The clip file carries its own armature; ignore it — only
+   Fiona's armature drives the mesh. Open a Dope Sheet
+   (editor-type selector, top-left icon). Switch it to Action
+   Editor. Select Fiona's armature. Pick the `thank-you`
+   action. Drag the playhead to frame 36. Expected output —
+   action open, frame 36:
+
+   ![The thank-you action on Fiona, frame 36 render](docs/assets/gui-step3-playing.png)
+
 6. Press **Spacebar**. Spacebar plays 72 frames: rest, chin
    hold, forward-down arc, palm-down end hold, return.
 7. Tweak: in Pose Mode rotate the right wrist, note the new
    angles, copy them into `SIGNS`, re-run the export. The
    validators re-check the draft.
 
-<img src="docs/assets/ui-fiona-action.webp" width="760" alt="Fiona at frame 36 in the Blender window: citation pose in the viewport, thank-you action open in the Dope Sheet, playhead at 36">
+<img src="docs/assets/ui-fiona-action.webp" width="760" alt="Action open in the Blender window: rest mesh in the viewport, thank-you keys in the Dope Sheet, playhead at 36">
 
-Frame 36 in the window: rest mesh up top, thank-you keys
-in the Dope Sheet, playhead at 36. The clip is engine-relative
-— it needs the gesture-queue base to pose the mesh, so Blender
-shows the setup while the render shows the pose. Same protocol
-as the import shot.
+Frame 36 in the window: rest mesh up top, `thank-you` keys in
+the Dope Sheet, playhead at 36. The clip poses the mesh only on
+the engine's gesture-queue base, so Blender shows the setup
+while the render shows the pose.
 
 An animation is an action: bone angles over frames, assigned to
 an armature. The headless scripts set steps 4–5 with numbers
 instead of mouse drags. Same pose either way.
 
-![Fiona imported, full-body rest render](docs/assets/gui-step1-imported.png)
+## How a sign is built_T_
 
-![THANK-YOU citation start, same pose as a render](docs/assets/gui-step2-posed.png)
+Four parts combine into each sign, like sounds combine into a
+spoken word:
 
-![The thank-you action on Fiona, frame 36 render](docs/assets/gui-step3-playing.png)
+- **Handshape** — which fingers extend and how the rest fold.
+  A fist with the thumb alongside is A. A flat hand held
+  together is B. A thumb-index circle is F. The joint angles
+  for each shape live in the handshape table at
+  `scripts/spike-finger-articulation/pose_handshapes.py`.
+- **Place** — where the sign happens: chin (THANK-YOU), beside
+  the forehead (HELLO), chest (YOU), mouth (WHO).
+- **Movement** — the path the hand travels: forward-down arc
+  (THANK-YOU), pinwheel (HELLO), forward point (YOU).
+- **Palm direction** — which way the palm faces. Presets cover
+  nearly every case. When a preset looks wrong, open the
+  [cookbook](docs/cookbook.md) ("How to read a pose") before
+  changing anything.
 
-## How a sign is built
+### The authoring loop
 
-Four cheremes per sign. Meaningless parts combine into meaning,
-like phonemes in speech:
+You need three things: a Blender 5.2 install available as
+`blender-5.2`, Python 3, and one character rig file (see Get a
+rig above; point the scripts at it with the `RIG_DIR`
+environment variable and select it with `--rig`). Run every
+command from the repo root. Outputs go to `out/`.
 
-- **Handshape** — which fingers extend, how the rest fold. A
-  fist with thumb alongside is A. Flat hand together is B.
-  Thumb-index circle is F. Every joint angle lives in
-  `scripts/spike-finger-articulation/pose_handshapes.py`, one
-  dict per shape.
-- **Place** — chin (THANK-YOU), beside forehead (HELLO), chest
-  (YOU), mouth (WHO).
-- **Movement** — forward-down arc (THANK-YOU), pinwheel
-  (HELLO), forward point (YOU).
-- **Palm direction** — palm-out on letters, dorsal on isolated
-  numbers 1–5. Presets cover nearly everything. The full table
-  lives in the [cookbook](docs/cookbook.md) ("How to read a
-  pose") — open it when a preset looks wrong.
-
-Turn a host line into a gloss sequence. One token per sign,
-ASL order. Fingerspell what the lexicon lacks:
+1. Write the line as a gloss sequence: one token per sign, in
+   sign order. Fingerspell words the lexicon does not have yet:
 
 ```json
 ["YOU", "THANK-YOU", "FINGERSPELL:H-E-L-P"]
 ```
 
-Check a draft with two commands:
+2. Check that the tokens are legal with the repo's two
+   validation scripts:
 
 ```bash
 python3 scripts/validate_gloss.py data/examples/gloss-demo.json
 python3 scripts/lint_lexicon.py
 ```
 
-The token rules live in
-[`docs/gloss-schema.md`](docs/gloss-schema.md) — check them
-before drafting. Author a sign like this: change the numbers
-in `SIGNS` / `SIGNS_END`. Re-run the two commands. Compare
-against the citation. The [cookbook](docs/cookbook.md) records
-every still's numbers, so start there when a pose looks off.
+The token rules are defined in
+[`docs/gloss-schema.md`](docs/gloss-schema.md). Read them
+before drafting new entries.
 
-Gate: pass AI review before any clip is labeled ASL
-([docs/ai-review.md](docs/ai-review.md)). Propose any lexicon
-gloss. Never improvise a sign. Never label a generic gesture
-clip as ASL.
+3. Set the pose. Start and end poses for every reviewed sign
+   live in the `SIGNS` and `SIGNS_END` tables in
+   `scripts/blender/render_host_shots.py`. The
+   [cookbook](docs/cookbook.md) shows worked pose examples, so
+   start there when a pose looks off. Edit the numbers in those
+   tables.
 
-One gloss, start to finish:
+4. Render a still and compare it against the dictionary
+   reference for that sign (each reviewed row in
+   [`docs/reviewed-signs.md`](docs/reviewed-signs.md) links its
+   reference):
 
 ```bash
-python3 scripts/validate_gloss.py data/examples/gloss-demo.json
-# GLOSS PASS — tokens legal
+blender-5.2 -b --factory-startup --python-exit-code 1 \
+  -P scripts/blender/render_host_shots.py -- \
+  --out-dir out --shot sign-thank-you --rig fiona
+# RENDER_OK out/spike-sign-thank-you.png posed=36_T_
+```
+
+5. Export the 72-frame clip once the still matches the
+   reference:
+
+```bash
 blender-5.2 -b --factory-startup --python-exit-code 1 \
   -P scripts/blender/export_sign_clip.py -- \
   --sign thank-you --rig fiona --out out/sign-thank-you-fiona.glb
-# CLIP_OK — baked
-# Blender: import fiona.glb + sign-thank-you-fiona.glb,
-# Action Editor > thank-you, Spacebar
+# CLIP_OK out/sign-thank-you-fiona.glb action=thank-you_T_
 ```
+
+To watch the clip, import the rig file and the exported clip
+into Blender, open a Dope Sheet in Action Editor mode,
+select the character's armature, pick the `thank-you`
+action, and press Spacebar.
+
+6. Submit the clip for review before calling it correct. The
+   bar is defined in [`docs/ai-review.md`](docs/ai-review.md):
+   every clip labeled as a real sign must pass review against
+   its dictionary reference. You may propose any lexicon entry,
+   but never improvise a sign and never label a generic gesture
+   as a real sign.
 
 At runtime the engine needs nothing new. Each sign is one short
 clip on the same skeleton. It queues in/hold/out beside the
@@ -331,6 +394,9 @@ visemes.
 - [`docs/roadmap.md`](docs/roadmap.md) — build plan, so you see what is done and next.
 - [`docs/decisions/`](docs/decisions/) — architecture records, so choices stay learnable.
 - [`docs/credits.md`](docs/credits.md) — reference attribution, so sources stay cited.
+- [`docs/lexicon.md`](docs/lexicon.md) — the v1 seed list, so you pick a real gloss (machine-readable truth: `data/lexicon/lexicon.v1.json`).
+- [`docs/asset-licensing.md`](docs/asset-licensing.md) — dataset and asset terms, so you stay legal.
+- [`docs/ai-vs-rig/scorecards.md`](docs/ai-vs-rig/scorecards.md) — per-gloss rig values, so you never hand-tune blind.
 
 ## Built with Meta
 
@@ -493,15 +559,16 @@ curl -X POST "https://api.meta.ai/v1/responses" \
 
 ### Demo 7 — Glimmer and Ollama run local
 
-- **A local open-weights model** (Glimmer 30B, on this box via
-  `http://127.0.0.1:8181/v1`, OpenAI-compatible): asked to score
-  EIGHT (rig vs AI) from the citation. A 40-token reply returns
-  200 with the verdict still in reasoning; the full reply times
-  out past 280 s under GPU contention; a 387 KB image payload
-  returns nothing in 180 s. Text works, vision hangs, long
-  answers starve. Send it the same requests the API takes.
-  Keep the validators as the gate, not the model's word.
-  Attempt log:
+- **An open-weights model on your own hardware** (Glimmer 30B,
+  self-hosted behind an OpenAI-compatible endpoint — the attempt
+  here ran at `http://127.0.0.1:8181/v1` on a workstation-class
+  GPU): asked to score EIGHT (rig vs AI) from the citation. A
+  40-token reply returns 200 with the verdict still in
+  reasoning; the full reply times out past 280 s under GPU
+  contention; a 387 KB image payload returns nothing in 180 s.
+  Text works, vision hangs, long answers starve. Send it the
+  same requests the API takes. Keep the validators as the gate,
+  not the model's word. Attempt log:
   [`glimmer-verdict-attempt.md`](docs/meta-evidence/glimmer-verdict-attempt.md).
 - **A vision model for second opinions** (we used Ollama vision
   models for render-vs-citation checks): install Ollama, the
