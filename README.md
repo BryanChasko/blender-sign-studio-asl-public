@@ -37,8 +37,8 @@ Apache-2.0 (code/docs), CC BY-SA 4.0 (meshes).
 <img src="https://bryanchasko-amazon-sumerian-hosts-asl-webp.s3.us-east-2.amazonaws.com/webp/signing-hosts-live.webp" width="760" alt="The live signing page: Fiona on stage, sign picker, sign deck with practice rings, timeline">
 
 The live page: sign picker, sign deck with practice rings,
-timeline with gather-hold-release, slow-mo. Captured headless
-with Chromium (see `assets/README.md` for the command).
+timeline with gather-hold-release, slow-mo. Recapture any
+time — command in `assets/README.md`.
 
 ## Requirements
 
@@ -206,12 +206,10 @@ Stills ported from upstream origin/main
 
 ## Press play in the Blender window
 
-<img src="docs/assets/ui-fiona-viewport.webp" width="760" alt="Fiona in the Blender window: mesh framed in the 3D viewport, armature in the outliner, captured with no display attached">
+<img src="docs/assets/ui-fiona-viewport.webp" width="760" alt="Fiona in the Blender window: mesh framed in the 3D viewport, armature in the outliner">
 
-The real window, captured headless under Xvfb — menus, viewport,
-outliner, timeline. The armature stays hidden: hundred-unit
-bones display degenerately under software GL. Full capture
-protocol in [`assets/README.md`](assets/README.md).
+The real Blender window — menus, viewport, outliner, timeline.
+Capture protocol in [`assets/README.md`](assets/README.md).
 
 In the Blender window (open Blender 5.2, not system
 `blender`):
@@ -245,8 +243,8 @@ In the Blender window (open Blender 5.2, not system
 Frame 36 in the window: rest mesh up top, thank-you keys
 in the Dope Sheet, playhead at 36. The clip is engine-relative
 — it needs the gesture-queue base to pose the mesh, so Blender
-shows the setup while the render shows the pose. Captured with
-the same headless protocol as the import shot.
+shows the setup while the render shows the pose. Same protocol
+as the import shot.
 
 An animation is an action: bone angles over frames, assigned to
 an armature. The headless scripts set steps 4–5 with numbers
@@ -302,6 +300,19 @@ Gate: pass AI review before any clip is labeled ASL
 ([docs/ai-review.md](docs/ai-review.md)). Propose any lexicon
 gloss. Never improvise a sign. Never label a generic gesture
 clip as ASL.
+
+One gloss, start to finish:
+
+```bash
+python3 scripts/validate_gloss.py data/examples/gloss-demo.json
+# GLOSS PASS — tokens legal
+blender-5.2 -b --factory-startup --python-exit-code 1 \
+  -P scripts/blender/export_sign_clip.py -- \
+  --sign thank-you --rig fiona --out out/sign-thank-you-fiona.glb
+# CLIP_OK — baked
+# Blender: import fiona.glb + sign-thank-you-fiona.glb,
+# Action Editor > thank-you, Spacebar
+```
 
 At runtime the engine needs nothing new. Each sign is one short
 clip on the same skeleton. It queues in/hold/out beside the
