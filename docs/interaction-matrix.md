@@ -65,3 +65,19 @@ Total: 18/24 (was 13/24). One zero remains: row 6.
   entry exists ("guess the sign!"). #141 fixed.
 - Unchanged: row 6 remap (no UI text found, #137),
   row 3 text size (no control, #139).
+
+## Audit 2026-11-05 (night) — v0.077 adversarial re-pass
+
+Screenshots `docs/site-audit/30`–`37`. Total: 21/24, no zeros.
+Ship bar passes (rows 1/4/5 are 2s).
+
+- Row 8 → 2: quiz prompt shows no answer chip (33). #145 closed.
+- Wraps fixed: all six labels single-line at face shot (35). #147 closed.
+- Row 6 → 1: #keymap-remap renders 126x44 ("change play
+  key") inside the tune disclosure — one action, one click
+  deep. #137 closed with that caveat.
+- Row 3 → 2: A-/A+ buttons render in the tune disclosure;
+  tiny default minimum stands. #139 closed with that note.
+- Still open, adversarial: LOADING pill shows on a fully
+  loaded page (30, 35) — #135 mutated, not fixed. v0.077
+  footer + dev-voiced status lines persist — #148 open.
