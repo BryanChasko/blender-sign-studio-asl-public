@@ -41,3 +41,27 @@ Total: 13/24. Ship bar fails: rows 6 and 11 score 0.
 
 A row without a screenshot is a hypothesis, not a finding.
 File it as "unconfirmed" or do not file it.
+
+## Audit 2026-11-05 (evening) — evolved build (v0.074)
+
+Same method. Screenshots `docs/site-audit/20`–`26`.
+
+Total: 18/24 (was 13/24). One zero remains: row 6.
+
+- Row 1 → 2: mid-play tap now queues the sign and counts
+  practice (lineup grows, ring 2/5). #143 fixed.
+- Row 5 → 2: now-signing chip + status lines
+  ("sign 1 of 1: thank-you — hands down",
+  "playing sign 1 of 1: thank-you"). #142 fixed.
+- Row 8 → 1: quiz prompt shows the answer gloss in the
+  top-center chip during "watch, then pick the sign..."
+  (26-quiz-prompt.png). New issue.
+- Row 10 → 2: playback collapsed to icon buttons;
+  theme is an icon. #140 fixed.
+- Row 11 → 2: trash clear now shows
+  "cleared 2 signs — tap undo to bring it back."
+  #138 fixed.
+- Builder mode toggle gone; tap plays and queues; quiz
+  entry exists ("guess the sign!"). #141 fixed.
+- Unchanged: row 6 remap (no UI text found, #137),
+  row 3 text size (no control, #139).
