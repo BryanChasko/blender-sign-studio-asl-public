@@ -14,9 +14,11 @@ scorecards: `docs/ai-vs-rig/scorecards.md`,
 
 ## Round 1 — citation correctness, 58 glosses
 
-1. Render frame-36 citation stills for all 58 v1 glosses with
-   `scripts/blender/render_host_shots.py --rig fiona`
-   (23 reviewed exist; 35 proposed need first stills).
+1. All 58 v1 glosses pose since the DRAFT scaffold: render
+   frame-36 citation stills in one command
+   (`--shot sign-<gloss>` works for every gloss; hand-written
+   entries keep their exact filenames). 35 stills are
+   UNSCORED drafts awaiting grading.
 2. Build contact sheets, 6 signs per sheet, elbow + top of
    head in frame.
 3. Compare each still against its Lifeprint citation.

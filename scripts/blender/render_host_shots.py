@@ -988,6 +988,119 @@ SIGNS = {
     # hand off the chin; eye-verified contact, no mesh pinch).
     "me": {"hand": "p1", "sh": (0.7, -0.3, -1.0),
            "el": (-1.9, -1.0, -0.1), "wr": (1.7, 0.0, -0.45)},
+    # ---- DRAFT scaffold below (2026-11-05): first-pose
+    # approximations for the 35 proposed glosses, grounded in
+    # Lifeprint descriptions, reusing reviewed arm families.
+    # UNSCORED — render, compare against the citation, correct,
+    # then drop the DRAFT tag. Never label a draft clip ASL.
+    # GOODBYE: B-hand salute wave, same arm as HELLO.
+    "goodbye": {"hand": "b", "sh": (-0.4, -0.95, -0.15),
+                "el": (0.0, -1.5, 0.0), "wr": (1.2, 0.0, 0.0)},
+    # HELP: closed fist rising off the open palm (two-hand).
+    "help": {"hand": "ten", "sh": (0.0, -0.6, -0.9),
+             "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1),
+             "lhand": "bl", "lsh": (0.0, -0.3, -0.9),
+             "lel": (-1.0, -0.5, 0.0), "lwr": (-0.5, 0.1, -0.4)},
+    # PLEASE: flat hand on the chest, circular rub.
+    "please": {"hand": "b", "sh": (0.7, -0.3, -1.0),
+               "el": (-1.9, -1.0, -0.1), "wr": (0.5, 0.0, 0.0)},
+    # SORRY: fist on the chest, circular rub (A for S-fist).
+    "sorry": {"hand": "a", "sh": (0.7, -0.3, -1.0),
+              "el": (-1.9, -1.0, -0.1), "wr": (0.5, 0.0, 0.0)},
+    # WELCOME: open hand sweeping out from the chest.
+    "welcome": {"hand": "b", "sh": (0.7, -0.3, -1.0),
+                "el": (-1.9, -1.0, -0.1), "wr": (0.5, 0.0, 0.0)},
+    # HAPPY: flat hand rising up the chest.
+    "happy": {"hand": "b", "sh": (0.7, -0.6, -0.9),
+              "el": (-1.9, -1.0, -0.1), "wr": (0.5, 0.0, 0.0)},
+    # SAD: open hand at the face, signing downward.
+    "sad": {"hand": "b", "sh": (0.3, -0.6, -0.9),
+            "el": (0.0, -0.7, 0.0), "wr": (0.0, 0.1, 0.2)},
+    # FUN: H-hand at the nose, small rock (U-shape approx).
+    "fun": {"hand": "h", "sh": (0.3, -1.2, 0.0),
+            "el": (0.0, -0.7, 0.0), "wr": (0.0, 0.1, 0.2)},
+    # LEARN: O-hand at the forehead closing toward the palm.
+    # F circle stands in for O until an O shape lands.
+    "learn": {"hand": "f", "sh": (-0.4, -0.95, -0.15),
+              "el": (0.0, -1.5, 0.0), "wr": (1.2, 0.0, 0.0)},
+    # WORK: S-fists together, small working tap.
+    "work": {"hand": "s", "sh": (0.0, -0.3, -0.9),
+             "el": (-1.0, -0.5, 0.0), "wr": (-0.5, 0.1, -0.4)},
+    # PEOPLE: P-hand forward (n1 stands in; no P shape yet).
+    "people": {"hand": "n1", "sh": (0.3, -0.6, -0.9),
+               "el": (0.0, -0.5, 0.0), "wr": (0.0, 0.1, 0.4)},
+    # TIME: T-fist tap on the wrist (S stands in for T).
+    "time": {"hand": "s", "sh": (0.0, -0.6, -0.9),
+             "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # DAY: D-hand sweeping across (F stands in for D).
+    "day": {"hand": "f", "sh": (-0.4, -0.3, -0.9),
+            "el": (-1.0, -0.5, 0.0), "wr": (0.0, 0.1, 0.0)},
+    # WHAT: open hands shaking side to side.
+    "what": {"hand": "b", "sh": (0.0, -0.6, -0.9),
+             "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # ANSWER: index up, finishing twist (like QUESTION out).
+    "answer": {"hand": "n1", "sh": (0.0, -0.6, -0.9),
+               "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # REPEAT: bent hand arcing (again-sweep, single-arm draft).
+    "repeat": {"hand": "bent", "sh": (0.0, -0.6, -0.9),
+               "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # RIGHT (correct): R-hand tap (n2 stands in; no R yet).
+    "right": {"hand": "n2", "sh": (0.0, -0.6, -0.9),
+              "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # WRONG: Y-hand at the chin, twist (A stands in; no Y).
+    "wrong": {"hand": "a", "sh": (0.5, -0.5, -1.0),
+              "el": (-1.9, -1.0, -0.1), "wr": (0.5, 0.0, 0.0)},
+    # UNDERSTAND: S-fist at the forehead flicking up open.
+    "understand": {"hand": "s", "sh": (-0.4, -0.95, -0.15),
+                   "el": (0.0, -1.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # MAYBE: open hands tilting (single-arm draft).
+    "maybe": {"hand": "b", "sh": (0.0, -0.6, -0.9),
+              "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # FINISH: 5-hands flicking out (single-arm draft).
+    "finish": {"hand": "n5", "sh": (0.0, -0.6, -0.9),
+               "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # MY-TURN: point at the chest (ME arm).
+    "my-turn": {"hand": "p1", "sh": (0.7, -0.3, -1.0),
+                "el": (-1.9, -1.0, -0.1), "wr": (1.7, 0.0, -0.45)},
+    # YOUR-TURN: point forward (YOU arm).
+    "your-turn": {"hand": "p1", "sh": (0.3, -0.6, -0.9),
+                  "el": (0.0, -0.5, 0.0), "wr": (0.0, 0.1, 0.4)},
+    # HERE: point down (THIS arm lowered).
+    "here": {"hand": "p1", "sh": (0.3, -0.3, -0.9),
+             "el": (0.0, -0.5, 0.0), "wr": (0.5, 0.1, 0.4)},
+    # THAT: point forward (YOU arm, Y-hand ideally).
+    "that": {"hand": "p1", "sh": (0.3, -0.6, -0.9),
+             "el": (0.0, -0.5, 0.0), "wr": (0.0, 0.1, 0.4)},
+    # FALSE: fingerspelled F-A-L-S-E; draft stages the F tap.
+    "false": {"hand": "f", "sh": (0.0, -0.6, -0.9),
+              "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # ROBOT: R-arms flexing (n2 stands in; no R yet).
+    "robot": {"hand": "n2", "sh": (0.0, -0.6, -0.9),
+              "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # COMPUTER: C-hand tapping the forearm (bent stands in).
+    "computer": {"hand": "bent", "sh": (0.0, -0.6, -0.9),
+                 "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # INTERNET: I-hand twisting (n1 staged; NEEDS I shape).
+    "internet": {"hand": "n1", "sh": (-0.4, -0.95, -0.15),
+                 "el": (0.0, -1.5, 0.0), "wr": (1.2, 0.0, 0.0)},
+    # VIDEO: V-hand filming, twisting (n2 stands in).
+    "video": {"hand": "n2", "sh": (0.3, -1.2, 0.0),
+              "el": (0.0, -0.7, 0.0), "wr": (0.0, 0.1, 0.2)},
+    # APP: A-hand tapping (name-sign style draft).
+    "app": {"hand": "a", "sh": (0.0, -0.6, -0.9),
+            "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # AI: fingerspelled A-I (NEEDS I shape + spell support).
+    "ai": {"hand": "a", "sh": (0.0, -0.6, -0.9),
+           "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # AWS: fingerspelled A-W-S (NEEDS W shape + spell support).
+    "aws": {"hand": "a", "sh": (0.0, -0.6, -0.9),
+            "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
+    # CLOUD: C-hands arcing overhead (bent stands in).
+    "cloud": {"hand": "bent", "sh": (0.0, -0.9, -0.2),
+              "el": (0.5, -1.5, 0.0), "wr": (0.5, 0.1, 0.2)},
+    # DATA: D-hand tapping (F stands in for D).
+    "data": {"hand": "f", "sh": (0.0, -0.6, -0.9),
+             "el": (-2.0, -0.5, 0.0), "wr": (0.0, 0.1, -0.1)},
 }
 
 
@@ -1086,6 +1199,79 @@ SIGNS_END = {
              "wr": (0.5, 0.1, 0.4)},
     "me": {"sh": (0.7, -0.3, -1.0), "el": (-1.9, -0.95, -0.1),
            "wr": (1.65, 0.0, -0.45)},
+    # DRAFT ends: movement deltas off the start poses above.
+    "goodbye": {"sh": (-0.4, -0.95, -0.45), "el": (0.0, -1.5, 0.0),
+                "wr": (1.2, 0.0, -0.5)},
+    "help": {"sh": (0.0, -0.9, -0.9), "el": (-2.0, -0.5, 0.0),
+             "wr": (0.0, 0.1, -0.1),
+             "lhand": "bl", "lsh": (0.0, -0.3, -0.9),
+             "lel": (-1.0, -0.5, 0.0), "lwr": (-0.5, 0.1, -0.4)},
+    "please": {"sh": (0.65, -0.3, -1.0), "el": (-1.9, -1.0, -0.1),
+               "wr": (0.5, 0.0, 0.0)},
+    "sorry": {"sh": (0.75, -0.3, -1.0), "el": (-1.9, -1.0, -0.1),
+              "wr": (0.5, 0.0, 0.0)},
+    "welcome": {"sh": (-0.4, -0.6, -0.9), "el": (-1.9, -1.0, -0.1),
+                "wr": (0.5, 0.0, 0.0)},
+    "happy": {"sh": (0.7, -0.9, -0.9), "el": (-1.9, -1.0, -0.1),
+              "wr": (0.5, 0.0, 0.0)},
+    "sad": {"sh": (0.3, -0.3, -0.9), "el": (0.0, -0.7, 0.0),
+            "wr": (0.0, 0.1, 0.2)},
+    "fun": {"sh": (0.3, -1.2, 0.0), "el": (0.0, -0.7, 0.0),
+            "wr": (0.0, 0.1, -0.4)},
+    "learn": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+              "wr": (0.0, 0.1, -0.1)},
+    "work": {"sh": (0.0, -0.3, -0.9), "el": (-1.0, -0.6, 0.0),
+             "wr": (-0.5, 0.1, -0.4)},
+    "people": {"sh": (0.3, -0.6, -1.1), "el": (0.0, -0.5, 0.0),
+               "wr": (0.0, 0.1, 0.4)},
+    "time": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+             "wr": (0.0, 0.1, 0.5)},
+    "day": {"sh": (0.4, -0.3, -0.9), "el": (-1.0, -0.5, 0.0),
+            "wr": (0.0, 0.1, 0.0)},
+    "what": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+             "wr": (0.0, 0.1, -0.6)},
+    "answer": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+               "wr": (0.0, 0.1, 0.6)},
+    "repeat": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.7, 0.0),
+               "wr": (0.0, 0.1, -0.1)},
+    "right": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.7, 0.0),
+              "wr": (0.0, 0.1, -0.1)},
+    "wrong": {"sh": (0.5, -0.5, -1.0), "el": (-1.9, -1.0, -0.1),
+              "wr": (0.5, 0.0, 0.6)},
+    "understand": {"sh": (-0.4, -1.2, -0.15), "el": (0.0, -1.5, 0.0),
+                   "wr": (0.0, 0.1, -0.1)},
+    "maybe": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+              "wr": (0.0, 0.4, -0.1)},
+    "finish": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.3, 0.0),
+               "wr": (0.0, 0.1, -0.1)},
+    "my-turn": {"sh": (0.7, -0.3, -1.0), "el": (-1.9, -0.95, -0.1),
+                "wr": (1.65, 0.0, -0.45)},
+    "your-turn": {"sh": (0.3, -0.6, -0.9), "el": (0.0, -0.5, 0.0),
+                  "wr": (0.0, 0.1, 0.4)},
+    "here": {"sh": (0.3, -0.1, -0.9), "el": (0.0, -0.5, 0.0),
+             "wr": (0.5, 0.1, 0.4)},
+    "that": {"sh": (0.3, -0.6, -0.9), "el": (0.0, -0.5, 0.0),
+             "wr": (0.0, 0.1, 0.4)},
+    "false": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.7, 0.0),
+              "wr": (0.0, 0.1, -0.1)},
+    "robot": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.7, 0.0),
+              "wr": (0.0, 0.1, -0.1)},
+    "computer": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.8, 0.0),
+                 "wr": (0.0, 0.1, -0.1)},
+    "internet": {"sh": (-0.4, -0.95, -0.15), "el": (0.0, -1.5, 0.0),
+                 "wr": (1.2, 0.0, 0.6)},
+    "video": {"sh": (0.3, -1.2, 0.0), "el": (0.0, -0.7, 0.0),
+              "wr": (0.0, 0.1, 0.6)},
+    "app": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.7, 0.0),
+            "wr": (0.0, 0.1, -0.1)},
+    "ai": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+           "wr": (0.0, 0.1, -0.1)},
+    "aws": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.5, 0.0),
+            "wr": (0.0, 0.1, -0.1)},
+    "cloud": {"sh": (0.0, -0.9, -0.5), "el": (0.5, -1.5, 0.0),
+              "wr": (0.5, 0.1, 0.2)},
+    "data": {"sh": (0.0, -0.6, -0.9), "el": (-2.0, -0.7, 0.0),
+             "wr": (0.0, 0.1, -0.1)},
 }
 
 
@@ -1285,6 +1471,17 @@ SHOTS = {
     "number-4-prof": ("spike-hand-number-4-prof.png",
                       lambda out: shot_number("n4", out, profile=True)),
 }
+
+# Every gloss in SIGNS gets a citation still + end still, even
+# without a hand-written entry above. Hand-written entries win
+# (setdefault keeps them); drafts render under the same names so
+# Round 1 contact sheets cover all 58 with one command.
+for _name in sorted(SIGNS):
+    _slug = "sign-" + _name
+    SHOTS.setdefault(_slug, ("spike-%s.png" % _slug,
+                             lambda out, _n=_name: shot_sign(_n, out)))
+    SHOTS.setdefault(_slug + "-end", ("spike-%s-end.png" % _slug,
+                                      lambda out, _n=_name: shot_sign_end(_n, out)))
 SHOTS.update(_torso_shots())
 
 

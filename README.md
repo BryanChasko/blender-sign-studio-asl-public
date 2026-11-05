@@ -186,7 +186,9 @@ exact pixels any time with the first command above.
 
 The lexicons hold 158 glosses: 23 reviewed with engine clips,
 the rest proposed ([v1 JSON](data/lexicon/lexicon.v1.json),
-[v2 JSON](data/lexicon/lexicon.v2.json)). The
+[v2 JSON](data/lexicon/lexicon.v2.json)). All 58 v1 glosses
+pose in Blender today — 23 reviewed, 35 UNSCORED drafts you
+can render, correct in the UI, and promote. The
 full per-sign table — reference, Muse Image call, rig still,
 clip, verdict — lives in
 [`docs/reviewed-signs.md`](docs/reviewed-signs.md).
@@ -339,12 +341,14 @@ The token rules are defined in
 [`docs/gloss-schema.md`](docs/gloss-schema.md). Read them
 before drafting new entries.
 
-3. Set the pose. Start and end poses for every reviewed sign
+3. Set the pose. Start and end poses for all 58 glosses
    live in the `SIGNS` and `SIGNS_END` tables in
-   `scripts/blender/render_host_shots.py`. The
+   `scripts/blender/render_host_shots.py` — 23 reviewed, 35
+   UNSCORED drafts. The
    [cookbook](docs/cookbook.md) shows worked pose examples, so
    start there when a pose looks off. Edit the numbers in those
-   tables.
+   tables, then drop the DRAFT tag once the still matches its
+   citation.
 
 4. Render a still and compare it against the dictionary
    reference for that sign (each reviewed row in
