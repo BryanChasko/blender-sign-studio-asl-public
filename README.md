@@ -406,6 +406,7 @@ visemes.
 - [`docs/ai-vs-rig/scorecards.md`](docs/ai-vs-rig/scorecards.md) — per-gloss rig values, so you never hand-tune blind.
 - [`docs/game-ui-scorecard.md`](docs/game-ui-scorecard.md) — 12-row UI rubric, so your game screen stays playable.
 - [`docs/screenshot-rounds.md`](docs/screenshot-rounds.md) — four pixel-graded sign feedback rounds, so verdicts stay honest.
+- [`docs/asset-pipeline.md`](docs/asset-pipeline.md) — Meta Image + SAM procedures and the icon backlog, so site art stays reproducible.
 
 ## Built with Meta
 
