@@ -81,14 +81,22 @@ face mask). Procedure:
 ```
 POST https://api.meta.ai/v1/responses
 {"model": "sam-3.1", "stream": false,
- "input": [{"role": "user", "content": [
-   {"type": "input_text",
-    "text": "the signing hand and the face: return one box per object"},
+ "input": [{"type": "message", "role": "user", "content": [
+   {"type": "input_text", "text": "signing hand"},
    {"type": "input_image",
     "image_url": "<raw.githubusercontent URL of the still>"}]}]}
 ```
 
-Status 2026-11-06: `rate_limit_exceeded` on five
-attempts — same capacity wall as every prior try.
-Verdicts stay author-inspected until a call succeeds; the
-rerun is queued, not assumed.
+Shape rules from the SAM docs: wrap content in a
+`message` object, one noun phrase per request (run "face"
+separately), stream for video. Parse with
+`@meta-sam/parser` (`parseImageStream`,
+`decodeMaskToRaster`) — never hand-parse the grammar.
+
+Status 2026-11-06: `rate_limit_exceeded` on seven
+attempts, including the corrected shape (message wrapper,
+single concept) over both streaming and non-streaming
+paths — while image generation on the same key succeeds.
+Verdict: the wall is endpoint-side (sam-3.1 capacity or
+provisioning on this account), not the request. Verdicts
+stay author-inspected until a call succeeds.
