@@ -46,16 +46,21 @@ must survive.
   `docs/assets/caption-skin.webp` — dark glass, gold
   border, tail down-left, empty center, no text. Slice
   in CSS.
-- Camera/footer treatments: OPEN — preset thumbnails per
-  view (signing, face, torso, hands, full body) rendered
-  from the rig, not generated. Needs new Blender framings.
-- Sprites + webp loops: PROOF DONE 2026-11-06,
-  `docs/assets/sign-goodbye-move.webp` — 48 rendered
-  frames collapse to 25 distinct (12 rest-hold + 13
-  end-hold are byte-identical; encoders dedupe exact
-  duplicates). Motion fully covered: 23-frame arc intact.
-  `--shot sign-<gloss>-move` now resolves for every gloss
-  (auto-registry in render_host_shots.py).
+- Camera/footer treatments: DONE 2026-11-06 — five
+  views, all rig-rendered: full-body (`full-body`),
+  signing (`signing-torso`), face (`face-neutral`), torso
+  (`docs/assets/cam-torso.png` via new `cam-torso`),
+  hands (`docs/assets/cam-hands.png` via new `cam-hands`,
+  clasp close-up reads at card size).
+- Sprites + webp loops: DONE 2026-11-06, two proofs:
+  `docs/assets/sign-goodbye-move.webp` and
+  `docs/assets/sign-help-move.webp` (two-hand draft lifts
+  cleanly). 48 rendered frames collapse to 25 distinct
+  (12 rest-hold + 13 end-hold are byte-identical;
+  encoders dedupe exact duplicates). Motion fully
+  covered: 23-frame arc intact. `--shot sign-<gloss>-move`
+  now resolves for every gloss (auto-registry in
+  render_host_shots.py).
 - Shader-layer art: gradient backdrops per shelf (jungle
   set exists on-site; this repo does not author scenes).
 
@@ -78,7 +83,7 @@ POST https://api.meta.ai/v1/responses
     "image_url": "<raw.githubusercontent URL of the still>"}]}]}
 ```
 
-Status 2026-11-06: `rate_limit_exceeded` on three
+Status 2026-11-06: `rate_limit_exceeded` on four
 attempts — same capacity wall as every prior try.
 Verdicts stay author-inspected until a call succeeds; the
 rerun is queued, not assumed.

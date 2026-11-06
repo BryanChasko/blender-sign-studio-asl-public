@@ -609,6 +609,47 @@ def shot_face_neutral(out, brow_y=None):
     print("RENDER_OK %s posed=%d" % (out, posed_count))
 
 
+def shot_torso_neutral(out):
+    """Torso framing for the camera-preset thumbnail set: rest
+    stance body (same specs as shot_full_body), camera on the
+    chest/shoulders band."""
+    import bpy
+    rig = load_host(host_glb())
+    specs = hand_specs("l", RELAXED_HAND_L) + hand_specs("r", RELAXED_HAND_R)
+    specs += [("char:def_l_shoulder", (0, -0.08, -0.35)),
+              ("char:def_r_shoulder", (0, -0.08, -0.35)),
+              ("char:def_l_elbow", (0, -0.30, 0.0)),
+              ("char:def_r_elbow", (0, -0.30, 0.0)),
+              WEIGHT_SHIFT_HEAD_NECK] + WEIGHT_SHIFT + WEIGHT_SHIFT_LEGS
+    posed_count = pose_bones(rig, specs)
+    posed_count += pose_locations(rig, [WEIGHT_SHIFT_HIP])
+    aim_target = (0.0, 0.0, 1.25)
+    aim_camera(aim_target, (0.0, -2.6, 0.3), P["lens_full"])
+    three_point_lights(aim_target)
+    render_still(out, P["body_res"])
+    print("RENDER_OK %s posed=%d" % (out, posed_count))
+
+
+def shot_hands_neutral(out):
+    """Hands framing for the camera-preset thumbnail set: hands
+    clasped at the waist (READY_POSE, same as signing_neutral),
+    telephoto on the clasp point."""
+    rig = load_host(host_glb())
+    specs = hand_specs("l", CLASP_HAND_L) + hand_specs("r", CLASP_HAND_R)
+    specs += [("char:def_l_shoulder", READY_POSE["l_shoulder"]),
+              ("char:def_r_shoulder", READY_POSE["r_shoulder"]),
+              ("char:def_l_elbow", READY_POSE["l_elbow"]),
+              ("char:def_r_elbow", READY_POSE["r_elbow"]),
+              WEIGHT_SHIFT_HEAD_NECK] + WEIGHT_SHIFT + WEIGHT_SHIFT_LEGS
+    posed_count = pose_bones(rig, specs)
+    posed_count += pose_locations(rig, [WEIGHT_SHIFT_HIP])
+    aim_target = (0.0, -0.11, 1.13)
+    aim_camera(aim_target, (0.0, -1.5, 0.1), P["lens_face"])
+    three_point_lights(aim_target)
+    render_still(out, P["body_res"])
+    print("RENDER_OK %s posed=%d" % (out, posed_count))
+
+
 def shot_number(name, out, profile=False):
     rig = load_host(host_glb())
     # Right side only: close-ups frame the right hand (see
@@ -1455,6 +1496,10 @@ SHOTS = {
                       lambda out: shot_sign_end("true", out)),
     "face-neutral": ("spike-host-face-neutral.png",
                      lambda out: shot_face_neutral(out)),
+    "cam-torso": ("spike-cam-torso.png",
+                  lambda out: shot_torso_neutral(out)),
+    "cam-hands": ("spike-cam-hands.png",
+                  lambda out: shot_hands_neutral(out)),
     "posture-transition": ("posture-transition",
                            shot_posture_transition),
     "number-2": ("spike-hand-number-2.png", lambda out: shot_number("n2", out)),
