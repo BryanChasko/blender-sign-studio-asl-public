@@ -61,8 +61,13 @@ must survive.
   covered: 23-frame arc intact. `--shot sign-<gloss>-move`
   now resolves for every gloss (auto-registry in
   render_host_shots.py).
-- Shader-layer art: gradient backdrops per shelf (jungle
-  set exists on-site; this repo does not author scenes).
+- Shader-layer art: DONE 2026-11-06, three empty-stage
+  backdrops in `docs/assets/backdrop-*.webp` (lagoon dusk,
+  night jungle with gold moon + fireflies, dawn savanna).
+  All eyeballed: no characters, no text, host stands center.
+  Dawn skews gold by design; night is the closest palette
+  match. These are flat plates, not 3D scenes — the site
+  team composites hosts over them.
 
 ## SAM joint labeling: scope and status
 
@@ -83,7 +88,7 @@ POST https://api.meta.ai/v1/responses
     "image_url": "<raw.githubusercontent URL of the still>"}]}]}
 ```
 
-Status 2026-11-06: `rate_limit_exceeded` on four
+Status 2026-11-06: `rate_limit_exceeded` on five
 attempts — same capacity wall as every prior try.
 Verdicts stay author-inspected until a call succeeds; the
 rerun is queued, not assumed.
