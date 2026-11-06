@@ -34,17 +34,28 @@ must survive.
 
 ## Backlog for the site team
 
-- Category icons: numbers, people-places, spell-it,
-  make-build, quiz, practice — same style string, swap the
-  subject noun. One call each, eyeball each.
-- Caption window skin: dark glass bubble, gold border,
-  comic tail — generate as a 9-patch-style backdrop, slice
+- Category icons: DONE 2026-11-06, all seven in
+  `docs/assets/icon-*.webp` (say-hi, numbers,
+  people-places, spell-it, make-build, quiz, practice).
+  Eyeballed: all on-style. One note: make-build drifts
+  off-palette (pale-blue wrench, orange block) — one
+  regen with "teal and gold only" if the team wants it
+  strict. Per-call usage ~10–29k tokens; total under
+  150k for the set.
+- Caption window skin: DONE 2026-11-06,
+  `docs/assets/caption-skin.webp` — dark glass, gold
+  border, tail down-left, empty center, no text. Slice
   in CSS.
-- Camera/footer treatments: preset thumbnails per view
-  (signing, face, torso, hands, full body) rendered from
-  the rig, not generated.
-- Sprites + webp loops: 24 fps move excerpts, 480px wide,
-  same ffmpeg line as the five compared loops in the README.
+- Camera/footer treatments: OPEN — preset thumbnails per
+  view (signing, face, torso, hands, full body) rendered
+  from the rig, not generated. Needs new Blender framings.
+- Sprites + webp loops: PROOF DONE 2026-11-06,
+  `docs/assets/sign-goodbye-move.webp` — 48 rendered
+  frames collapse to 25 distinct (12 rest-hold + 13
+  end-hold are byte-identical; encoders dedupe exact
+  duplicates). Motion fully covered: 23-frame arc intact.
+  `--shot sign-<gloss>-move` now resolves for every gloss
+  (auto-registry in render_host_shots.py).
 - Shader-layer art: gradient backdrops per shelf (jungle
   set exists on-site; this repo does not author scenes).
 
@@ -67,7 +78,7 @@ POST https://api.meta.ai/v1/responses
     "image_url": "<raw.githubusercontent URL of the still>"}]}]}
 ```
 
-Status 2026-11-06: `rate_limit_exceeded` on two attempts
-(an hour apart) — same capacity wall as every prior try.
+Status 2026-11-06: `rate_limit_exceeded` on three
+attempts — same capacity wall as every prior try.
 Verdicts stay author-inspected until a call succeeds; the
 rerun is queued, not assumed.

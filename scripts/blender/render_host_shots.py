@@ -1482,6 +1482,8 @@ for _name in sorted(SIGNS):
                              lambda out, _n=_name: shot_sign(_n, out)))
     SHOTS.setdefault(_slug + "-end", ("spike-%s-end.png" % _slug,
                                       lambda out, _n=_name: shot_sign_end(_n, out)))
+    SHOTS.setdefault(_slug + "-move", ("sign-%s-move" % _name,
+                                       lambda out, _n=_name: shot_sign_move(_n, out)))
 SHOTS.update(_torso_shots())
 
 
